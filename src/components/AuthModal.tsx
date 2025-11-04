@@ -1,46 +1,33 @@
 'use client'
 
-import { useState } from 'react'
-import { X, Mail, Lock, User, Eye, EyeOff } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
+import { useState } from 'react'
+import { X, Mail, Lock, User } from 'lucide-react'
 
-interface AuthModalProps {
-  isOpen: boolean
-  onClose: () => void
-  mode: 'login' | 'signup'
-  onModeChange: (mode: 'login' | 'signup') => void
-}
-
-export default function AuthModal({ isOpen, onClose, mode, onModeChange }: AuthModalProps) {
+export default function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const { login, isLoading } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [name, setName] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
-  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-
-  const { login, signup } = useAuth()
+  const [isLogin, setIsLogin] = useState(true)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setLoading(true)
     setError('')
-
-    try {
-      if (mode === 'login') {
-        await login(email, password)
-      } else {
-        await signup(email, password, name)
-      }
+    
+    // For demo, we only support login - no signup functionality
+    if (!isLogin) {
+      setError('Sign up is not available in demo mode. Use demo@thumbnailtv.io / demo123 to login.')
+      return
+    }
+    
+    const success = await login(email, password)
+    if (!success) {
+      setError('Invalid credentials. Try demo@thumbnailtv.io / demo123')
+    } else {
       onClose()
-      // Reset form
       setEmail('')
       setPassword('')
-      setName('')
-    } catch (err) {
-      setError('Authentication failed. Please try again.')
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -48,118 +35,111 @@ export default function AuthModal({ isOpen, onClose, mode, onModeChange }: AuthM
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-900 rounded-xl shadow-2xl w-full max-w-md">
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-            {mode === 'login' ? 'Welcome Back' : 'Create Account'}
+      <div className="bg-gray-800 rounded-2xl p-8 max-w-md w-full relative">
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+        >
+          <X className="w-6 h-6" />
+        </button>
+
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold text-white mb-2">
+            {isLogin ? 'Welcome Back' : 'Create Account'}
           </h2>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          <p className="text-gray-400">
+            {isLogin ? 'Sign in to access ThumbnailTV' : 'Start your free trial'}
+          </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          {mode === 'signup' && (
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Name
-              </label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-tv-blue focus:border-transparent"
-                  placeholder="Your name"
-                  required
-                />
-              </div>
-            </div>
-          )}
-
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Email Field */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Email
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              Email Address
             </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Mail className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-tv-blue focus:border-transparent"
-                placeholder="you@example.com"
+                placeholder="demo@thumbnailtv.io"
+                className="w-full pl-10 pr-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 required
               />
             </div>
           </div>
 
+          {/* Password Field */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Password
             </label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Lock className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
               <input
-                type={showPassword ? 'text' : 'password'}
+                type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-tv-blue focus:border-transparent"
-                placeholder="••••••••"
+                placeholder="demo123"
+                className="w-full pl-10 pr-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 required
               />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-              >
-                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-              </button>
             </div>
           </div>
 
+          {/* Error Message */}
           {error && (
-            <div className="text-red-500 text-sm">{error}</div>
+            <div className="p-3 bg-red-900/20 border border-red-500/20 rounded-lg">
+              <p className="text-red-400 text-sm">{error}</p>
+            </div>
           )}
 
+          {/* Submit Button */}
           <button
             type="submit"
-            disabled={loading}
-            className="w-full bg-tv-blue hover:bg-tv-blue/80 text-white font-semibold py-2 px-4 rounded-lg transition-colors disabled:opacity-50"
+            disabled={isLoading}
+            className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg font-semibold transition-all transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? 'Please wait...' : mode === 'login' ? 'Sign In' : 'Create Account'}
-          </button>
-
-          <div className="text-center text-sm text-gray-600 dark:text-gray-400">
-            {mode === 'login' ? (
-              <>
-                Don't have an account?{' '}
-                <button
-                  type="button"
-                  onClick={() => onModeChange('signup')}
-                  className="text-tv-blue hover:underline"
-                >
-                  Sign up
-                </button>
-              </>
+            {isLoading ? (
+              <div className="flex items-center justify-center">
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                {isLogin ? 'Signing In...' : 'Creating Account...'}
+              </div>
             ) : (
-              <>
-                Already have an account?{' '}
-                <button
-                  type="button"
-                  onClick={() => onModeChange('login')}
-                  className="text-tv-blue hover:underline"
-                >
-                  Sign in
-                </button>
-              </>
+              isLogin ? 'Sign In' : 'Create Account'
             )}
-          </div>
+          </button>
         </form>
+
+        {/* Demo Info */}
+        <div className="mt-6 p-4 bg-purple-900/20 border border-purple-500/20 rounded-lg">
+          <p className="text-purple-400 text-sm text-center">
+            <strong>Demo Credentials:</strong><br />
+            demo@thumbnailtv.io / demo123
+          </p>
+        </div>
+
+        {/* Toggle Login/Signup */}
+        <div className="mt-6 text-center">
+          <p className="text-gray-400 text-sm">
+            {isLogin ? "Don't have an account?" : "Already have an account?"}
+            <button
+              type="button"
+              onClick={() => {
+                setIsLogin(!isLogin)
+                setError('')
+              }}
+              className="ml-1 text-purple-400 hover:text-purple-300 font-semibold"
+            >
+              {isLogin ? 'Sign Up' : 'Sign In'}
+            </button>
+          </p>
+        </div>
       </div>
     </div>
   )
