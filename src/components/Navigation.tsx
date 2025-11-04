@@ -1,7 +1,7 @@
 'use client'
 
 import { useAuth } from '@/contexts/AuthContext'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Moon, Sun, User, LogOut } from 'lucide-react'
 
 export default function Navigation() {
@@ -11,6 +11,30 @@ export default function Navigation() {
   const [password, setPassword] = useState('')
   const [theme, setTheme] = useState<'light' | 'dark'>('dark')
   const [loginError, setLoginError] = useState('')
+
+  // Load theme from localStorage on mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' || 'dark'
+    setTheme(savedTheme)
+    applyTheme(savedTheme)
+  }, [])
+
+  const applyTheme = (newTheme: 'light' | 'dark') => {
+    if (newTheme === 'light') {
+      document.documentElement.classList.add('light')
+      document.documentElement.classList.remove('dark')
+    } else {
+      document.documentElement.classList.add('dark')
+      document.documentElement.classList.remove('light')
+    }
+  }
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark'
+    setTheme(newTheme)
+    applyTheme(newTheme)
+    localStorage.setItem('theme', newTheme)
+  }
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -25,40 +49,29 @@ export default function Navigation() {
     }
   }
 
-  const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark'
-    setTheme(newTheme)
-    document.documentElement.classList.toggle('dark')
-    localStorage.setItem('theme', newTheme)
-  }
-
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-sm border-b border-gray-800">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-sm border-b border-gray-800 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
           <div className="flex items-center">
             <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
               ThumbnailTV
             </h1>
           </div>
 
-          {/* Right side - Theme Toggle & Auth */}
           <div className="flex items-center gap-4">
-            {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors"
+              className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-all duration-300 transform hover:scale-105"
               aria-label="Toggle theme"
             >
               {theme === 'dark' ? (
                 <Sun className="w-5 h-5 text-yellow-400" />
               ) : (
-                <Moon className="w-5 h-5 text-blue-400" />
+                <Moon className="w-5 h-5 text-blue-600" />
               )}
             </button>
 
-            {/* Auth Section */}
             {isLoading ? (
               <div className="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
             ) : user ? (
@@ -75,7 +88,7 @@ export default function Navigation() {
                 </div>
                 <button
                   onClick={logout}
-                  className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all duration-300 transform hover:scale-105"
                 >
                   <LogOut className="w-4 h-4" />
                   Sign Out
@@ -84,7 +97,7 @@ export default function Navigation() {
             ) : (
               <button
                 onClick={() => setShowLogin(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-all duration-300 transform hover:scale-105"
               >
                 <User className="w-4 h-4" />
                 Sign In
@@ -94,10 +107,9 @@ export default function Navigation() {
         </div>
       </div>
 
-      {/* Login Modal */}
       {showLogin && !user && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-800 rounded-xl p-6 max-w-md w-full">
+          <div className="bg-gray-800 rounded-xl p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
             <h2 className="text-2xl font-bold text-white mb-4">Sign In</h2>
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
