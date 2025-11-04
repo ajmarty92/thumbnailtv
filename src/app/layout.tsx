@@ -1,14 +1,12 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import { SessionProvider } from 'next-auth/react'
 import './globals.css'
+import { Inter } from 'next/font/google'
+import { AuthProvider } from '@/contexts/AuthContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const metadata: Metadata = {
+export const metadata = {
   title: 'ThumbnailTV - AI-Powered TV Optimization Suite',
-  description: 'Stop losing views on TV screens. Optimize your YouTube thumbnails for Smart TVs where 73% of views happen.',
-  keywords: ['youtube', 'thumbnails', 'tv optimization', 'ai', 'content creator', '4k', 'smart tv'],
+  description: 'Stop losing views on TV screens. Optimize your thumbnails for Smart TVs with AI-powered compression, upscaling, and TV-safe zone analysis.',
 }
 
 export default function RootLayout({
@@ -17,11 +15,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <body className={inter.className}>
-        <SessionProvider>
+        <AuthProvider>
           {children}
-        </SessionProvider>
+        </AuthProvider>
       </body>
     </html>
   )

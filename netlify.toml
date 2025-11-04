@@ -3,8 +3,8 @@
   publish = "out"
 
 [build.environment]
-  NODE_VERSION = "20"
-  NPM_VERSION = "10"
+  NODE_VERSION = "18"
+  NPM_VERSION = "9"
 
 [[redirects]]
   from = "/api/*"
@@ -15,9 +15,6 @@
   from = "/*"
   to = "/index.html"
   status = 200
-
-[functions]
-  directory = "netlify/functions"
 
 [[headers]]
   for = "/*"
