@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Tv, Zap, Sparkles, ArrowLeft } from 'lucide-react'
-import TVPreviewDashboard from './tv-previews/TVPreviewDashboard'
+import { TVPreviewDashboard } from './tv-previews/TVPreviewDashboard'
 import SmartCompressor from './compression/SmartCompressor'
 import FrameUpscaler from './upscaling/FrameUpscaler'
 
