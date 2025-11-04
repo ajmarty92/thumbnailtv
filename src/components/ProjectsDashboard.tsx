@@ -1,110 +1,191 @@
 'use client'
 
-import { useState } from 'react'
-import { Trash2, Download, Eye, Calendar, FolderPlus } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
+import { useState } from 'react'
+import { Plus, Trash2, FolderOpen, Tv, Image, TrendingUp } from 'lucide-react'
+
+// Mock project data for demo
+const mockProjects = [
+  {
+    id: '1',
+    name: 'Tech Review - iPhone 15',
+    thumbnail: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400&h=225&fit=crop',
+    lastModified: '2024-01-15',
+    status: 'optimized'
+  },
+  {
+    id: '2', 
+    name: 'Gaming - PS5 Review',
+    thumbnail: 'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400&h=225&fit=crop',
+    lastModified: '2024-01-14',
+    status: 'needs-optimization'
+  },
+  {
+    id: '3',
+    name: 'Cooking - Pasta Recipe',
+    thumbnail: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=225&fit=crop',
+    lastModified: '2024-01-13',
+    status: 'optimized'
+  }
+]
 
 export default function ProjectsDashboard() {
-  const { user, projects, deleteProject, loadProject } = useAuth()
+  const { user } = useAuth()
   const [loading, setLoading] = useState(false)
+  const [projects, setProjects] = useState(mockProjects)
+  const [selectedProject, setSelectedProject] = useState<string | null>(null)
 
   const handleLoadProject = async (projectId: string) => {
     setLoading(true)
-    try {
-      const project = await loadProject(projectId)
-      if (project) {
-        // Load project into main app
-        window.location.href = `/?project=${projectId}`
-      }
-    } finally {
-      setLoading(false)
-    }
+    setSelectedProject(projectId)
+    
+    // Simulate loading project
+    await new Promise(resolve => setTimeout(resolve, 1500))
+    
+    setLoading(false)
+    console.log(`Loading project: ${projectId}`)
   }
 
   const handleDeleteProject = async (projectId: string) => {
-    if (confirm('Are you sure you want to delete this project?')) {
-      await deleteProject(projectId)
+    if (!confirm('Are you sure you want to delete this project?')) return
+    
+    setLoading(true)
+    
+    // Simulate deleting project
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    
+    setProjects(prev => prev.filter(p => p.id !== projectId))
+    setLoading(false)
+    
+    if (selectedProject === projectId) {
+      setSelectedProject(null)
     }
   }
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString()
+  if (!user) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <FolderOpen className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+          <p className="text-gray-400 text-lg">Please sign in to view your projects</p>
+        </div>
+      </div>
+    )
   }
 
-  if (!user) return null
-
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">My Projects</h2>
-          <p className="text-gray-600 dark:text-gray-400">
-            {projects.length} project{projects.length !== 1 ? 's' : ''} saved
+          <h1 className="text-3xl font-bold text-white mb-2">My Projects</h1>
+          <p className="text-gray-400">
+            Manage your thumbnail optimization projects
           </p>
         </div>
-        <button className="bg-tv-blue hover:bg-tv-blue/80 text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center gap-2">
-          <FolderPlus className="w-4 h-4" />
+        <button className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-colors flex items-center gap-2">
+          <Plus className="w-5 h-5" />
           New Project
         </button>
       </div>
 
-      {projects.length === 0 ? (
-        <div className="text-center py-12 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
-          <FolderPlus className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No projects yet</h3>
-          <p className="text-gray-600 dark:text-gray-400 mb-4">
-            Create your first TV-optimized thumbnail project
-          </p>
-          <button className="bg-tv-blue hover:bg-tv-blue/80 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
-            Create Project
-          </button>
+      {/* Stats Bar */}
+      <div className="grid grid-cols-3 gap-6 mb-8">
+        <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-purple-600/20 rounded-lg flex items-center justify-center">
+              <Tv className="w-5 h-5 text-purple-400" />
+            </div>
+            <div>
+              <div className="text-2xl font-bold text-white">{projects.length}</div>
+              <div className="text-sm text-gray-400">Total Projects</div>
+            </div>
+          </div>
         </div>
-      ) : (
-        <div className="grid gap-4">
+        <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-green-600/20 rounded-lg flex items-center justify-center">
+              <TrendingUp className="w-5 h-5 text-green-400" />
+            </div>
+            <div>
+              <div className="text-2xl font-bold text-white">
+                {projects.filter(p => p.status === 'optimized').length}
+              </div>
+              <div className="text-sm text-gray-400">Optimized</div>
+            </div>
+          </div>
+        </div>
+        <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-yellow-600/20 rounded-lg flex items-center justify-center">
+              <Image className="w-5 h-5 text-yellow-400" />
+            </div>
+            <div>
+              <div className="text-2xl font-bold text-white">
+                {projects.filter(p => p.status === 'needs-optimization').length}
+              </div>
+              <div className="text-sm text-gray-400">Need Optimization</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Projects Grid */}
+      {projects.length > 0 ? (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project) => (
             <div
               key={project.id}
-              className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:shadow-lg transition-shadow"
+              className={`bg-gray-800 rounded-xl overflow-hidden border transition-all ${
+                selectedProject === project.id
+                  ? 'border-purple-500 shadow-lg shadow-purple-500/20'
+                  : 'border-gray-700 hover:border-gray-600'
+              }`}
             >
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-9 bg-gray-100 dark:bg-gray-800 rounded overflow-hidden flex-shrink-0">
-                  <img
-                    src={project.thumbnail}
-                    alt={project.name}
-                    className="w-full h-full object-cover"
-                  />
+              {/* Thumbnail */}
+              <div className="relative aspect-video">
+                <img
+                  src={project.thumbnail}
+                  alt={project.name}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute top-2 right-2">
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      project.status === 'optimized'
+                        ? 'bg-green-600/20 text-green-400 border border-green-600/30'
+                        : 'bg-yellow-600/20 text-yellow-400 border border-yellow-600/30'
+                    }`}
+                  >
+                    {project.status === 'optimized' ? 'Optimized' : 'Needs Work'}
+                  </span>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-medium text-gray-900 dark:text-white truncate">
-                    {project.name}
-                  </h3>
-                  <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-                    <span className="flex items-center gap-1">
-                      <Calendar className="w-3 h-3" />
-                      {formatDate(project.updatedAt)}
-                    </span>
-                    <span>TV Optimized</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
+              </div>
+
+              {/* Content */}
+              <div className="p-4">
+                <h3 className="text-white font-semibold mb-2">{project.name}</h3>
+                <p className="text-gray-400 text-sm mb-4">
+                  Modified: {project.lastModified}
+                </p>
+
+                {/* Actions */}
+                <div className="flex gap-2">
                   <button
                     onClick={() => handleLoadProject(project.id)}
                     disabled={loading}
-                    className="p-2 text-gray-600 dark:text-gray-400 hover:text-tv-blue dark:hover:text-tv-blue hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-                    title="Load project"
+                    className="flex-1 px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-sm font-medium transition-colors disabled:opacity-50"
                   >
-                    <Eye className="w-4 h-4" />
-                  </button>
-                  <button
-                    className="p-2 text-gray-600 dark:text-gray-400 hover:text-tv-blue dark:hover:text-tv-blue hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-                    title="Download"
-                  >
-                    <Download className="w-4 h-4" />
+                    {loading && selectedProject === project.id ? (
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto" />
+                    ) : (
+                      'Open'
+                    )}
                   </button>
                   <button
                     onClick={() => handleDeleteProject(project.id)}
-                    className="p-2 text-gray-600 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-                    title="Delete project"
+                    disabled={loading}
+                    className="px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-colors disabled:opacity-50"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -112,6 +193,17 @@ export default function ProjectsDashboard() {
               </div>
             </div>
           ))}
+        </div>
+      ) : (
+        <div className="text-center py-16">
+          <FolderOpen className="w-20 h-20 text-gray-400 mx-auto mb-4" />
+          <h3 className="text-xl font-semibold text-white mb-2">No projects yet</h3>
+          <p className="text-gray-400 mb-6">
+            Create your first thumbnail optimization project
+          </p>
+          <button className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-colors">
+            Create First Project
+          </button>
         </div>
       )}
     </div>
