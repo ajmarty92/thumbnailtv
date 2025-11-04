@@ -1,205 +1,159 @@
 'use client'
 
-import { useState } from 'react'
-import { Tv, User, LogOut, FolderOpen, Menu, X } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
-import { useTheme } from '@/contexts/ThemeContext'
-import ThemeToggle from './ThemeToggle'
+import { useState } from 'react'
+import { Moon, Sun, User, LogOut } from 'lucide-react'
 
-interface NavigationProps {
-  onNavigate: (page: string) => void
-  currentPage: string
-}
+export default function Navigation() {
+  const { user, login, logout, isLoading } = useAuth()
+  const [showLogin, setShowLogin] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark')
+  const [loginError, setLoginError] = useState('')
 
-export default function Navigation({ onNavigate, currentPage }: NavigationProps) {
-  const { user, logout } = useAuth()
-  const { theme } = useTheme()
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
-  const handleLogout = () => {
-    logout()
-    onNavigate('home')
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoginError('')
+    const success = await login(email, password)
+    if (success) {
+      setShowLogin(false)
+      setEmail('')
+      setPassword('')
+    } else {
+      setLoginError('Invalid credentials. Try demo@thumbnailtv.io / demo123')
+    }
   }
 
-  const bgColor = theme === 'dark' 
-    ? 'border-gray-700 bg-gray-900/95 backdrop-blur-sm' 
-    : 'border-gray-200 bg-white/95 backdrop-blur-sm'
-
-  const textColor = theme === 'dark' ? 'text-white' : 'text-gray-900'
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark'
+    setTheme(newTheme)
+    document.documentElement.classList.toggle('dark')
+    localStorage.setItem('theme', newTheme)
+  }
 
   return (
-    <nav className={`relative border-b ${bgColor} sticky top-0 z-40`}>
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-tv-blue to-tv-green rounded-lg flex items-center justify-center">
-              <Tv className="w-6 h-6 text-white" />
-            </div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-tv-blue to-tv-green bg-clip-text text-transparent">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-sm border-b border-gray-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <div className="flex items-center">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
               ThumbnailTV
             </h1>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-6">
-            <a 
-              href="#features" 
-              className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} hover:${textColor} transition-colors`}
-              onClick={() => onNavigate('home')}
+          {/* Right side - Theme Toggle & Auth */}
+          <div className="flex items-center gap-4">
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors"
+              aria-label="Toggle theme"
             >
-              Features
-            </a>
-            <a 
-              href="#testimonials" 
-              className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} hover:${textColor} transition-colors`}
-              onClick={() => onNavigate('home')}
-            >
-              Reviews
-            </a>
-            <a 
-              href="#pricing" 
-              className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} hover:${textColor} transition-colors`}
-              onClick={() => onNavigate('home')}
-            >
-              Pricing
-            </a>
-            
-            {user && (
-              <button
-                onClick={() => onNavigate('projects')}
-                className={`${currentPage === 'projects' ? 'text-tv-blue' : theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} hover:${textColor} transition-colors flex items-center gap-2`}
-              >
-                <FolderOpen className="w-4 h-4" />
-                Projects
-              </button>
-            )}
+              {theme === 'dark' ? (
+                <Sun className="w-5 h-5 text-yellow-400" />
+              ) : (
+                <Moon className="w-5 h-5 text-blue-400" />
+              )}
+            </button>
 
-            <ThemeToggle />
-
-            {user ? (
+            {/* Auth Section */}
+            {isLoading ? (
+              <div className="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
+            ) : user ? (
               <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
+                  {user.avatar && (
+                    <img 
+                      src={user.avatar} 
+                      alt={user.name}
+                      className="w-8 h-8 rounded-full"
+                    />
+                  )}
+                  <span className="text-sm text-gray-300">{user.name}</span>
+                </div>
                 <button
-                  onClick={() => onNavigate('app')}
-                  className="bg-tv-blue hover:bg-tv-blue/80 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
-                >
-                  Try Free
-                </button>
-                <button
-                  onClick={handleLogout}
-                  className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-                  title="Logout"
+                  onClick={logout}
+                  className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
                 >
                   <LogOut className="w-4 h-4" />
+                  Sign Out
                 </button>
               </div>
             ) : (
               <button
-                onClick={() => onNavigate('auth')}
-                className="bg-tv-blue hover:bg-tv-blue/80 text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center gap-2"
+                onClick={() => setShowLogin(true)}
+                className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
               >
                 <User className="w-4 h-4" />
                 Sign In
               </button>
             )}
           </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
         </div>
+      </div>
 
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-            <div className="flex flex-col gap-4">
-              <a 
-                href="#features" 
-                className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} hover:${textColor} transition-colors`}
-                onClick={() => {
-                  onNavigate('home')
-                  setMobileMenuOpen(false)
-                }}
-              >
-                Features
-              </a>
-              <a 
-                href="#testimonials" 
-                className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} hover:${textColor} transition-colors`}
-                onClick={() => {
-                  onNavigate('home')
-                  setMobileMenuOpen(false)
-                }}
-              >
-                Reviews
-              </a>
-              <a 
-                href="#pricing" 
-                className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} hover:${textColor} transition-colors`}
-                onClick={() => {
-                  onNavigate('home')
-                  setMobileMenuOpen(false)
-                }}
-              >
-                Pricing
-              </a>
-              
-              {user && (
-                <button
-                  onClick={() => {
-                    onNavigate('projects')
-                    setMobileMenuOpen(false)
-                  }}
-                  className={`text-left ${currentPage === 'projects' ? 'text-tv-blue' : theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} hover:${textColor} transition-colors flex items-center gap-2`}
-                >
-                  <FolderOpen className="w-4 h-4" />
-                  Projects
-                </button>
+      {/* Login Modal */}
+      {showLogin && !user && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-gray-800 rounded-xl p-6 max-w-md w-full">
+            <h2 className="text-2xl font-bold text-white mb-4">Sign In</h2>
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="demo@thumbnailtv.io"
+                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="demo123"
+                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  required
+                />
+              </div>
+              {loginError && (
+                <p className="text-red-400 text-sm">{loginError}</p>
               )}
-
-              <ThemeToggle />
-
-              {user ? (
-                <div className="flex flex-col gap-3">
-                  <button
-                    onClick={() => {
-                      onNavigate('app')
-                      setMobileMenuOpen(false)
-                    }}
-                    className="bg-tv-blue hover:bg-tv-blue/80 text-white font-semibold py-2 px-4 rounded-lg transition-colors text-left"
-                  >
-                    Try Free
-                  </button>
-                  <button
-                    onClick={() => {
-                      handleLogout()
-                      setMobileMenuOpen(false)
-                    }}
-                    className="text-left text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors flex items-center gap-2"
-                  >
-                    <LogOut className="w-4 h-4" />
-                    Logout
-                  </button>
-                </div>
-              ) : (
+              <div className="flex gap-3">
                 <button
-                  onClick={() => {
-                    onNavigate('auth')
-                    setMobileMenuOpen(false)
-                  }}
-                  className="bg-tv-blue hover:bg-tv-blue/80 text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center gap-2"
+                  type="submit"
+                  className="flex-1 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
                 >
-                  <User className="w-4 h-4" />
                   Sign In
                 </button>
-              )}
-            </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowLogin(false)
+                    setLoginError('')
+                  }}
+                  className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+              <p className="text-xs text-gray-400 text-center">
+                Demo: demo@thumbnailtv.io / demo123
+              </p>
+            </form>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </nav>
   )
 }

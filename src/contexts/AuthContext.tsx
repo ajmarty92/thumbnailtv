@@ -23,21 +23,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // Check for saved user in localStorage
-    const savedUser = localStorage.getItem('thumbnailtv_user')
-    if (savedUser) {
-      setUser(JSON.parse(savedUser))
+    if (typeof window !== 'undefined') {
+      const savedUser = localStorage.getItem('thumbnailtv_user')
+      if (savedUser) {
+        setUser(JSON.parse(savedUser))
+      }
     }
     setIsLoading(false)
   }, [])
 
   const login = async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true)
-    
-    // Simulate API call for demo
     await new Promise(resolve => setTimeout(resolve, 1000))
     
-    // Mock successful login (replace with real auth in production)
     if (email === 'demo@thumbnailtv.io' && password === 'demo123') {
       const mockUser: User = {
         id: 'demo-user',
@@ -46,7 +44,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face'
       }
       setUser(mockUser)
-      localStorage.setItem('thumbnailtv_user', JSON.stringify(mockUser))
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('thumbnailtv_user', JSON.stringify(mockUser))
+      }
       setIsLoading(false)
       return true
     }
@@ -57,7 +57,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = () => {
     setUser(null)
-    localStorage.removeItem('thumbnailtv_user')
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('thumbnailtv_user')
+    }
   }
 
   return (

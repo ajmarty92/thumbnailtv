@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useSession, signIn, signOut } from 'next-auth/react'
+import { useAuth }, signIn, signOut } from '@/contexts/AuthContext'
 import { 
   Tv, 
   Zap, 
@@ -33,7 +33,7 @@ const backgroundSvg = `<svg width="60" height="60" viewBox="0 0 60 60" xmlns="ht
 const dataUrl = `data:image/svg+xml;utf8,${encodeURIComponent(backgroundSvg)}`;
 
 export default function Home() {
-  const { data: session, status } = useSession()
+  const { data: session, status } = useAuth()
   const [currentPage, setCurrentPage] = useState('home')
   const [theme, setTheme] = useState<'light' | 'dark'>('dark')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
