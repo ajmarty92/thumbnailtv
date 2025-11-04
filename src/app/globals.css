@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --tv-black: #0a0a0a;
+  --tv-gray: #1a1a1a;
+  --tv-blue: #0066cc;
+  --tv-red: #cc0000;
+  --tv-green: #00cc66;
+}
+
+body {
+  background-color: var(--tv-black);
+  color: white;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
