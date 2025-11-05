@@ -96,6 +96,72 @@ export default function AboutPage() {
           </div>
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="bg-gray-800 border-t border-gray-700">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+              <h4 className="text-white font-semibold mb-4">Product</h4>
+              <ul className="space-y-2">
+                <li>
+                  <a href="/guide" className="text-gray-400 hover:text-white transition-colors">
+                    Guide
+                  </a>
+                </li>
+                <li>
+                  <a href="/success-stories" className="text-gray-400 hover:text-white transition-colors">
+                    Success Stories
+                  </a>
+                </li>
+                <li>
+                  <a href="/docs" className="text-gray-400 hover:text-white transition-colors">
+                    Documentation
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-white font-semibold mb-4">Company</h4>
+              <ul className="space-y-2">
+                <li>
+                  <a href="/about" className="text-gray-400 hover:text-white transition-colors">
+                    About Us
+                  </a>
+                </li>
+                <li>
+                  <a href="/blog" className="text-gray-400 hover:text-white transition-colors">
+                    Blog
+                  </a>
+                </li>
+                <li>
+                  <a href="/contact" className="text-gray-400 hover:text-white transition-colors">
+                    Contact
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-white font-semibold mb-4">Legal</h4>
+              <ul className="space-y-2">
+                <li>
+                  <a href="/privacy" className="text-gray-400 hover:text-white transition-colors">
+                    Privacy Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="/terms" className="text-gray-400 hover:text-white transition-colors">
+                    Terms of Service
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
+            &copy; 2024 ThumbnailTV. All rights reserved. Made with ❤️ for YouTube creators.
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }
