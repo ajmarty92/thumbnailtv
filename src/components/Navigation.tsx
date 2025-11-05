@@ -12,6 +12,29 @@ export default function Navigation() {
   const [theme, setTheme] = useState<'light' | 'dark'>('dark')
   const [loginError, setLoginError] = useState('')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState('')
+
+  // Active section detection
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['features', 'pricing', 'faq']
+      const scrollPosition = window.scrollY + 100
+      
+      for (const section of sections) {
+        const element = document.getElementById(section)
+        if (element) {
+          const { offsetTop, offsetHeight } = element
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(section)
+            break
+          }
+        }
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   // Theme toggle functions
   const applyTheme = (newTheme: 'light' | 'dark') => {
@@ -73,15 +96,27 @@ export default function Navigation() {
           <div className="hidden md:flex items-center gap-6">
             <button
               onClick={() => scrollToSection('features')}
-              className="text-gray-300 hover:text-white transition-colors duration-200 font-medium"
+              className={`text-gray-300 hover:text-white transition-colors duration-200 font-medium ${
+                activeSection === 'features' ? 'text-purple-400' : ''
+              }`}
             >
               Features
             </button>
             <button
               onClick={() => scrollToSection('pricing')}
-              className="text-gray-300 hover:text-white transition-colors duration-200 font-medium"
+              className={`text-gray-300 hover:text-white transition-colors duration-200 font-medium ${
+                activeSection === 'pricing' ? 'text-purple-400' : ''
+              }`}
             >
               Pricing
+            </button>
+            <button
+              onClick={() => scrollToSection('faq')}
+              className={`text-gray-300 hover:text-white transition-colors duration-200 font-medium ${
+                activeSection === 'faq' ? 'text-purple-400' : ''
+              }`}
+            >
+              FAQ
             </button>
           </div>
 
@@ -158,15 +193,27 @@ export default function Navigation() {
             <div className="flex flex-col space-y-3">
               <button
                 onClick={() => scrollToSection('features')}
-                className="text-gray-300 hover:text-white transition-colors duration-200 font-medium text-left px-2 py-2"
+                className={`text-gray-300 hover:text-white transition-colors duration-200 font-medium text-left px-2 py-2 ${
+                  activeSection === 'features' ? 'text-purple-400' : ''
+                }`}
               >
                 Features
               </button>
               <button
                 onClick={() => scrollToSection('pricing')}
-                className="text-gray-300 hover:text-white transition-colors duration-200 font-medium text-left px-2 py-2"
+                className={`text-gray-300 hover:text-white transition-colors duration-200 font-medium text-left px-2 py-2 ${
+                  activeSection === 'pricing' ? 'text-purple-400' : ''
+                }`}
               >
                 Pricing
+              </button>
+              <button
+                onClick={() => scrollToSection('faq')}
+                className={`text-gray-300 hover:text-white transition-colors duration-200 font-medium text-left px-2 py-2 ${
+                  activeSection === 'faq' ? 'text-purple-400' : ''
+                }`}
+              >
+                FAQ
               </button>
               
               {/* Mobile Auth Section */}

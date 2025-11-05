@@ -19,6 +19,11 @@ body {
   background: var(--background);
 }
 
+/* Smooth scrolling behavior */
+html {
+  scroll-behavior: smooth;
+}
+
 /* Enhanced Light Mode Styles */
 .light {
   background-color: #ffffff !important;
@@ -83,11 +88,11 @@ body {
   background-color: rgba(255, 255, 255, 0.95) !important;
 }
 
-.light .hover\\:bg-gray-700:hover {
+.light .hover\:bg-gray-700:hover {
   background-color: #f1f5f9 !important;
 }
 
-.light .hover\\:text-gray-400:hover {
+.light .hover\:text-gray-400:hover {
   color: #475569 !important;
 }
 
@@ -105,7 +110,7 @@ body {
   color: #64748b !important;
 }
 
-.light footer .hover\\:text-gray-400:hover {
+.light footer .hover\:text-gray-400:hover {
   color: #1e293b !important;
 }
 
@@ -148,6 +153,129 @@ body {
   opacity: 0.95;
 }
 
+/* Enhanced FAQ Section Styles */
+details[open] summary {
+  color: #9333ea !important; /* Purple when open in dark mode */
+}
+
+.light details[open] summary {
+  color: #7c3aed !important; /* Purple when open in light mode */
+}
+
+details {
+  transition: all 0.3s ease;
+}
+
+details:hover {
+  border-color: #9333ea !important;
+}
+
+.light details:hover {
+  border-color: #7c3aed !important;
+}
+
+/* Newsletter Form Styles */
+.newsletter-input:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(147, 51, 234, 0.15);
+}
+
+.light .newsletter-input:focus {
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+}
+
+/* Enhanced Button Animations */
+.enhanced-btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.enhanced-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(147, 51, 234, 0.3);
+}
+
+.light .enhanced-btn:hover {
+  box-shadow: 0 10px 20px rgba(124, 58, 237, 0.3);
+}
+
+/* Scroll-to-top button animation */
+.scroll-top-btn {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Social Media Icons Enhancement */
+.social-icon {
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  transform: translateY(-2px) scale(1.1);
+}
+
+.social-icon.facebook:hover {
+  background-color: #1877f2 !important;
+}
+
+.social-icon.twitter:hover {
+  background-color: #1da1f2 !important;
+}
+
+.social-icon.youtube:hover {
+  background-color: #ff0000 !important;
+}
+
+/* Active navigation indicator */
+.nav-active {
+  color: #9333ea !important;
+  position: relative;
+}
+
+.nav-active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #9333ea;
+  border-radius: 1px;
+}
+
+.light .nav-active {
+  color: #7c3aed !important;
+}
+
+.light .nav-active::after {
+  background-color: #7c3aed;
+}
+
+/* Enhanced Mobile Menu */
+.mobile-menu-enter {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Login Modal Responsive Fixes */
 .login-modal-overlay {
   position: fixed;
@@ -158,6 +286,7 @@ body {
   justify-content: center;
   z-index: 50;
   padding: 1rem;
+  backdrop-filter: blur(4px);
 }
 
 .login-modal-content {
@@ -169,6 +298,32 @@ body {
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Light mode modal */
+.light .login-modal-content {
+  background: rgb(255, 255, 255);
+  color: rgb(31, 41, 55);
+}
+
+.light .login-modal-content .text-white {
+  color: rgb(31, 41, 55) !important;
+}
+
+.light .login-modal-content .text-gray-300 {
+  color: rgb(75, 85, 99) !important;
 }
 
 /* Mobile Specific (320px - 767px) */
@@ -236,4 +391,25 @@ body {
 /* Prevent body scroll when modal is open */
 .modal-open {
   overflow: hidden;
+}
+
+/* Enhanced loading states */
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Newsletter success state */
+.newsletter-success {
+  animation: successPulse 0.6s ease-out;
+}
+
+@keyframes successPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }
