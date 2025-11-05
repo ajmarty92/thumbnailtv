@@ -4,7 +4,7 @@ import { useAuth } from '@/contexts/AuthContext'
 import Navigation from '@/components/Navigation'
 import TVOptimizationSuite from '@/components/TVOptimizationSuite'
 import { useState, useEffect } from 'react'
-import { Tv, Zap, TrendingUp, Check, Star, ArrowRight, Play, Users, Shield, Sparkles, ChevronUp, Mail } from 'lucide-react'
+import { Tv, Zap, TrendingUp, Check, Star, ArrowRight, Play, Users, Shield, Sparkles, ChevronUp, Mail, Lock, Crown, Building } from 'lucide-react'
 
 export default function HomePage() {
   const { user, isLoading } = useAuth()
@@ -12,6 +12,7 @@ export default function HomePage() {
   const [showScrollTop, setShowScrollTop] = useState(false)
   const [email, setEmail] = useState('')
   const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [userPlan, setUserPlan] = useState<'free' | 'pro' | 'enterprise'>('free')
 
   // Scroll to top button visibility
   useEffect(() => {
@@ -36,6 +37,31 @@ export default function HomePage() {
       setEmail('')
       setTimeout(() => setNewsletterStatus('idle'), 3000)
     }, 1000)
+  }
+
+  // Feature Gate Component
+  const FeatureGate = ({ 
+    children, 
+    requiredPlan, 
+    fallback 
+  }: { 
+    children: React.ReactNode
+    requiredPlan: 'free' | 'pro' | 'enterprise'
+    fallback: React.ReactNode 
+  }) => {
+    const planHierarchy = { free: 0, pro: 1, enterprise: 2 }
+    const userLevel = planHierarchy[userPlan]
+    const requiredLevel = planHierarchy[requiredPlan]
+    
+    if (userLevel >= requiredLevel) {
+      return <>{children}</>
+    }
+    return <>{fallback}</>
+  }
+
+  const handleUpgradeClick = (plan: 'pro' | 'enterprise') => {
+    // Scroll to pricing section
+    document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
@@ -127,7 +153,7 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Features Section */}
+              {/* Features Section with Feature Gating */}
               <div id="features" className="mb-20 scroll-mt-24">
                 <div className="text-center mb-12">
                   <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -148,24 +174,34 @@ export default function HomePage() {
                       See exactly how your thumbnails look on Google TV, Roku, Samsung TV, Apple TV, and Fire TV. 
                       Get instant AI analysis of UI overlap, text visibility, and visual impact.
                     </p>
-                    <ul className="space-y-3">
-                      <li className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">5 major TV platform previews</span>
-                      </li>
-                      <li className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">Real-time UI overlay detection</span>
-                      </li>
-                      <li className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">Distance-based optimization (8-16 feet)</span>
-                      </li>
-                      <li className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">Specific platform recommendations</span>
-                      </li>
-                    </ul>
+                    <FeatureGate 
+                      requiredPlan="free" 
+                      fallback={
+                        <div className="text-center p-4 bg-purple-600/10 rounded-lg border border-purple-500/20">
+                          <Lock className="w-6 h-6 text-purple-400 mx-auto mb-2" />
+                          <p className="text-purple-300 text-sm">Available on all plans</p>
+                        </div>
+                      }
+                    >
+                      <ul className="space-y-3">
+                        <li className="flex items-start gap-3">
+                          <Check className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-300">5 major TV platform previews</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <Check className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-300">Real-time UI overlay detection</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <Check className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-300">Distance-based optimization (8-16 feet)</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <Check className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-300">Specific platform recommendations</span>
+                        </li>
+                      </ul>
+                    </FeatureGate>
                   </div>
 
                   <div className="bg-gradient-to-br from-pink-900/20 to-pink-900/10 rounded-2xl p-8 border border-pink-500/20 hover:border-pink-500/40 transition-all">
@@ -177,24 +213,40 @@ export default function HomePage() {
                       Your 4K PNG thumbnails are 100MB+ but platforms limit you to 50MB. 
                       Our AI analyzes your image content and compresses to 49MB while maintaining perfect visual quality.
                     </p>
-                    <ul className="space-y-3">
-                      <li className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-pink-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">100MB+ → 49MB in 30 seconds</span>
-                      </li>
-                      <li className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-pink-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">Quality-focused compression algorithms</span>
-                      </li>
-                      <li className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-pink-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">All platform compliance checks</span>
-                      </li>
-                      <li className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-pink-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">Batch processing for 50+ thumbnails</span>
-                      </li>
-                    </ul>
+                    <FeatureGate 
+                      requiredPlan="pro" 
+                      fallback={
+                        <div className="text-center p-4 bg-pink-600/10 rounded-lg border border-pink-500/20">
+                          <Crown className="w-6 h-6 text-pink-400 mx-auto mb-2" />
+                          <p className="text-pink-300 text-sm mb-3">Pro Feature</p>
+                          <button 
+                            onClick={() => handleUpgradeClick('pro')}
+                            className="px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-lg text-sm transition-colors transform hover:scale-105"
+                          >
+                            Upgrade to Pro
+                          </button>
+                        </div>
+                      }
+                    >
+                      <ul className="space-y-3">
+                        <li className="flex items-start gap-3">
+                          <Check className="w-5 h-5 text-pink-400 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-300">100MB+ → 49MB in 30 seconds</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <Check className="w-5 h-5 text-pink-400 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-300">Quality-focused compression algorithms</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <Check className="w-5 h-5 text-pink-400 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-300">All platform compliance checks</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <Check className="w-5 h-5 text-pink-400 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-300">Batch processing for 50+ thumbnails</span>
+                        </li>
+                      </ul>
+                    </FeatureGate>
                   </div>
 
                   <div className="bg-gradient-to-br from-blue-900/20 to-blue-900/10 rounded-2xl p-8 border border-blue-500/20 hover:border-blue-500/40 transition-all">
@@ -206,24 +258,40 @@ export default function HomePage() {
                       That perfect frame in your video is trapped at 1080p. Extract it, 
                       upscale to 4K/8K with AI, enhance faces and sharpen text for stunning thumbnails.
                     </p>
-                    <ul className="space-y-3">
-                      <li className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">1080p → 4K/8K with AI</span>
-                      </li>
-                      <li className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">Face enhancement & text sharpening</span>
-                      </li>
-                      <li className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">Video frame precision extraction</span>
-                      </li>
-                      <li className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">YouTube-safe color grading</span>
-                      </li>
-                    </ul>
+                    <FeatureGate 
+                      requiredPlan="pro" 
+                      fallback={
+                        <div className="text-center p-4 bg-blue-600/10 rounded-lg border border-blue-500/20">
+                          <Crown className="w-6 h-6 text-blue-400 mx-auto mb-2" />
+                          <p className="text-blue-300 text-sm mb-3">Pro Feature</p>
+                          <button 
+                            onClick={() => handleUpgradeClick('pro')}
+                            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm transition-colors transform hover:scale-105"
+                          >
+                            Upgrade to Pro
+                          </button>
+                        </div>
+                      }
+                    >
+                      <ul className="space-y-3">
+                        <li className="flex items-start gap-3">
+                          <Check className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-300">1080p → 4K/8K with AI</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <Check className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-300">Face enhancement & text sharpening</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <Check className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-300">Video frame precision extraction</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <Check className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-300">YouTube-safe color grading</span>
+                        </li>
+                      </ul>
+                    </FeatureGate>
                   </div>
                 </div>
               </div>
@@ -533,7 +601,7 @@ export default function HomePage() {
         </div>
       </main>
 
-      {/* Enhanced Footer with Newsletter */}
+      {/* Enhanced Footer with ACTIVE Links */}
       <footer className="bg-gray-800/50 border-t border-gray-700 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Newsletter Section */}
@@ -589,17 +657,35 @@ export default function HomePage() {
               </p>
               {/* Social Media Links */}
               <div className="flex gap-3">
-                <a href="#" className="w-10 h-10 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center transition-colors">
+                <a 
+                  href="https://facebook.com/thumbnailtv" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center transition-colors social-icon facebook"
+                  aria-label="Facebook"
+                >
                   <svg className="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                   </svg>
                 </a>
-                <a href="#" className="w-10 h-10 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center transition-colors">
+                <a 
+                  href="https://twitter.com/thumbnailtv" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center transition-colors social-icon twitter"
+                  aria-label="Twitter"
+                >
                   <svg className="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
                   </svg>
                 </a>
-                <a href="#" className="w-10 h-10 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center transition-colors">
+                <a 
+                  href="https://youtube.com/@thumbnailtv" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center transition-colors social-icon youtube"
+                  aria-label="YouTube"
+                >
                   <svg className="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                   </svg>
@@ -609,28 +695,76 @@ export default function HomePage() {
             <div>
               <h4 className="text-white font-semibold mb-4">Features</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
-                <li className="hover:text-gray-300 transition-colors cursor-pointer">TV Preview</li>
-                <li className="hover:text-gray-300 transition-colors cursor-pointer">AI Compression</li>
-                <li className="hover:text-gray-300 transition-colors cursor-pointer">Frame Upscaling</li>
-                <li className="hover:text-gray-300 transition-colors cursor-pointer">Platform Analysis</li>
+                <li>
+                  <a href="#features" className="hover:text-gray-300 transition-colors">
+                    TV Preview
+                  </a>
+                </li>
+                <li>
+                  <a href="#pricing" className="hover:text-gray-300 transition-colors">
+                    AI Compression
+                  </a>
+                </li>
+                <li>
+                  <a href="#features" className="hover:text-gray-300 transition-colors">
+                    Frame Upscaling
+                  </a>
+                </li>
+                <li>
+                  <a href="#demo" className="hover:text-gray-300 transition-colors">
+                    Platform Analysis
+                  </a>
+                </li>
               </ul>
             </div>
             <div>
               <h4 className="text-white font-semibold mb-4">Resources</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
-                <li className="hover:text-gray-300 transition-colors cursor-pointer">Creator Blog</li>
-                <li className="hover:text-gray-300 transition-colors cursor-pointer">TV Optimization Guide</li>
-                <li className="hover:text-gray-300 transition-colors cursor-pointer">Success Stories</li>
-                <li className="hover:text-gray-300 transition-colors cursor-pointer">API Documentation</li>
+                <li>
+                  <a href="/blog" className="hover:text-gray-300 transition-colors">
+                    Creator Blog
+                  </a>
+                </li>
+                <li>
+                  <a href="/guide" className="hover:text-gray-300 transition-colors">
+                    TV Optimization Guide
+                  </a>
+                </li>
+                <li>
+                  <a href="/success-stories" className="hover:text-gray-300 transition-colors">
+                    Success Stories
+                  </a>
+                </li>
+                <li>
+                  <a href="/docs" className="hover:text-gray-300 transition-colors">
+                    API Documentation
+                  </a>
+                </li>
               </ul>
             </div>
             <div>
               <h4 className="text-white font-semibold mb-4">Company</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
-                <li className="hover:text-gray-300 transition-colors cursor-pointer">About Us</li>
-                <li className="hover:text-gray-300 transition-colors cursor-pointer">Contact</li>
-                <li className="hover:text-gray-300 transition-colors cursor-pointer">Privacy Policy</li>
-                <li className="hover:text-gray-300 transition-colors cursor-pointer">Terms of Service</li>
+                <li>
+                  <a href="/about" className="hover:text-gray-300 transition-colors">
+                    About Us
+                  </a>
+                </li>
+                <li>
+                  <a href="/contact" className="hover:text-gray-300 transition-colors">
+                    Contact
+                  </a>
+                </li>
+                <li>
+                  <a href="/privacy" className="hover:text-gray-300 transition-colors">
+                    Privacy Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="/terms" className="hover:text-gray-300 transition-colors">
+                    Terms of Service
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
