@@ -34,8 +34,8 @@ export default function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClos
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 p-4 pt-16 md:items-center md:pt-4">
-      <div className="bg-gray-800 rounded-2xl p-6 md:p-8 max-w-md w-full relative my-8 md:my-0 max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-gray-800 rounded-2xl p-6 md:p-8 max-w-md w-full relative max-h-[90vh] overflow-y-auto">
         {/* Close Button */}
         <button
           onClick={onClose}
