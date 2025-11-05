@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react'
 import Navigation from '@/components/Navigation'
 import { Mail, MessageSquare, Users, Clock } from 'lucide-react'

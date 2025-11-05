@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react'
 import Navigation from '@/components/Navigation'
 import { Calendar, Clock, User, ArrowRight, Search, Filter } from 'lucide-react'

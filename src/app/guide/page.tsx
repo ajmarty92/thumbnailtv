@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react'
 import Navigation from '@/components/Navigation'
 import { Check, AlertTriangle, Tv, Zap, TrendingUp, ArrowRight, ChevronDown, ChevronUp } from 'lucide-react'
