@@ -19,38 +19,120 @@ body {
   background: var(--background);
 }
 
-/* Light mode specific styles */
+/* Enhanced Light Mode Styles */
 .light {
   background-color: #ffffff !important;
 }
 
 .light .bg-gray-900 {
-  background-color: #f9fafb !important;
+  background-color: #f8fafc !important;
+  color: #1e293b !important;
 }
 
 .light .bg-gray-800 {
   background-color: #ffffff !important;
-  border-color: #e5e7eb !important;
+  border-color: #e2e8f0 !important;
+  color: #1e293b !important;
+}
+
+.light .bg-gray-800\/50 {
+  background-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.light .bg-gray-700 {
+  background-color: #f1f5f9 !important;
+  color: #334155 !important;
 }
 
 .light .text-white {
-  color: #171717 !important;
+  color: #1e293b !important;
 }
 
 .light .text-gray-300 {
-  color: #6b7280 !important;
+  color: #475569 !important;
 }
 
 .light .text-gray-400 {
-  color: #9ca3af !important;
+  color: #64748b !important;
+}
+
+.light .text-gray-500 {
+  color: #94a3b8 !important;
 }
 
 .light .border-gray-700 {
-  border-color: #e5e7eb !important;
+  border-color: #e2e8f0 !important;
 }
 
 .light .border-gray-800 {
-  border-color: #d1d5db !important;
+  border-color: #cbd5e1 !important;
+}
+
+.light .border-gray-600 {
+  border-color: #e2e8f0 !important;
+}
+
+/* Navbar Light Mode */
+.light nav {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-bottom-color: #e2e8f0 !important;
+  backdrop-filter: blur(10px);
+}
+
+.light .bg-gray-900\/95 {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.light .hover\\:bg-gray-700:hover {
+  background-color: #f1f5f9 !important;
+}
+
+.light .hover\\:text-gray-400:hover {
+  color: #475569 !important;
+}
+
+/* Footer Light Mode */
+.light footer {
+  background-color: #f8fafc !important;
+  border-top-color: #e2e8f0 !important;
+}
+
+.light footer .text-gray-400 {
+  color: #475569 !important;
+}
+
+.light footer .text-gray-300 {
+  color: #64748b !important;
+}
+
+.light footer .hover\\:text-gray-400:hover {
+  color: #1e293b !important;
+}
+
+/* Pricing Section - Gray Buttons Fix */
+.light .pricing-gray-btn {
+  background-color: #f1f5f9 !important;
+  color: #475569 !important;
+  border-color: #e2e8f0 !important;
+}
+
+.light .pricing-gray-btn:hover {
+  background-color: #e2e8f0 !important;
+  color: #334155 !important;
+}
+
+/* Feature Bar Statistics */
+.light .feature-stats-bar {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+
+.light .feature-stats-bar .text-gray-400 {
+  color: #64748b !important;
+}
+
+.light .feature-stats-bar .text-white {
+  color: #1e293b !important;
 }
 
 /* Adjust gradients for light mode */
@@ -60,4 +142,98 @@ body {
 
 .light .to-pink-900\/10 {
   --tw-gradient-to: rgba(236, 72, 153, 0.08) !important;
+}
+
+.light .bg-gradient-to-r {
+  opacity: 0.95;
+}
+
+/* Login Modal Responsive Fixes */
+.login-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 1rem;
+}
+
+.login-modal-content {
+  background: rgb(31 41 55);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  max-width: 28rem;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Mobile Specific (320px - 767px) */
+@media (max-width: 767px) {
+  .login-modal-overlay {
+    padding: 0.5rem;
+    align-items: flex-start;
+    padding-top: 2rem;
+  }
+  
+  .login-modal-content {
+    margin: 1rem;
+    padding: 1rem;
+    max-height: calc(100vh - 4rem);
+    border-radius: 0.5rem;
+  }
+  
+  .login-modal h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  .login-modal .space-y-4 > * + * {
+    margin-top: 0.75rem;
+  }
+  
+  .login-modal input {
+    padding: 0.75rem !important;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  .login-modal button {
+    padding: 0.75rem 1rem !important;
+    font-size: 0.875rem;
+  }
+}
+
+/* Tablet Specific (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .login-modal-overlay {
+    padding: 1.5rem;
+  }
+  
+  .login-modal-content {
+    padding: 2rem;
+    margin: 0;
+  }
+}
+
+/* Desktop Specific (1025px+) */
+@media (min-width: 1025px) {
+  .login-modal-content {
+    padding: 2.5rem;
+  }
+}
+
+/* Touch-friendly targets for mobile */
+@media (max-width: 767px) {
+  .login-modal button,
+  .login-modal input {
+    min-height: 44px; /* iOS accessibility guideline */
+  }
+}
+
+/* Prevent body scroll when modal is open */
+.modal-open {
+  overflow: hidden;
 }
