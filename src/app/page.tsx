@@ -12,7 +12,7 @@ export default function HomePage() {
   const [showScrollTop, setShowScrollTop] = useState(false)
   const [email, setEmail] = useState('')
   const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-  const [userPlan, setUserPlan] = useState<'free' | 'pro' | 'enterprise'>('free')
+  const [userPlan, setUserPlan] = useState<'free' | 'starter' | 'pro' | 'manager'>('free')
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null) // NEW STATE for enhanced FAQ
 
   // Scroll to top button visibility
@@ -47,10 +47,10 @@ export default function HomePage() {
     fallback 
   }: { 
     children: React.ReactNode
-    requiredPlan: 'free' | 'pro' | 'enterprise'
+    requiredPlan: 'free' | 'starter' | 'pro' | 'manager'
     fallback: React.ReactNode 
   }) => {
-    const planHierarchy = { free: 0, pro: 1, enterprise: 2 }
+    const planHierarchy = { free: 0, starter: 1, pro: 2, manager: 3 }
     const userLevel = planHierarchy[userPlan]
     const requiredLevel = planHierarchy[requiredPlan]
     
@@ -60,12 +60,12 @@ export default function HomePage() {
     return <>{fallback}</>
   }
 
-  const handleUpgradeClick = (plan: 'pro' | 'enterprise') => {
+  const handleUpgradeClick = (plan: 'starter' | 'pro' | 'manager') => {
     // Scroll to pricing section
     document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })
   }
 
-  const handlePlanSelection = (plan: 'pro' | 'enterprise') => {
+  const handlePlanSelection = (plan: 'starter' | 'pro' | 'manager') => {
     setUserPlan(plan)
     // Optional: You could add a success notification here
   }
@@ -177,34 +177,40 @@ export default function HomePage() {
                     </div>
                     <h3 className="text-2xl font-bold text-white mb-4">TV Safe Zone Preview</h3>
                     <p className="text-gray-300 mb-6 leading-relaxed">
-                      See exactly how your thumbnails look on Google TV, Roku, Samsung TV, Apple TV, and Fire TV. 
-                      Get instant AI analysis of UI overlap, text visibility, and visual impact.
+                      See exactly how your thumbnails look on Google TV (the most common platform). 
+                      Get instant AI analysis of UI overlap, text visibility, and visual impact with 25 4K exports per month.
                     </p>
                     <FeatureGate 
-                      requiredPlan="free" 
+                      requiredPlan="starter" 
                       fallback={
-                        <div className="text-center p-4 bg-purple-600/10 rounded-lg border border-purple-500/20">
-                          <Lock className="w-6 h-6 text-purple-400 mx-auto mb-2" />
-                          <p className="text-purple-300 text-sm">Available on all plans</p>
+                        <div className="text-center p-4 bg-blue-600/10 rounded-lg border border-blue-500/20">
+                          <Lock className="w-6 h-6 text-blue-400 mx-auto mb-2" />
+                          <p className="text-blue-300 text-sm mb-3">Starter Feature</p>
+                          <button 
+                            onClick={() => handleUpgradeClick('starter')}
+                            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm transition-colors transform hover:scale-105"
+                          >
+                            Start at $29/mo
+                          </button>
                         </div>
                       }
                     >
                       <ul className="space-y-3">
                         <li className="flex items-start gap-3">
-                          <Check className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
-                          <span className="text-gray-300">5 major TV platform previews</span>
+                          <Check className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-300">Google TV preview (most common platform)</span>
                         </li>
                         <li className="flex items-start gap-3">
-                          <Check className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
+                          <Check className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-300">25 4K thumbnails per month</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <Check className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
                           <span className="text-gray-300">Real-time UI overlay detection</span>
                         </li>
                         <li className="flex items-start gap-3">
-                          <Check className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
+                          <Check className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
                           <span className="text-gray-300">Distance-based optimization (8-16 feet)</span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                          <Check className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
-                          <span className="text-gray-300">Specific platform recommendations</span>
                         </li>
                       </ul>
                     </FeatureGate>
@@ -217,19 +223,19 @@ export default function HomePage() {
                     <h3 className="text-2xl font-bold text-white mb-4">AI Smart Compression</h3>
                     <p className="text-gray-300 mb-6 leading-relaxed">
                       Your 4K PNG thumbnails are 100MB+ but platforms limit you to 50MB. 
-                      Our AI analyzes your image content and compresses to 49MB while maintaining perfect visual quality.
+                      Our AI analyzes your image content and compresses to 49MB while maintaining perfect visual quality for all your thumbnails.
                     </p>
                     <FeatureGate 
-                      requiredPlan="pro" 
+                      requiredPlan="starter" 
                       fallback={
                         <div className="text-center p-4 bg-pink-600/10 rounded-lg border border-pink-500/20">
-                          <Crown className="w-6 h-6 text-pink-400 mx-auto mb-2" />
-                          <p className="text-pink-300 text-sm mb-3">Pro Feature</p>
+                          <Lock className="w-6 h-6 text-pink-400 mx-auto mb-2" />
+                          <p className="text-pink-300 text-sm mb-3">Starter Feature</p>
                           <button 
-                            onClick={() => handleUpgradeClick('pro')}
+                            onClick={() => handleUpgradeClick('starter')}
                             className="px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-lg text-sm transition-colors transform hover:scale-105"
                           >
-                            Upgrade to Pro
+                            Start at $29/mo
                           </button>
                         </div>
                       }
@@ -249,7 +255,7 @@ export default function HomePage() {
                         </li>
                         <li className="flex items-start gap-3">
                           <Check className="w-5 h-5 text-pink-400 mt-0.5 flex-shrink-0" />
-                          <span className="text-gray-300">Batch processing for 50+ thumbnails</span>
+                          <span className="text-gray-300">Basic batch processing</span>
                         </li>
                       </ul>
                     </FeatureGate>
@@ -262,14 +268,15 @@ export default function HomePage() {
                     <h3 className="text-2xl font-bold text-white mb-4">Frame-to-Thumbnail Upscaler</h3>
                     <p className="text-gray-300 mb-6 leading-relaxed">
                       That perfect frame in your video is trapped at 1080p. Extract it, 
-                      upscale to 4K/8K with AI, enhance faces and sharpen text for stunning thumbnails.
+                      upscale to 4K/8K with AI, enhance faces and sharpen text for stunning thumbnails. 
+                      Plus unlimited exports and all TV platform previews.
                     </p>
                     <FeatureGate 
                       requiredPlan="pro" 
                       fallback={
                         <div className="text-center p-4 bg-blue-600/10 rounded-lg border border-blue-500/20">
                           <Crown className="w-6 h-6 text-blue-400 mx-auto mb-2" />
-                          <p className="text-blue-300 text-sm mb-3">Pro Feature</p>
+                          <p className="text-blue-300 text-sm mb-3">Pro Creator Feature</p>
                           <button 
                             onClick={() => handleUpgradeClick('pro')}
                             className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm transition-colors transform hover:scale-105"
@@ -294,7 +301,11 @@ export default function HomePage() {
                         </li>
                         <li className="flex items-start gap-3">
                           <Check className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
-                          <span className="text-gray-300">YouTube-safe color grading</span>
+                          <span className="text-gray-300">Unlimited 4K thumbnails</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <Check className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-300">All TV UI previews (5 platforms)</span>
                         </li>
                       </ul>
                     </FeatureGate>
@@ -306,152 +317,211 @@ export default function HomePage() {
               <div id="pricing" className="mb-20 scroll-mt-24">
                 <div className="text-center mb-12">
                   <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                    Simple, Creator-Friendly Pricing
+                    Pricing Plans for Every Creator Stage
                   </h2>
                   <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-                    No hidden fees. No per-video charges. Just one flat rate for unlimited TV optimization.
+                    Start with stunning 4K thumbnails, scale to dominate the living room, or manage multiple channels.
                   </p>
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                  {/* Free Trial */}
-                  <div className="bg-gray-800 rounded-2xl p-8 border border-gray-700">
+                  {/* Starter/Essential Tier */}
+                  <div className="bg-gray-800 rounded-2xl p-8 border border-gray-700 hover:border-gray-600 transition-all">
                     <div className="mb-6">
-                      <h3 className="text-2xl font-bold text-white mb-2">Free Trial</h3>
-                      <div className="text-4xl font-bold text-white mb-1">$0</div>
-                      <p className="text-gray-400">7 days</p>
+                      <h3 className="text-2xl font-bold text-white mb-2">Starter</h3>
+                      <div className="text-4xl font-bold text-white mb-1">$29</div>
+                      <p className="text-gray-400">per month</p>
+                      <div className="mt-2 px-3 py-1 bg-blue-600/20 border border-blue-500/30 rounded-full inline-block">
+                        <span className="text-blue-400 text-sm">Perfect for emerging creators</span>
+                      </div>
+                    </div>
+                    <div className="bg-blue-600/10 border border-blue-500/20 rounded-lg p-3 mb-6 text-center">
+                      <p className="text-blue-300 text-sm font-medium">Get started with stunning 4K thumbnails for TV</p>
                     </div>
                     <ul className="space-y-4 mb-8">
                       <li className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">5 TV previews per day</span>
+                        <Check className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-300">
+                          <span className="font-semibold text-white">25 4K thumbnails</span> per month
+                        </span>
                       </li>
                       <li className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">Basic compression (to 100MB)</span>
+                        <Check className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-300">
+                          <span className="font-semibold text-white">Google TV preview</span> (most common platform)
+                        </span>
                       </li>
                       <li className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">Watermarked upscaling</span>
+                        <Check className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-300">AI Smart Compression included</span>
                       </li>
                       <li className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
+                        <Check className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-300">Basic Design Canvas</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <Check className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-300">Text & image upload tools</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <Check className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
                         <span className="text-gray-300">Email support</span>
                       </li>
                     </ul>
-                    <button className="pricing-gray-btn w-full py-3 rounded-lg font-medium transition-colors">
-                      Start Free Trial
+                    <button 
+                      onClick={() => handlePlanSelection('starter')}
+                      className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all font-semibold"
+                    >
+                      Start with Starter
                     </button>
                   </div>
 
-                  {/* Creator Pro */}
-                  <div className="bg-gradient-to-br from-purple-900/20 to-purple-900/10 rounded-2xl p-8 border-2 border-purple-500 relative">
+                  {/* Pro Creator Tier */}
+                  <div className="bg-gradient-to-br from-purple-900/20 to-purple-900/10 rounded-2xl p-8 border-2 border-purple-500 relative transform scale-105">
                     <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-purple-600 rounded-full">
                       <span className="text-white text-sm font-semibold">MOST POPULAR</span>
                     </div>
                     <div className="mb-6">
-                      <h3 className="text-2xl font-bold text-white mb-2">Creator Pro</h3>
-                      <div className="text-4xl font-bold text-white mb-1">$29</div>
+                      <h3 className="text-2xl font-bold text-white mb-2">Pro Creator</h3>
+                      <div className="text-4xl font-bold text-white mb-1">$79</div>
                       <p className="text-gray-400">per month</p>
+                      <div className="mt-2 px-3 py-1 bg-purple-600/20 border border-purple-500/30 rounded-full inline-block">
+                        <span className="text-purple-400 text-sm">For serious growing YouTubers</span>
+                      </div>
+                    </div>
+                    <div className="bg-purple-600/10 border border-purple-500/20 rounded-lg p-3 mb-6 text-center">
+                      <p className="text-purple-300 text-sm font-medium">Dominate the living room with unlimited 4K thumbnails</p>
                     </div>
                     <ul className="space-y-4 mb-8">
                       <li className="flex items-start gap-3">
                         <Check className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">Unlimited TV previews</span>
+                        <span className="text-gray-300">
+                          <span className="font-semibold text-white">Unlimited 4K thumbnails</span>
+                        </span>
                       </li>
                       <li className="flex items-start gap-3">
                         <Check className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">AI smart compression</span>
+                        <span className="text-gray-300">
+                          <span className="font-semibold text-white">All TV UI Previews</span>: Google TV, Roku, Samsung, LG, Apple TV
+                        </span>
                       </li>
                       <li className="flex items-start gap-3">
                         <Check className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">4K/8K upscaling</span>
+                        <span className="text-gray-300">AI Smart Compression included</span>
                       </li>
                       <li className="flex items-start gap-3">
                         <Check className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">Batch processing</span>
+                        <span className="text-gray-300">
+                          <span className="font-semibold text-white">AI Frame Upscaler</span> (premium feature)
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <Check className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-300">Full Design Canvas features</span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <Check className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-300">
+                          <span className="font-semibold text-white">10 Generative Fill credits</span> per month
+                        </span>
                       </li>
                       <li className="flex items-start gap-3">
                         <Check className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
                         <span className="text-gray-300">Priority support</span>
-                      </li>
-                      <li className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">Export settings save</span>
                       </li>
                     </ul>
                     <button 
                       onClick={() => handlePlanSelection('pro')}
                       className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg transition-all font-semibold"
                     >
-                      Get Creator Pro
+                      Get Pro Creator
                     </button>
                   </div>
 
-                  {/* Enterprise */}
-                  <div className="bg-gray-800 rounded-2xl p-8 border border-gray-700">
+                  {/* Channel Manager/Agency Tier */}
+                  <div className="bg-gray-800 rounded-2xl p-8 border border-gray-700 hover:border-gray-600 transition-all">
                     <div className="mb-6">
-                      <h3 className="text-2xl font-bold text-white mb-2">Enterprise</h3>
-                      <div className="text-4xl font-bold text-white mb-1">$99</div>
+                      <h3 className="text-2xl font-bold text-white mb-2">Channel Manager</h3>
+                      <div className="text-4xl font-bold text-white mb-1">$149</div>
                       <p className="text-gray-400">per month</p>
+                      <div className="mt-2 px-3 py-1 bg-green-600/20 border border-green-500/30 rounded-full inline-block">
+                        <span className="text-green-400 text-sm">For agencies & multi-channel teams</span>
+                      </div>
+                    </div>
+                    <div className="bg-green-600/10 border border-green-500/20 rounded-lg p-3 mb-6 text-center">
+                      <p className="text-green-300 text-sm font-medium">Manage multiple channels with comprehensive TV optimization</p>
                     </div>
                     <ul className="space-y-4 mb-8">
                       <li className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">Everything in Pro</span>
+                        <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-300">
+                          <span className="font-semibold text-white">Everything in Pro</span>
+                        </span>
                       </li>
                       <li className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">Team collaboration</span>
+                        <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-300">
+                          <span className="font-semibold text-white">Multi-User Access</span>: 3-5 team members
+                        </span>
                       </li>
                       <li className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">Custom AI training</span>
+                        <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-300">
+                          <span className="font-semibold text-white">Multiple Channel Management</span>: 3-5 YouTube channels
+                        </span>
                       </li>
                       <li className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">API access</span>
+                        <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-300">
+                          <span className="font-semibold text-white">50 Generative Fill credits</span> per month
+                        </span>
                       </li>
                       <li className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">Dedicated support</span>
+                        <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-300">Dedicated Account Manager</span>
                       </li>
                       <li className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300">Custom integrations</span>
+                        <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-300">
+                          <span className="font-semibold text-white">Limited API Access</span> for programmatic workflows
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-300">Priority support with SLA</span>
                       </li>
                     </ul>
                     <button 
-                      onClick={() => handlePlanSelection('enterprise')}
-                      className="pricing-gray-btn w-full py-3 rounded-lg font-medium transition-colors"
+                      onClick={() => handlePlanSelection('manager')}
+                      className="w-full py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-all font-semibold"
                     >
-                      Contact Sales
+                      Get Channel Manager
                     </button>
                   </div>
                 </div>
 
-                {/* ROI Calculator */}
+                {/* Enhanced ROI Calculator */}
                 <div className="mt-16 bg-gradient-to-r from-green-900/20 to-green-900/10 rounded-2xl p-8 border border-green-500/20">
                   <div className="text-center mb-8">
-                    <h3 className="text-3xl font-bold text-white mb-4">What's Your ROI?</h3>
-                    <p className="text-gray-300">See how much extra views you could gain with TV optimization</p>
+                    <h3 className="text-3xl font-bold text-white mb-4">What's Your ROI with TV Optimization?</h3>
+                    <p className="text-gray-300">Compare the investment to your potential channel growth</p>
                   </div>
                   <div className="grid md:grid-cols-4 gap-6">
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-green-400 mb-1">$29</div>
-                      <div className="text-sm text-gray-400">Monthly cost</div>
+                      <div className="text-2xl font-bold text-green-400 mb-1">$29-149</div>
+                      <div className="text-sm text-gray-400">Monthly investment</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-white mb-1">+20%</div>
-                      <div className="text-sm text-gray-400">Avg CTR increase</div>
+                      <div className="text-2xl font-bold text-white mb-1">+15-25%</div>
+                      <div className="text-sm text-gray-400">Average CTR increase</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-white mb-1">$100-150</div>
-                      <div className="text-sm text-gray-400">Value per video</div>
+                      <div className="text-2xl font-bold text-white mb-1">$200-500</div>
+                      <div className="text-sm text-gray-400">Value per video (average)</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-green-400 mb-1">10x+</div>
-                      <div className="text-sm text-gray-400">ROI (on average)</div>
+                      <div className="text-2xl font-bold text-green-400 mb-1">10-20x</div>
+                      <div className="text-sm text-gray-400">Typical ROI range</div>
                     </div>
                   </div>
                 </div>
