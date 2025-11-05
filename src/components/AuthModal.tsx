@@ -1,7 +1,7 @@
 'use client'
 
 import { useAuth } from '@/contexts/AuthContext'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { X, Mail, Lock, User } from 'lucide-react'
 
 export default function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
@@ -10,6 +10,34 @@ export default function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClos
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [isLogin, setIsLogin] = useState(true)
+
+  // Prevent body scroll when modal is open - but use a better approach
+  useEffect(() => {
+    if (isOpen) {
+      // Store original body styles
+      const originalStyle = window.getComputedStyle(document.body)
+      const originalOverflow = originalStyle.overflow
+      
+      // Apply scroll lock
+      document.body.style.overflow = 'hidden'
+      document.body.style.position = 'fixed'
+      document.body.style.top = `-${window.scrollY}px`
+      document.body.style.width = '100%'
+      
+      return () => {
+        // Restore original styles and scroll position
+        const scrollY = document.body.style.top
+        document.body.style.overflow = originalOverflow
+        document.body.style.position = ''
+        document.body.style.top = ''
+        document.body.style.width = ''
+        
+        if (scrollY) {
+          window.scrollTo(0, parseInt(scrollY || '0', 10) * -1)
+        }
+      }
+    }
+  }, [isOpen])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -34,12 +62,30 @@ export default function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClos
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-800 rounded-2xl p-6 md:p-8 max-w-md w-full relative max-h-[90vh] overflow-y-auto">
+    // Use a more robust centering approach with viewport units
+    <div 
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999] p-4"
+      style={{ 
+        minHeight: '100vh',
+        // Override any conflicting CSS
+        margin: 0,
+        padding: 0,
+        boxSizing: 'border-box'
+      }}
+    >
+      <div 
+        className="bg-gray-800 rounded-2xl p-6 md:p-8 max-w-md w-full relative"
+        style={{
+          // Ensure modal is perfectly centered regardless of scroll
+          margin: 'auto',
+          maxHeight: '90vh',
+          overflowY: 'auto'
+        }}
+      >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+          className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors z-10"
         >
           <X className="w-6 h-6" />
         </button>
