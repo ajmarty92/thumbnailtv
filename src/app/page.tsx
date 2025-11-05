@@ -4,7 +4,7 @@ import { useAuth } from '@/contexts/AuthContext'
 import Navigation from '@/components/Navigation'
 import TVOptimizationSuite from '@/components/TVOptimizationSuite'
 import { useState, useEffect } from 'react'
-import { Tv, Zap, TrendingUp, Check, Star, ArrowRight, Play, Users, Shield, Sparkles, ChevronUp, Mail, Lock, Crown, Building } from 'lucide-react'
+import { Tv, Zap, TrendingUp, Check, Star, ArrowRight, Play, Users, Shield, Sparkles, ChevronUp, Mail, Lock, Crown, Building, ChevronDown } from 'lucide-react'
 
 export default function HomePage() {
   const { user, isLoading } = useAuth()
@@ -13,6 +13,7 @@ export default function HomePage() {
   const [email, setEmail] = useState('')
   const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [userPlan, setUserPlan] = useState<'free' | 'pro' | 'enterprise'>('free')
+  const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null) // NEW STATE for enhanced FAQ
 
   // Scroll to top button visibility
   useEffect(() => {
@@ -64,10 +65,15 @@ export default function HomePage() {
     document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })
   }
 
+  const handlePlanSelection = (plan: 'pro' | 'enterprise') => {
+    setUserPlan(plan)
+    // Optional: You could add a success notification here
+  }
+
   return (
     <div className="min-h-screen bg-gray-900">
       <Navigation />
-      
+
       <main className="pt-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Show TV Demo when user clicks the demo button */}
@@ -374,7 +380,10 @@ export default function HomePage() {
                         <span className="text-gray-300">Export settings save</span>
                       </li>
                     </ul>
-                    <button className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg transition-all font-semibold">
+                    <button 
+                      onClick={() => handlePlanSelection('pro')}
+                      className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg transition-all font-semibold"
+                    >
                       Get Creator Pro
                     </button>
                   </div>
@@ -412,7 +421,10 @@ export default function HomePage() {
                         <span className="text-gray-300">Custom integrations</span>
                       </li>
                     </ul>
-                    <button className="pricing-gray-btn w-full py-3 rounded-lg font-medium transition-colors">
+                    <button 
+                      onClick={() => handlePlanSelection('enterprise')}
+                      className="pricing-gray-btn w-full py-3 rounded-lg font-medium transition-colors"
+                    >
                       Contact Sales
                     </button>
                   </div>
@@ -517,7 +529,7 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* NEW: FAQ Section */}
+              {/* Enhanced FAQ Section with Custom Accordion */}
               <div id="faq" className="mb-20 scroll-mt-24">
                 <div className="text-center mb-12">
                   <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -555,16 +567,80 @@ export default function HomePage() {
                       a: "Testing on your own TV only shows you one platform and requires you to manually upload to YouTube each time. ThumbnailTV shows you all 5 major platforms instantly, with AI-powered analysis that identifies specific issues and provides actionable recommendations."
                     }
                   ].map((faq, index) => (
-                    <details key={index} className="bg-gray-800 rounded-xl p-6 border border-gray-700 group">
-                      <summary className="text-lg font-semibold text-white cursor-pointer list-none flex items-center justify-between">
-                        {faq.q}
-                        <ChevronUp className="w-5 h-5 text-gray-400 transform group-open:rotate-180 transition-transform" />
-                      </summary>
-                      <p className="text-gray-300 mt-4 leading-relaxed">
-                        {faq.a}
-                      </p>
-                    </details>
+                    <div 
+                      key={index} 
+                      className="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden"
+                    >
+                      <button
+                        onClick={() => setExpandedFAQ(expandedFAQ === index ? null : index)}
+                        className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-700/50 transition-colors"
+                      >
+                        <span className="text-lg font-semibold text-white">{faq.q}</span>
+                        <ChevronDown 
+                          className={`w-5 h-5 text-gray-400 transform transition-transform duration-200 ${
+                            expandedFAQ === index ? 'rotate-180' : ''
+                          }`} 
+                        />
+                      </button>
+                      <div
+                        className={`px-6 overflow-hidden transition-all duration-300 ${
+                          expandedFAQ === index ? 'py-4' : 'max-h-0'
+                        }`}
+                      >
+                        <p className="text-gray-300 leading-relaxed">{faq.a}</p>
+                      </div>
+                    </div>
                   ))}
+                </div>
+              </div>
+
+              {/* NEW: Standalone Newsletter Section */}
+              <div className="mb-20">
+                <div className="bg-gradient-to-r from-purple-900/50 to-pink-900/50 rounded-3xl p-12 border border-purple-500/20">
+                  <div className="text-center mb-8">
+                    <h3 className="text-3xl font-bold text-white mb-4">
+                      🎯 Get TV Optimization Tips Weekly
+                    </h3>
+                    <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+                      Join 10,000+ creators getting exclusive tips, case studies, and early access to new features.
+                    </p>
+                  </div>
+                  <form onSubmit={handleNewsletterSubmit} className="max-w-md mx-auto flex gap-3">
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="your@email.com"
+                      className="flex-1 px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      required
+                      disabled={newsletterStatus === 'loading' || newsletterStatus === 'success'}
+                    />
+                    <button
+                      type="submit"
+                      disabled={newsletterStatus === 'loading' || newsletterStatus === 'success'}
+                      className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                    >
+                      {newsletterStatus === 'loading' ? (
+                        <>
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          Subscribing...
+                        </>
+                      ) : newsletterStatus === 'success' ? (
+                        <>
+                          <Check className="w-4 h-4" />
+                          Subscribed!
+                        </>
+                      ) : (
+                        <>
+                          <Mail className="w-4 h-4" />
+                          Subscribe
+                        </>
+                      )}
+                    </button>
+                  </form>
+                  <p className="text-center text-gray-400 text-sm mt-4">
+                    No spam. Unsubscribe anytime.
+                  </p>
                 </div>
               </div>
 
@@ -774,11 +850,11 @@ export default function HomePage() {
         </div>
       </footer>
 
-      {/* NEW: Scroll to Top Button */}
+      {/* Enhanced Scroll to Top Button */}
       {showScrollTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 p-4 bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow-2xl transition-all transform hover:scale-110 z-40"
+          className="fixed bottom-8 right-8 p-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full shadow-2xl transition-all transform hover:scale-110 z-40"
           aria-label="Scroll to top"
         >
           <ChevronUp className="w-6 h-6" />
