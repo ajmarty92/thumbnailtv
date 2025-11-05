@@ -15,17 +15,17 @@ export default function TVOptimizationSuite() {
   const [tvSize, setTvSize] = useState('65')
   const [viewDistance, setViewDistance] = useState('10')
 
-  // TV platforms with accurate UI overlays
+  // TV platforms with accurate UI overlays - FIXED TYPES
   const tvPlatforms = [
     {
       id: 'google-tv',
       name: 'Google TV',
       brandColor: 'from-blue-600 to-blue-700',
       uiOverlay: {
-        top: '15%', // Navigation bar
-        bottom: '25%', // Content info bar
-        left: '5%',
-        right: '5%'
+        top: 15, // number instead of string
+        bottom: 25, // number instead of string
+        left: 5,
+        right: 5
       }
     },
     {
@@ -33,10 +33,10 @@ export default function TVOptimizationSuite() {
       name: 'Roku',
       brandColor: 'from-purple-600 to-purple-700',
       uiOverlay: {
-        top: '12%', // Roku navigation
-        bottom: '20%', // Content bar
-        left: '3%',
-        right: '3%'
+        top: 12, // number instead of string
+        bottom: 20, // number instead of string
+        left: 3,
+        right: 3
       }
     },
     {
@@ -44,10 +44,10 @@ export default function TVOptimizationSuite() {
       name: 'Samsung TV',
       brandColor: 'from-indigo-600 to-indigo-700',
       uiOverlay: {
-        top: '10%', // Samsung menu
-        bottom: '18%', // Smart Hub bar
-        left: '4%',
-        right: '4%'
+        top: 10, // number instead of string
+        bottom: 18, // number instead of string
+        left: 4,
+        right: 4
       }
     },
     {
@@ -55,10 +55,10 @@ export default function TVOptimizationSuite() {
       name: 'Apple TV',
       brandColor: 'from-gray-700 to-gray-800',
       uiOverlay: {
-        top: '8%', // Apple TV menu
-        bottom: '15%', // Content bar
-        left: '6%',
-        right: '6%'
+        top: 8, // number instead of string
+        bottom: 15, // number instead of string
+        left: 6,
+        right: 6
       }
     },
     {
@@ -66,10 +66,10 @@ export default function TVOptimizationSuite() {
       name: 'Fire TV',
       brandColor: 'from-orange-600 to-orange-700',
       uiOverlay: {
-        top: '18%', // Fire TV navigation
-        bottom: '22%', // Content info
-        left: '7%',
-        right: '7%'
+        top: 18, // number instead of string
+        bottom: 22, // number instead of string
+        left: 7,
+        right: 7
       }
     }
   ]
@@ -157,16 +157,30 @@ export default function TVOptimizationSuite() {
     setProcessingStage('')
   }
 
+  // FIXED: Proper type coercion and numeric comparison
   const getPlatformIssues = (platform: typeof tvPlatforms[0]) => {
     const issues = []
     
-    if (platform.uiOverlay.top > 15) {
+    // Coerce to number and check if finite before comparison
+    const topRaw = platform.uiOverlay?.top
+    const top = typeof topRaw === 'string' ? parseFloat(topRaw) : topRaw
+    
+    const bottomRaw = platform.uiOverlay?.bottom
+    const bottom = typeof bottomRaw === 'string' ? parseFloat(bottomRaw) : bottomRaw
+    
+    const leftRaw = platform.uiOverlay?.left
+    const left = typeof leftRaw === 'string' ? parseFloat(leftRaw) : leftRaw
+    
+    const rightRaw = platform.uiOverlay?.right
+    const right = typeof rightRaw === 'string' ? parseFloat(rightRaw) : rightRaw
+    
+    if (Number.isFinite(top) && top > 15) {
       issues.push('Top navigation covers important content')
     }
-    if (platform.uiOverlay.bottom > 20) {
+    if (Number.isFinite(bottom) && bottom > 20) {
       issues.push('Bottom content bar may hide text')
     }
-    if (platform.uiOverlay.left > 5 || platform.uiOverlay.right > 5) {
+    if (Number.isFinite(left) && (left > 5 || Number.isFinite(right) && right > 5)) {
       issues.push('Side UI elements reduce visible area')
     }
     
