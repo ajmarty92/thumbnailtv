@@ -3,12 +3,40 @@
 import { useAuth } from '@/contexts/AuthContext'
 import Navigation from '@/components/Navigation'
 import TVOptimizationSuite from '@/components/TVOptimizationSuite'
-import { useState } from 'react'
-import { Tv, Zap, TrendingUp, Check, Star, ArrowRight, Play, Users, Shield, Sparkles } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Tv, Zap, TrendingUp, Check, Star, ArrowRight, Play, Users, Shield, Sparkles, ChevronUp, Mail } from 'lucide-react'
 
 export default function HomePage() {
   const { user, isLoading } = useAuth()
   const [showDemo, setShowDemo] = useState(false)
+  const [showScrollTop, setShowScrollTop] = useState(false)
+  const [email, setEmail] = useState('')
+  const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+
+  // Scroll to top button visibility
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 400)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setNewsletterStatus('loading')
+    
+    // Simulate API call
+    setTimeout(() => {
+      setNewsletterStatus('success')
+      setEmail('')
+      setTimeout(() => setNewsletterStatus('idle'), 3000)
+    }, 1000)
+  }
 
   return (
     <div className="min-h-screen bg-gray-900">
@@ -100,7 +128,7 @@ export default function HomePage() {
               </div>
 
               {/* Features Section */}
-              <div id="features" className="mb-20">
+              <div id="features" className="mb-20 scroll-mt-24">
                 <div className="text-center mb-12">
                   <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
                     The Complete TV Optimization Toolkit
@@ -201,7 +229,7 @@ export default function HomePage() {
               </div>
 
               {/* Pricing Section */}
-              <div id="pricing" className="mb-20">
+              <div id="pricing" className="mb-20 scroll-mt-24">
                 <div className="text-center mb-12">
                   <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
                     Simple, Creator-Friendly Pricing
@@ -421,6 +449,57 @@ export default function HomePage() {
                 </div>
               </div>
 
+              {/* NEW: FAQ Section */}
+              <div id="faq" className="mb-20 scroll-mt-24">
+                <div className="text-center mb-12">
+                  <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                    Frequently Asked Questions
+                  </h2>
+                  <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Everything you need to know about ThumbnailTV
+                  </p>
+                </div>
+
+                <div className="max-w-3xl mx-auto space-y-4">
+                  {[
+                    {
+                      q: "How does the TV preview actually work?",
+                      a: "We've reverse-engineered the exact UI overlays from Google TV, Roku, Samsung TV, Apple TV, and Fire TV. Our preview shows your thumbnail with pixel-perfect accuracy of how it appears on each platform, including all UI elements that might cover your content."
+                    },
+                    {
+                      q: "Will this work with my existing thumbnail design workflow?",
+                      a: "Absolutely! ThumbnailTV integrates seamlessly with any design tool. Simply upload your finished thumbnail (from Photoshop, Canva, Figma, etc.) and we'll optimize it for TV viewing. You can also export optimized versions back to your design tool."
+                    },
+                    {
+                      q: "What file formats do you support?",
+                      a: "We support all major image formats: PNG, JPG, JPEG, WebP, and even PSD files. For video frame extraction, we support MP4, MOV, AVI, and most common video formats."
+                    },
+                    {
+                      q: "Can I cancel my subscription anytime?",
+                      a: "Yes! There are no long-term contracts. Cancel anytime from your account settings, and you'll retain access until the end of your billing period. No questions asked."
+                    },
+                    {
+                      q: "Do you offer refunds?",
+                      a: "We offer a 7-day free trial so you can test everything risk-free. If you're not satisfied within the first 30 days of your paid subscription, we'll refund you in full."
+                    },
+                    {
+                      q: "How is this different from just testing on my own TV?",
+                      a: "Testing on your own TV only shows you one platform and requires you to manually upload to YouTube each time. ThumbnailTV shows you all 5 major platforms instantly, with AI-powered analysis that identifies specific issues and provides actionable recommendations."
+                    }
+                  ].map((faq, index) => (
+                    <details key={index} className="bg-gray-800 rounded-xl p-6 border border-gray-700 group">
+                      <summary className="text-lg font-semibold text-white cursor-pointer list-none flex items-center justify-between">
+                        {faq.q}
+                        <ChevronUp className="w-5 h-5 text-gray-400 transform group-open:rotate-180 transition-transform" />
+                      </summary>
+                      <p className="text-gray-300 mt-4 leading-relaxed">
+                        {faq.a}
+                      </p>
+                    </details>
+                  ))}
+                </div>
+              </div>
+
               {/* Final CTA */}
               <div className="text-center mb-20">
                 <div className="bg-gradient-to-r from-purple-900/50 to-pink-900/50 rounded-3xl p-12 border border-purple-500/20">
@@ -454,17 +533,78 @@ export default function HomePage() {
         </div>
       </main>
 
-      {/* Enhanced Footer */}
+      {/* Enhanced Footer with Newsletter */}
       <footer className="bg-gray-800/50 border-t border-gray-700 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Newsletter Section */}
+          <div className="mb-12 text-center">
+            <h3 className="text-2xl font-bold text-white mb-4">
+              Get TV Optimization Tips Weekly
+            </h3>
+            <p className="text-gray-400 mb-6 max-w-2xl mx-auto">
+              Join 10,000+ creators getting exclusive tips, case studies, and early access to new features.
+            </p>
+            <form onSubmit={handleNewsletterSubmit} className="max-w-md mx-auto flex gap-3">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                className="flex-1 px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                required
+                disabled={newsletterStatus === 'loading' || newsletterStatus === 'success'}
+              />
+              <button
+                type="submit"
+                disabled={newsletterStatus === 'loading' || newsletterStatus === 'success'}
+                className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              >
+                {newsletterStatus === 'loading' ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Subscribing...
+                  </>
+                ) : newsletterStatus === 'success' ? (
+                  <>
+                    <Check className="w-4 h-4" />
+                    Subscribed!
+                  </>
+                ) : (
+                  <>
+                    <Mail className="w-4 h-4" />
+                    Subscribe
+                  </>
+                )}
+              </button>
+            </form>
+          </div>
+
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-4">
                 ThumbnailTV
               </h3>
-              <p className="text-gray-400 text-sm">
+              <p className="text-gray-400 text-sm mb-4">
                 The AI-powered TV optimization suite for YouTube creators.
               </p>
+              {/* Social Media Links */}
+              <div className="flex gap-3">
+                <a href="#" className="w-10 h-10 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center transition-colors">
+                  <svg className="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  </svg>
+                </a>
+                <a href="#" className="w-10 h-10 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center transition-colors">
+                  <svg className="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                  </svg>
+                </a>
+                <a href="#" className="w-10 h-10 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center transition-colors">
+                  <svg className="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                  </svg>
+                </a>
+              </div>
             </div>
             <div>
               <h4 className="text-white font-semibold mb-4">Features</h4>
@@ -499,6 +639,17 @@ export default function HomePage() {
           </div>
         </div>
       </footer>
+
+      {/* NEW: Scroll to Top Button */}
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 p-4 bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow-2xl transition-all transform hover:scale-110 z-40"
+          aria-label="Scroll to top"
+        >
+          <ChevronUp className="w-6 h-6" />
+        </button>
+      )}
     </div>
   )
 }
