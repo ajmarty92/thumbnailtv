@@ -1,12 +1,12 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
-import { Toaster } from '@/components/ui/toaster'
+import { AuthProvider } from '@/contexts/AuthContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'LivingRoom Canvas Editor',
-  description: 'AI-powered canvas editor with upscaling, generative fill, and compression features',
+  title: 'ThumbnailTV - AI-Powered TV Optimization Suite',
+  description: 'Stop losing views on TV screens. Optimize your thumbnails for Smart TVs with AI-powered compression, upscaling, and TV-safe zone analysis.',
 }
 
 export default function RootLayout({
@@ -17,10 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="min-h-screen bg-background">
+        <AuthProvider>
           {children}
-        </div>
-        <Toaster />
+        </AuthProvider>
       </body>
     </html>
   )

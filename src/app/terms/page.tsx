@@ -1,278 +1,236 @@
 'use client'
-
-import { useState } from 'react'
-import Link from 'next/link'
-import { useAuth } from '@/contexts/AuthContext'
+import React from 'react'
 import Navigation from '@/components/Navigation'
-import { FileText, Scale, AlertTriangle, ChevronDown, ChevronUp, Mail, Check, Tv } from 'lucide-react'
 
 export default function TermsPage() {
-  const { user, isLoading } = useAuth()
-  const [email, setEmail] = useState('')
-  const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-  const [expandedSections, setExpandedSections] = useState<number[]>([])
-
-  const handleNewsletterSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setNewsletterStatus('loading')
-    
-    setTimeout(() => {
-      setNewsletterStatus('success')
-      setEmail('')
-      setTimeout(() => setNewsletterStatus('idle'), 3000)
-    }, 1000)
-  }
-
-  const toggleSection = (index: number) => {
-    setExpandedSections(prev => 
-      prev.includes(index) 
-        ? prev.filter(i => i !== index)
-        : [...prev, index]
-    )
-  }
-
-  const termsSections = [
-    {
-      title: "Acceptance of Terms",
-      icon: FileText,
-      content: "By accessing and using ThumbnailTV, you accept and agree to be bound by the terms and provision of this agreement."
-    },
-    {
-      title: "Use License",
-      icon: Scale,
-      content: "Permission is granted to temporarily use ThumbnailTV for personal, non-commercial transitory viewing only."
-    },
-    {
-      title: "Disclaimer",
-      icon: AlertTriangle,
-      content: "The information on this website is provided on an as-is basis. To the fullest extent permitted by law, this Company disclaims all warranties."
-    },
-    {
-      title: "Limitations",
-      icon: Scale,
-      content: "In no event shall this Company or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit)."
-    }
-  ]
-
   return (
-    <div className="min-h-screen bg-gray-900">
+    <div className="min-h-screen bg-gray-900 text-white">
       <Navigation />
-
+      
       <main className="pt-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
-          {/* Hero Section */}
-          <div className="text-center mb-20">
-            <div className="flex justify-center mb-6">
-              <div className="px-4 py-2 bg-orange-600/10 border border-orange-500/20 rounded-full">
-                <span className="text-orange-400 text-sm font-semibold">
-                  <FileText className="w-4 h-4 inline mr-2" />
-                  Terms of Service
-                </span>
-              </div>
-            </div>
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-              Terms of
-              <span className="bg-gradient-to-r from-purple-400 via-pink-500 to-purple-600 bg-clip-text text-transparent">
-                {" "}Service
-              </span>
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              Terms of Service
             </h1>
             <p className="text-xl text-gray-300">
               Last updated: November 5, 2024
             </p>
           </div>
 
-          {/* Agreement Notice */}
-          <div className="bg-gradient-to-r from-orange-900/20 to-red-900/20 rounded-2xl p-8 border border-orange-500/20 mb-12">
-            <h2 className="text-2xl font-bold text-white mb-4">Important Notice</h2>
-            <p className="text-gray-300 leading-relaxed mb-4">
-              By accessing and using ThumbnailTV, you accept and agree to be bound by the terms and provision of this agreement. 
-              These Terms of Service govern your use of our website, services, and applications.
-            </p>
-            <p className="text-gray-300 leading-relaxed">
-              If you do not agree to abide by the above, please do not use this service.
-            </p>
-          </div>
-
-          {/* Terms Sections */}
-          <div className="space-y-6 mb-12">
-            {termsSections.map((section, index) => (
-              <div key={index} className="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden">
-                <button
-                  onClick={() => toggleSection(index)}
-                  className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-700 transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-orange-600 rounded-lg flex items-center justify-center">
-                      <section.icon className="w-4 h-4 text-white" />
-                    </div>
-                    <h3 className="text-white font-semibold">{section.title}</h3>
-                  </div>
-                  {expandedSections.includes(index) ? (
-                    <ChevronUp className="w-5 h-5 text-gray-400" />
-                  ) : (
-                    <ChevronDown className="w-5 h-5 text-gray-400" />
-                  )}
-                </button>
-                {expandedSections.includes(index) && (
-                  <div className="px-6 pb-4 border-t border-gray-700">
-                    <p className="text-gray-300 pt-4">{section.content}</p>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-
-          {/* Newsletter Section */}
-          <div className="bg-gradient-to-r from-purple-900/20 to-pink-900/20 rounded-2xl p-8 mb-12 border border-purple-500/20">
-            <div className="text-center">
-              <h3 className="text-2xl font-bold text-white mb-4">
-                Stay Updated on Terms
-              </h3>
-              <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
-                Get notified about important updates to our terms and service agreements.
+          <div className="space-y-8">
+            <div className="bg-gray-800 rounded-xl p-8 border border-gray-700">
+              <h2 className="text-2xl font-bold text-white mb-4">1. Acceptance of Terms</h2>
+              <p className="text-gray-300 leading-relaxed">
+                By accessing and using ThumbnailTV ("the Service"), you accept and agree to be bound by the terms 
+                and provision of this agreement. If you do not agree to abide by the above, please do not use this service.
               </p>
-              <form onSubmit={handleNewsletterSubmit} className="max-w-md mx-auto flex gap-3">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="your@email.com"
-                  className="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  required
-                  disabled={newsletterStatus === 'loading' || newsletterStatus === 'success'}
-                />
-                <button
-                  type="submit"
-                  disabled={newsletterStatus === 'loading' || newsletterStatus === 'success'}
-                  className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                >
-                  {newsletterStatus === 'loading' ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      Subscribing...
-                    </>
-                  ) : newsletterStatus === 'success' ? (
-                    <>
-                      <Check className="w-4 h-4" />
-                      Subscribed!
-                    </>
-                  ) : (
-                    <>
-                      <Mail className="w-4 h-4" />
-                      Subscribe
-                    </>
-                  )}
-                </button>
-              </form>
             </div>
-          </div>
 
-          {/* Contact Information */}
-          <div className="bg-gradient-to-r from-orange-900/20 to-red-900/20 rounded-2xl p-8 border border-orange-500/20 mb-12">
-            <h3 className="text-xl font-bold text-white mb-4 text-center">Questions About Our Terms?</h3>
-            <p className="text-gray-300 mb-6 text-center">
-              If you have any questions about these Terms of Service, please contact us:
-            </p>
-            <div className="text-center">
-              <p className="text-gray-300 mb-2">
-                <strong>Email:</strong> legal@thumbnailtv.com
+            <div className="bg-gray-800 rounded-xl p-8 border border-gray-700">
+              <h2 className="text-2xl font-bold text-white mb-4">2. Description of Service</h2>
+              <div className="space-y-4 text-gray-300">
+                <p>
+                  ThumbnailTV is an AI-powered TV optimization suite that helps YouTube creators optimize their thumbnails 
+                  for Smart TV viewing. Our service includes:
+                </p>
+                <ul className="space-y-2 ml-4">
+                  <li>• TV platform previews and analysis</li>
+                  <li>• AI-powered image compression and upscaling</li>
+                  <li>• Design tools and templates</li>
+                  <li>• Analytics and performance tracking</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="bg-gray-800 rounded-xl p-8 border border-gray-700">
+              <h2 className="text-2xl font-bold text-white mb-4">3. User Accounts</h2>
+              <div className="space-y-4 text-gray-300">
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Registration</h3>
+                  <p>You must provide accurate and complete information to create an account. You are responsible for safeguarding your password.</p>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Account Security</h3>
+                  <p>You are responsible for all activities that occur under your account. Notify us immediately of any unauthorized use.</p>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Account Termination</h3>
+                  <p>We reserve the right to suspend or terminate accounts that violate these terms.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gray-800 rounded-xl p-8 border border-gray-700">
+              <h2 className="text-2xl font-bold text-white mb-4">4. Subscription Plans and Payment</h2>
+              <div className="space-y-4 text-gray-300">
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Billing</h3>
+                  <p>Subscription fees are billed in advance on a monthly basis. All fees are non-refundable except as required by law.</p>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Plan Changes</h3>
+                  <p>You can upgrade or downgrade your plan at any time. Changes take effect at the start of your next billing cycle.</p>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Cancellation</h3>
+                  <p>You can cancel your subscription at any time. You'll retain access until the end of your current billing period.</p>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Free Trial</h3>
+                  <p>New users get a 7-day free trial. No credit card required for trial sign-up.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gray-800 rounded-xl p-8 border border-gray-700">
+              <h2 className="text-2xl font-bold text-white mb-4">5. Acceptable Use</h2>
+              <div className="space-y-4 text-gray-300">
+                <p>You agree to use our service only for lawful purposes and in accordance with these terms. You may not:</p>
+                <ul className="space-y-2 ml-4">
+                  <li>• Use the service to create inappropriate or harmful content</li>
+                  <li>• Attempt to reverse engineer our AI algorithms</li>
+                  <li>• Use automated tools to abuse our service limits</li>
+                  <li>• Share your account credentials with others</li>
+                  <li>• Violate YouTube's terms of service</li>
+                  <li>• Infringe on intellectual property rights</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="bg-gray-800 rounded-xl p-8 border border-gray-700">
+              <h2 className="text-2xl font-bold text-white mb-4">6. Intellectual Property</h2>
+              <div className="space-y-4 text-gray-300">
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Your Content</h3>
+                  <p>You retain ownership of all thumbnails and content you create using our service. You grant us a license to process and store your content only to provide the service.</p>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Our Content</h3>
+                  <p>All ThumbnailTV trademarks, logos, and service marks remain our property. You may not use them without our written permission.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gray-800 rounded-xl p-8 border border-gray-700">
+              <h2 className="text-2xl font-bold text-white mb-4">7. Service Availability</h2>
+              <div className="space-y-4 text-gray-300">
+                <p>We strive to maintain 99.9% uptime but cannot guarantee uninterrupted service. We may schedule maintenance windows and will notify you in advance when possible.</p>
+                <p>We are not liable for any losses resulting from service interruptions.</p>
+              </div>
+            </div>
+
+            <div className="bg-gray-800 rounded-xl p-8 border border-gray-700">
+              <h2 className="text-2xl font-bold text-white mb-4">8. Limitation of Liability</h2>
+              <p className="text-gray-300 leading-relaxed">
+                To the maximum extent permitted by law, ThumbnailTV shall not be liable for any indirect, incidental, 
+                special, consequential, or punitive damages, including without limitation, loss of profits, 
+                data, use, goodwill, or other intangible losses, resulting from your use of the service.
               </p>
+            </div>
+
+            <div className="bg-gray-800 rounded-xl p-8 border border-gray-700">
+              <h2 className="text-2xl font-bold text-white mb-4">9. Indemnification</h2>
+              <p className="text-gray-300 leading-relaxed">
+                You agree to defend, indemnify, and hold harmless ThumbnailTV and its affiliates from and against 
+                any and all claims, damages, obligations, losses, liabilities, costs or debt, and expenses 
+                (including but not limited to attorney's fees).
+              </p>
+            </div>
+
+            <div className="bg-gray-800 rounded-xl p-8 border border-gray-700">
+              <h2 className="text-2xl font-bold text-white mb-4">10. Governing Law</h2>
               <p className="text-gray-300">
-                <strong>Website:</strong> <a href="https://thumbnailtv.com" className="text-orange-400 hover:text-orange-300">thumbnailtv.com</a>
+                These terms shall be interpreted and governed by the laws of the State of California, 
+                United States, without regard to its conflict of law provisions.
               </p>
             </div>
-          </div>
 
-          {/* Enhanced Footer */}
-          <footer className="bg-gray-800/50 border-t border-gray-700 py-12">
-            <div className="max-w-7xl mx-auto">
-              <div className="grid md:grid-cols-4 gap-8">
-                <div>
-                  <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-4">
-                    ThumbnailTV
-                  </h3>
-                  <p className="text-gray-400 text-sm mb-4">
-                    The AI-powered TV optimization suite for YouTube creators.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="text-white font-semibold mb-4">Features</h4>
-                  <ul className="space-y-2 text-gray-400 text-sm">
-                    <li>
-                      <Link href="/#features" className="hover:text-gray-300 transition-colors">
-                        TV Preview
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/#pricing" className="hover:text-gray-300 transition-colors">
-                        AI Compression
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/#features" className="hover:text-gray-300 transition-colors">
-                        Frame Upscaling
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="text-white font-semibold mb-4">Resources</h4>
-                  <ul className="space-y-2 text-gray-400 text-sm">
-                    <li>
-                      <Link href="/blog" className="hover:text-gray-300 transition-colors">
-                        Creator Blog
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/guide" className="hover:text-gray-300 transition-colors">
-                        TV Optimization Guide
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/success-stories" className="hover:text-gray-300 transition-colors">
-                        Success Stories
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/docs" className="hover:text-gray-300 transition-colors">
-                        API Documentation
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="text-white font-semibold mb-4">Company</h4>
-                  <ul className="space-y-2 text-gray-400 text-sm">
-                    <li>
-                      <Link href="/about" className="hover:text-gray-300 transition-colors">
-                        About Us
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/contact" className="hover:text-gray-300 transition-colors">
-                        Contact
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/privacy" className="hover:text-gray-300 transition-colors">
-                        Privacy Policy
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/terms" className="text-purple-400 font-medium">
-                        Terms of Service
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
-                © 2024 ThumbnailTV. All rights reserved. Made with ❤️ for YouTube creators.
+            <div className="bg-gray-800 rounded-xl p-8 border border-gray-700">
+              <h2 className="text-2xl font-bold text-white mb-4">11. Changes to Terms</h2>
+              <p className="text-gray-300">
+                We reserve the right to modify these terms at any time. Changes will be effective immediately upon posting. 
+                Your continued use of the service constitutes acceptance of any changes.
+              </p>
+            </div>
+
+            <div className="bg-gray-800 rounded-xl p-8 border border-gray-700">
+              <h2 className="text-2xl font-bold text-white mb-4">12. Contact Information</h2>
+              <div className="space-y-2 text-gray-300">
+                <p>If you have any questions about these Terms of Service, please contact us:</p>
+                <p>Email: legal@thumbnailtv.io</p>
+                <p>Address: 123 Creator Street, San Francisco, CA 94102</p>
               </div>
             </div>
-          </footer>
+          </div>
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="bg-gray-800 border-t border-gray-700">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+              <h4 className="text-white font-semibold mb-4">Product</h4>
+              <ul className="space-y-2">
+                <li>
+                  <a href="/guide" className="text-gray-400 hover:text-white transition-colors">
+                    Guide
+                  </a>
+                </li>
+                <li>
+                  <a href="/success-stories" className="text-gray-400 hover:text-white transition-colors">
+                    Success Stories
+                  </a>
+                </li>
+                <li>
+                  <a href="/docs" className="text-gray-400 hover:text-white transition-colors">
+                    Documentation
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-white font-semibold mb-4">Company</h4>
+              <ul className="space-y-2">
+                <li>
+                  <a href="/about" className="text-gray-400 hover:text-white transition-colors">
+                    About Us
+                  </a>
+                </li>
+                <li>
+                  <a href="/blog" className="text-gray-400 hover:text-white transition-colors">
+                    Blog
+                  </a>
+                </li>
+                <li>
+                  <a href="/contact" className="text-gray-400 hover:text-white transition-colors">
+                    Contact
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-white font-semibold mb-4">Legal</h4>
+              <ul className="space-y-2">
+                <li>
+                  <a href="/privacy" className="text-gray-400 hover:text-white transition-colors">
+                    Privacy Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="/terms" className="text-gray-400 hover:text-white transition-colors">
+                    Terms of Service
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
+            &copy; 2024 ThumbnailTV. All rights reserved. Made with ❤️ for YouTube creators.
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }
