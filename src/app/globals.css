@@ -352,7 +352,7 @@ details:hover {
 @media (max-width: 640px) {
   .login-modal-overlay {
     padding: 0.5rem;
-    align-items: flex-end; /* Slide up from bottom on mobile */
+    align-items: center; /* Slide up from bottom on mobile */
   }
   
   .login-modal-content {
