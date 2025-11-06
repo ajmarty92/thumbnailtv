@@ -62,24 +62,28 @@ export default function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClos
   if (!isOpen) return null
 
   return (
-    // Use a more robust centering approach with viewport units
+    // Use absolute positioning with viewport units for perfect centering
     <div 
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999] p-4"
-      style={{ 
-        minHeight: '100vh',
-        // Override any conflicting CSS
-        margin: 0,
-        padding: 0,
+      className="bg-black/50 fixed left-0 top-0 w-full h-screen z-[9999]"
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '1rem',
         boxSizing: 'border-box'
       }}
     >
       <div 
         className="bg-gray-800 rounded-2xl p-6 md:p-8 max-w-md w-full relative"
         style={{
-          // Ensure modal is perfectly centered regardless of scroll
-          margin: 'auto',
           maxHeight: '90vh',
-          overflowY: 'auto'
+          overflowY: 'auto',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
         }}
       >
         {/* Close Button */}
