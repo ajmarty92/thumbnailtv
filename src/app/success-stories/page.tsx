@@ -1,77 +1,127 @@
 'use client'
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
+import { useAuth } from '@/contexts/AuthContext'
 import Navigation from '@/components/Navigation'
-import { Star, TrendingUp, Play, Users, DollarSign, Eye, Quote, ArrowRight, Mail } from 'lucide-react'
+import { Star, TrendingUp, Play, ArrowRight, Quote, Tv, Mail, Check } from 'lucide-react'
 
 export default function SuccessStoriesPage() {
+  const { user, isLoading } = useAuth()
   const [email, setEmail] = useState('')
   const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-
-  const stories = [
+  const [selectedCategory, setSelectedCategory] = useState("All")
+  
+  const categories = ["All", "Tech Review", "Gaming", "Education", "Vlog", "Business"]
+  
+  const successStories = [
     {
       id: 1,
-      channel: "TechReview Pro",
-      creator: "Sarah Chen",
-      niche: "Technology Reviews",
+      channelName: "TechGear Reviews",
+      category: "Tech Review",
       subscribers: "2.5M",
-      beforeAfter: {
-        ctr: "2.1% → 2.6%",
-        views: "150K → 195K per video",
-        revenue: "$1,200 → $1,560 per video"
-      },
-      quote: "My thumbnails looked amazing on phones but terrible on my Samsung TV. ThumbnailTV showed me exactly what was wrong and helped me redesign everything. Views increased by 23% in the first week.",
-      metrics: {
+      thumbnail: "🎮",
+      quote: "My thumbnails looked amazing on my phone but terrible on my Samsung TV. ThumbnailTV showed me exactly what was wrong and fixed it.",
+      results: {
         ctrIncrease: "+23%",
-        viewIncrease: "+30%",
-        revenueIncrease: "+30%",
-        timeframe: "First week"
+        viewsGained: "+450K monthly",
+        roi: "15x"
       },
-      image: "/success-stories/tech-review.jpg",
-      tagline: "From Phone-Perfect to TV-Stunning"
+      beforeAfter: {
+        before: "Text covered by TV UI, low contrast colors",
+        after: "TV-safe text placement, high contrast design"
+      },
+      story: "Sarah Chen was struggling with declining click-through rates despite putting hours into thumbnail design. She discovered that 73% of her views came from Smart TVs, but her thumbnails were optimized for mobile screens."
     },
     {
       id: 2,
-      channel: "GameZone Network",
-      creator: "Mike Rodriguez",
-      niche: "Gaming Content",
+      channelName: "GameMaster Pro",
+      category: "Gaming",
       subscribers: "1.8M",
+      thumbnail: "🎯",
+      quote: "I was losing so many views because my thumbnails had text covered by TV UI. The AI analysis helped me redesign everything.",
+      results: {
+        ctrIncrease: "+18%",
+        viewsGained: "+320K monthly",
+        roi: "12x"
+      },
       beforeAfter: {
-        ctr: "1.8% → 2.3%",
-        views: "200K → 255K per video",
-        revenue: "$1,600 → $2,040 per video"
+        before: "Bottom text obscured by streaming overlay",
+        after: "Elevated text positioning, optimized contrast"
       },
-      quote: "I was losing so many views because my text was cut off on TV. The AI analysis helped me understand exactly where to place text for maximum visibility. Best $79 I've ever spent on my channel.",
-      metrics: {
-        ctrIncrease: "+28%",
-        viewIncrease: "+28%",
-        revenueIncrease: "+28%",
-        timeframe: "First month"
-      },
-      image: "/success-stories/gaming.jpg",
-      tagline: "Domination in the Living Room"
+      story: "Mike Rodriguez noticed his gaming videos weren't performing as well as similar channels. After using ThumbnailTV's TV preview, he realized his call-to-action text was completely invisible on most Smart TV interfaces."
     },
     {
       id: 3,
-      channel: "Cooking with Emma",
-      creator: "Emma Kim",
-      niche: "Food & Cooking",
-      subscribers: "890K",
+      channelName: "Science Simplified",
+      category: "Education",
+      subscribers: "950K",
+      thumbnail: "🔬",
+      quote: "The frame upscaling feature alone is worth it. I can now use perfect moments from my videos as thumbnails.",
+      results: {
+        ctrIncrease: "+31%",
+        viewsGained: "+180K monthly",
+        roi: "20x"
+      },
       beforeAfter: {
-        ctr: "2.5% → 3.1%",
-        views: "80K → 99K per video",
-        revenue: "$640 → $792 per video"
+        before: "Low-quality screenshots, poor text readability",
+        after: "AI-enhanced frames, crystal-clear text"
       },
-      quote: "The frame upscaling feature alone is worth it. I can now use perfect moments from my videos as thumbnails. The AI quality is incredible and my audience engagement has never been higher.",
-      metrics: {
-        ctrIncrease: "+24%",
-        viewIncrease: "+24%",
-        revenueIncrease: "+24%",
-        timeframe: "First 2 weeks"
+      story: "Dr. Emily Watson spent hours trying to capture the perfect frames from her science experiments. With ThumbnailTV's frame extraction and upscaling, she now creates professional thumbnails in minutes."
+    },
+    {
+      id: 4,
+      channelName: "Lifestyle Daily",
+      category: "Vlog",
+      subscribers: "750K",
+      thumbnail: "🌟",
+      quote: "Our channel grew 40% faster after implementing TV optimization. The living room audience is massive!",
+      results: {
+        ctrIncrease: "+27%",
+        viewsGained: "+150K monthly",
+        roi: "18x"
       },
-      image: "/success-stories/cooking.jpg",
-      tagline: "Perfect Moments, Perfect Thumbnails"
+      beforeAfter: {
+        before: "Inconsistent branding, poor TV visibility",
+        after: "Consistent TV-optimized branding"
+      },
+      story: "Jessica and Tom's lifestyle channel was plateauing until they discovered the importance of TV optimization. Now their thumbnails consistently perform across all devices."
+    },
+    {
+      id: 5,
+      channelName: "Business Builders",
+      category: "Business",
+      subscribers: "1.2M",
+      thumbnail: "💼",
+      quote: "ThumbnailTV transformed our YouTube strategy. We're now reaching decision-makers who watch on their office TVs.",
+      results: {
+        ctrIncrease: "+22%",
+        viewsGained: "+280K monthly",
+        roi: "16x"
+      },
+      beforeAfter: {
+        before: "Mobile-first design, corporate audience missed",
+        after: "Multi-platform optimized, professional appeal"
+      },
+      story: "Alex Thompson's business content wasn't reaching his target audience. After optimizing for TV viewing, he saw a significant increase in engagement from professionals watching on office displays."
+    },
+    {
+      id: 6,
+      channelName: "Cooking Masterclass",
+      category: "Education",
+      subscribers: "600K",
+      thumbnail: "👨‍🍳",
+      quote: "The ROI calculator convinced us to try it. Best decision we've made for our channel growth.",
+      results: {
+        ctrIncrease: "+25%",
+        viewsGained: "+120K monthly",
+        roi: "14x"
+      },
+      beforeAfter: {
+        before: "Food details lost on large screens",
+        after: "Optimized for TV viewing, appetizing details"
+      },
+      story: "Chef Carlos Martinez learned that cooking shows are often watched on kitchen TVs. ThumbnailTV helped him optimize his food photography for larger screens."
     }
   ]
 
@@ -86,6 +136,10 @@ export default function SuccessStoriesPage() {
     }, 1000)
   }
 
+  const filteredStories = selectedCategory === "All" 
+    ? successStories 
+    : successStories.filter(story => story.category === selectedCategory)
+
   return (
     <div className="min-h-screen bg-gray-900">
       <Navigation />
@@ -97,206 +151,282 @@ export default function SuccessStoriesPage() {
             <div className="flex justify-center mb-6">
               <div className="px-4 py-2 bg-green-600/10 border border-green-500/20 rounded-full">
                 <span className="text-green-400 text-sm font-semibold">
-                  Real Results from Real Creators
+                  <TrendingUp className="w-4 h-4 inline mr-2" />
+                  Real Success Stories
                 </span>
               </div>
             </div>
-            <h1 className="text-5xl font-bold text-white mb-6">
-              Success Stories
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+              How Creators Are Winning with
+              <span className="bg-gradient-to-r from-purple-400 via-pink-500 to-purple-600 bg-clip-text text-transparent">
+                {" "}TV Optimization
+              </span>
             </h1>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              See how YouTube creators are transforming their channels with ThumbnailTV's TV optimization technology.
+            <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed">
+              See real results from YouTube creators who transformed their channels with ThumbnailTV's optimization tools.
             </p>
           </div>
 
-          {/* Stories Grid */}
-          <div className="grid gap-12 mb-20">
-            {stories.map((story) => (
-              <div key={story.id} className="bg-gray-800 rounded-2xl p-8 border border-gray-700">
-                <div className="grid lg:grid-cols-2 gap-8">
-                  {/* Story Content */}
-                  <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <div>
-                        <h3 className="text-2xl font-bold text-white mb-1">{story.channel}</h3>
-                        <p className="text-gray-400">{story.creator} • {story.niche}</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-2xl font-bold text-purple-400">{story.subscribers}</p>
-                        <p className="text-sm text-gray-400">subscribers</p>
-                      </div>
+          {/* Overall Stats */}
+          <div className="grid md:grid-cols-4 gap-6 mb-20">
+            <div className="bg-gradient-to-br from-green-900/20 to-green-900/10 rounded-xl p-6 text-center border border-green-500/20">
+              <div className="text-3xl font-bold text-green-400 mb-2">50,000+</div>
+              <div className="text-gray-300">Creators using ThumbnailTV</div>
+            </div>
+            <div className="bg-gradient-to-br from-blue-900/20 to-blue-900/10 rounded-xl p-6 text-center border border-blue-500/20">
+              <div className="text-3xl font-bold text-blue-400 mb-2">+23%</div>
+              <div className="text-gray-300">Average CTR increase</div>
+            </div>
+            <div className="bg-gradient-to-br from-purple-900/20 to-purple-900/10 rounded-xl p-6 text-center border border-purple-500/20">
+              <div className="text-3xl font-bold text-purple-400 mb-2">15x</div>
+              <div className="text-gray-300">Average ROI</div>
+            </div>
+            <div className="bg-gradient-to-br from-pink-900/20 to-pink-900/10 rounded-xl p-6 text-center border border-pink-500/20">
+              <div className="text-3xl font-bold text-pink-400 mb-2">4.9/5</div>
+              <div className="text-gray-300">Creator satisfaction</div>
+            </div>
+          </div>
+
+          {/* Category Filter */}
+          <div className="flex flex-wrap gap-2 justify-center mb-20">
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-4 py-2 rounded-lg transition-colors ${
+                  selectedCategory === category
+                    ? "bg-purple-600 text-white"
+                    : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+
+          {/* Success Stories Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+            {filteredStories.map((story) => (
+              <div key={story.id} className="bg-gray-800 rounded-2xl border border-gray-700 hover:border-gray-600 transition-all">
+                <div className="p-8">
+                  {/* Channel Header */}
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl flex items-center justify-center text-2xl">
+                      {story.thumbnail}
                     </div>
-
-                    <blockquote className="text-lg text-gray-300 italic mb-6 border-l-4 border-purple-500 pl-4">
-                      "{story.quote}"
-                    </blockquote>
-
-                    <div className="bg-gray-900 rounded-lg p-4 mb-6">
-                      <h4 className="text-white font-semibold mb-3">Results:</h4>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <p className="text-gray-400 text-sm">CTR Increase</p>
-                          <p className="text-green-400 font-bold">{story.metrics.ctrIncrease}</p>
-                        </div>
-                        <div>
-                          <p className="text-gray-400 text-sm">View Increase</p>
-                          <p className="text-green-400 font-bold">{story.metrics.viewIncrease}</p>
-                        </div>
-                        <div>
-                          <p className="text-gray-400 text-sm">Revenue Increase</p>
-                          <p className="text-green-400 font-bold">{story.metrics.revenueIncrease}</p>
-                        </div>
-                        <div>
-                          <p className="text-gray-400 text-sm">Timeframe</p>
-                          <p className="text-white font-semibold">{story.metrics.timeframe}</p>
-                        </div>
-                      </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-white">{story.channelName}</h3>
+                      <p className="text-gray-400 text-sm">{story.subscribers} subscribers • {story.category}</p>
                     </div>
+                  </div>
 
-                    <div className="bg-purple-600/10 border border-purple-500/20 rounded-lg p-4">
-                      <p className="text-purple-300 font-medium">{story.tagline}</p>
+                  {/* Quote */}
+                  <div className="mb-6">
+                    <Quote className="w-6 h-6 text-purple-400 mb-2" />
+                    <p className="text-gray-300 italic leading-relaxed">"{story.quote}"</p>
+                  </div>
+
+                  {/* Results */}
+                  <div className="grid grid-cols-3 gap-3 mb-6">
+                    <div className="text-center p-3 bg-green-600/10 rounded-lg border border-green-500/20">
+                      <div className="text-lg font-bold text-green-400">{story.results.ctrIncrease}</div>
+                      <div className="text-xs text-gray-400">CTR</div>
+                    </div>
+                    <div className="text-center p-3 bg-blue-600/10 rounded-lg border border-blue-500/20">
+                      <div className="text-lg font-bold text-blue-400">{story.results.viewsGained}</div>
+                      <div className="text-xs text-gray-400">Views</div>
+                    </div>
+                    <div className="text-center p-3 bg-purple-600/10 rounded-lg border border-purple-500/20">
+                      <div className="text-lg font-bold text-purple-400">{story.results.roi}</div>
+                      <div className="text-xs text-gray-400">ROI</div>
                     </div>
                   </div>
 
                   {/* Before/After */}
-                  <div>
-                    <h4 className="text-white font-semibold mb-4">Before → After</h4>
-                    <div className="space-y-4">
-                      <div className="bg-gray-900 rounded-lg p-4">
-                        <p className="text-gray-400 text-sm mb-2">Click-Through Rate</p>
-                        <p className="text-white font-medium">{story.beforeAfter.ctr}</p>
+                  <div className="mb-6">
+                    <h4 className="text-white font-semibold mb-3">Transformation:</h4>
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-red-400 rounded-full"></div>
+                        <span className="text-gray-400 text-sm">Before: {story.beforeAfter.before}</span>
                       </div>
-                      <div className="bg-gray-900 rounded-lg p-4">
-                        <p className="text-gray-400 text-sm mb-2">Views per Video</p>
-                        <p className="text-white font-medium">{story.beforeAfter.views}</p>
-                      </div>
-                      <div className="bg-gray-900 rounded-lg p-4">
-                        <p className="text-gray-400 text-sm mb-2">Revenue per Video</p>
-                        <p className="text-white font-medium">{story.beforeAfter.revenue}</p>
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                        <span className="text-gray-400 text-sm">After: {story.beforeAfter.after}</span>
                       </div>
                     </div>
                   </div>
+
+                  {/* Story Preview */}
+                  <p className="text-gray-300 text-sm leading-relaxed mb-6">
+                    {story.story}
+                  </p>
+
+                  {/* CTA */}
+                  <button className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg font-semibold transition-all">
+                    Read Full Story
+                  </button>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* CTA Section */}
-          <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-12 text-center mb-20">
-            <h2 className="text-3xl font-bold text-white mb-4">
-              Ready to Write Your Success Story?
-            </h2>
-            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-              Join thousands of creators who are already optimizing their thumbnails for the TV audience.
-            </p>
-            <Link
-              href="/"
-              className="inline-flex items-center bg-white text-purple-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
-            >
-              Start Optimizing Now
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
-          </div>
-
           {/* Newsletter Section */}
-          <div className="bg-gray-800 rounded-2xl p-8 border border-gray-700 mb-20">
-            <div className="max-w-2xl mx-auto text-center">
+          <div className="bg-gradient-to-r from-purple-900/20 to-pink-900/20 rounded-2xl p-8 mb-20 border border-purple-500/20">
+            <div className="text-center">
               <h3 className="text-2xl font-bold text-white mb-4">
-                Get More Success Stories
+                Get Success Stories Weekly
               </h3>
-              <p className="text-gray-400 mb-6">
-                Subscribe to our newsletter for weekly creator success stories and optimization tips.
+              <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+                Join 10,000+ creators getting exclusive case studies, optimization tips, and early access to new features.
               </p>
-              <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-4">
+              <form onSubmit={handleNewsletterSubmit} className="max-w-md mx-auto flex gap-3">
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
-                  className="flex-1 px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  placeholder="your@email.com"
+                  className="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
                   required
+                  disabled={newsletterStatus === 'loading' || newsletterStatus === 'success'}
                 />
                 <button
                   type="submit"
-                  disabled={newsletterStatus === 'loading'}
-                  className="px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition-colors disabled:opacity-50"
+                  disabled={newsletterStatus === 'loading' || newsletterStatus === 'success'}
+                  className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
-                  {newsletterStatus === 'loading' ? 'Subscribing...' : 'Subscribe'}
+                  {newsletterStatus === 'loading' ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      Subscribing...
+                    </>
+                  ) : newsletterStatus === 'success' ? (
+                    <>
+                      <Check className="w-4 h-4" />
+                      Subscribed!
+                    </>
+                  ) : (
+                    <>
+                      <Mail className="w-4 h-4" />
+                      Subscribe
+                    </>
+                  )}
                 </button>
               </form>
-              {newsletterStatus === 'success' && (
-                <p className="mt-4 text-green-400">Successfully subscribed!</p>
-              )}
             </div>
           </div>
+
+          {/* CTA Section */}
+          <div className="bg-gradient-to-r from-green-900/20 to-green-900/10 rounded-2xl p-8 mb-20 border border-green-500/20">
+            <div className="text-center">
+              <h3 className="text-2xl font-bold text-white mb-4">
+                Ready to Write Your Success Story?
+              </h3>
+              <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+                Join thousands of creators who are already seeing massive results with TV optimization.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg font-semibold transition-all">
+                  <Play className="w-5 h-5 inline mr-2" />
+                  Start Your Success Story
+                </button>
+                <Link href="/blog" className="px-8 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-lg font-semibold transition-colors border border-gray-700">
+                  More Success Tips
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Enhanced Footer */}
+          <footer className="bg-gray-800/50 border-t border-gray-700 py-12">
+            <div className="max-w-7xl mx-auto">
+              <div className="grid md:grid-cols-4 gap-8">
+                <div>
+                  <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-4">
+                    ThumbnailTV
+                  </h3>
+                  <p className="text-gray-400 text-sm mb-4">
+                    The AI-powered TV optimization suite for YouTube creators.
+                  </p>
+                </div>
+                <div>
+                  <h4 className="text-white font-semibold mb-4">Features</h4>
+                  <ul className="space-y-2 text-gray-400 text-sm">
+                    <li>
+                      <Link href="/#features" className="hover:text-gray-300 transition-colors">
+                        TV Preview
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/#pricing" className="hover:text-gray-300 transition-colors">
+                        AI Compression
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/#features" className="hover:text-gray-300 transition-colors">
+                        Frame Upscaling
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="text-white font-semibold mb-4">Resources</h4>
+                  <ul className="space-y-2 text-gray-400 text-sm">
+                    <li>
+                      <Link href="/blog" className="hover:text-gray-300 transition-colors">
+                        Creator Blog
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/guide" className="hover:text-gray-300 transition-colors">
+                        TV Optimization Guide
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/success-stories" className="text-purple-400 font-medium">
+                        Success Stories
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/docs" className="hover:text-gray-300 transition-colors">
+                        API Documentation
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="text-white font-semibold mb-4">Company</h4>
+                  <ul className="space-y-2 text-gray-400 text-sm">
+                    <li>
+                      <Link href="/about" className="hover:text-gray-300 transition-colors">
+                        About Us
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/contact" className="hover:text-gray-300 transition-colors">
+                        Contact
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/privacy" className="hover:text-gray-300 transition-colors">
+                        Privacy Policy
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/terms" className="hover:text-gray-300 transition-colors">
+                        Terms of Service
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
+                © 2024 ThumbnailTV. All rights reserved. Made with ❤️ for YouTube creators.
+              </div>
+            </div>
+          </footer>
         </div>
       </main>
-
-      {/* Footer */}
-      <footer className="bg-gray-800 border-t border-gray-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div>
-              <h4 className="text-white font-semibold mb-4">Product</h4>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="/guide" className="text-gray-400 hover:text-white transition-colors">
-                    Guide
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/success-stories" className="text-gray-400 hover:text-white transition-colors">
-                    Success Stories
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/docs" className="text-gray-400 hover:text-white transition-colors">
-                    Documentation
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-white font-semibold mb-4">Company</h4>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="/about" className="text-gray-400 hover:text-white transition-colors">
-                    About Us
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/blog" className="text-gray-400 hover:text-white transition-colors">
-                    Blog
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/contact" className="text-gray-400 hover:text-white transition-colors">
-                    Contact
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-white font-semibold mb-4">Legal</h4>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="/privacy" className="text-gray-400 hover:text-white transition-colors">
-                    Privacy Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/terms" className="text-gray-400 hover:text-white transition-colors">
-                    Terms of Service
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
-            © 2024 ThumbnailTV. All rights reserved. Made with ❤️ for YouTube creators.
-          </div>
-        </div>
-      </footer>
     </div>
   )
 }

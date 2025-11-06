@@ -2,416 +2,120 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 94.1%;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-}
-
-/* Smooth scrolling behavior */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Enhanced Light Mode Styles */
-.light {
-  background-color: #ffffff !important;
-}
-
-.light .bg-gray-900 {
-  background-color: #f8fafc !important;
-  color: #1e293b !important;
-}
-
-.light .bg-gray-800 {
-  background-color: #ffffff !important;
-  border-color: #e2e8f0 !important;
-  color: #1e293b !important;
-}
-
-.light .bg-gray-800\/50 {
-  background-color: rgba(255, 255, 255, 0.5) !important;
-}
-
-.light .bg-gray-700 {
-  background-color: #f1f5f9 !important;
-  color: #334155 !important;
-}
-
-.light .text-white {
-  color: #1e293b !important;
-}
-
-.light .text-gray-300 {
-  color: #475569 !important;
-}
-
-.light .text-gray-400 {
-  color: #64748b !important;
-}
-
-.light .text-gray-500 {
-  color: #94a3b8 !important;
-}
-
-.light .border-gray-700 {
-  border-color: #e2e8f0 !important;
-}
-
-.light .border-gray-800 {
-  border-color: #cbd5e1 !important;
-}
-
-.light .border-gray-600 {
-  border-color: #e2e8f0 !important;
-}
-
-/* Navbar Light Mode */
-.light nav {
-  background-color: rgba(255, 255, 255, 0.95) !important;
-  border-bottom-color: #e2e8f0 !important;
-  backdrop-filter: blur(10px);
-}
-
-.light .bg-gray-900\/95 {
-  background-color: rgba(255, 255, 255, 0.95) !important;
-}
-
-.light .hover\:bg-gray-700:hover {
-  background-color: #f1f5f9 !important;
-}
-
-.light .hover\:text-gray-400:hover {
-  color: #475569 !important;
-}
-
-/* Footer Light Mode */
-.light footer {
-  background-color: #f8fafc !important;
-  border-top-color: #e2e8f0 !important;
-}
-
-.light footer .text-gray-400 {
-  color: #475569 !important;
-}
-
-.light footer .text-gray-300 {
-  color: #64748b !important;
-}
-
-.light footer .hover\:text-gray-400:hover {
-  color: #1e293b !important;
-}
-
-/* Pricing Section - Gray Buttons Fix */
-.light .pricing-gray-btn {
-  background-color: #f1f5f9 !important;
-  color: #475569 !important;
-  border-color: #e2e8f0 !important;
-}
-
-.light .pricing-gray-btn:hover {
-  background-color: #e2e8f0 !important;
-  color: #334155 !important;
-}
-
-/* Feature Bar Statistics */
-.light .feature-stats-bar {
-  background-color: #f8fafc !important;
-  border-color: #e2e8f0 !important;
-}
-
-.light .feature-stats-bar .text-gray-400 {
-  color: #64748b !important;
-}
-
-.light .feature-stats-bar .text-white {
-  color: #1e293b !important;
-}
-
-/* Adjust gradients for light mode */
-.light .from-purple-900\/20 {
-  --tw-gradient-from: rgba(147, 51, 234, 0.08) !important;
-}
-
-.light .to-pink-900\/10 {
-  --tw-gradient-to: rgba(236, 72, 153, 0.08) !important;
-}
-
-.light .bg-gradient-to-r {
-  opacity: 0.95;
-}
-
-/* Enhanced FAQ Section Styles */
-details[open] summary {
-  color: #9333ea !important; /* Purple when open in dark mode */
-}
-
-.light details[open] summary {
-  color: #7c3aed !important; /* Purple when open in light mode */
-}
-
-details {
-  transition: all 0.3s ease;
-}
-
-details:hover {
-  border-color: #9333ea !important;
-}
-
-.light details:hover {
-  border-color: #7c3aed !important;
-}
-
-/* Newsletter Form Styles */
-.newsletter-input:focus {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(147, 51, 234, 0.15);
-}
-
-.light .newsletter-input:focus {
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
-}
-
-/* Enhanced Button Animations */
-.enhanced-btn {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.enhanced-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(147, 51, 234, 0.3);
-}
-
-.light .enhanced-btn:hover {
-  box-shadow: 0 10px 20px rgba(124, 58, 237, 0.3);
-}
-
-/* Scroll-to-top button animation */
-.scroll-top-btn {
-  animation: fadeInUp 0.3s ease-out;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+@layer base {
+  * {
+    @apply border-border;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
-/* Social Media Icons Enhancement */
-.social-icon {
-  transition: all 0.3s ease;
-}
-
-.social-icon:hover {
-  transform: translateY(-2px) scale(1.1);
-}
-
-.social-icon.facebook:hover {
-  background-color: #1877f2 !important;
-}
-
-.social-icon.twitter:hover {
-  background-color: #1da1f2 !important;
-}
-
-.social-icon.youtube:hover {
-  background-color: #ff0000 !important;
-}
-
-/* Active navigation indicator */
-.nav-active {
-  color: #9333ea !important;
+.canvas-container {
   position: relative;
+  background: #f8fafc;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.nav-active::after {
-  content: '';
+.canvas-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.fabric-canvas {
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.loading-overlay {
   position: absolute;
-  bottom: -4px;
+  top: 0;
   left: 0;
   right: 0;
-  height: 2px;
-  background-color: #9333ea;
-  border-radius: 1px;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
 }
 
-.light .nav-active {
-  color: #7c3aed !important;
+.ai-processing {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-.light .nav-active::after {
-  background-color: #7c3aed;
-}
-
-/* Enhanced Mobile Menu */
-.mobile-menu-enter {
-  animation: slideDown 0.3s ease-out;
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
+@keyframes pulse {
+  0%, 100% {
     opacity: 1;
-    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.5;
   }
 }
 
-/* FIXED: Login Modal Responsive Fixes */
-.login-modal-overlay {
-  position: fixed !important;
-  top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; width: 100vw !important; height: 100vh !important;
-  background: rgba(0, 0, 0, 0.8); /* Increased opacity for better contrast */
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  z-index: 99999 !important; /* Higher z-index to ensure it's on top */
-  padding: 1rem !important;
-  backdrop-filter: blur(8px); /* Enhanced blur effect */
-  animation: fadeIn 0.3s ease-out; /* Smooth fade in animation */
+.tv-frame {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 
+    0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-.login-modal-content {
-  background: rgb(31 41 55);
-  border-radius: 1rem; /* Slightly larger radius */
-  padding: 2rem; /* More padding */
-  max-width: 32rem; /* Slightly wider */
-  width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); /* Enhanced shadow */
-  animation: slideUp 0.3s ease-out; /* Smooth slide up animation */
-  border: 1px solid rgba(147, 51, 234, 0.2); /* Subtle purple border */
-}
-
-/* Enhanced animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    backdrop-filter: blur(0px);
-  }
-  to {
-    opacity: 1;
-    backdrop-filter: blur(8px);
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* Light mode modal */
-.light .login-modal-content {
-  background: rgb(255, 255, 255);
-  border: 1px solid rgba(147, 51, 234, 0.2);
-}
-
-.light .login-modal-content .text-white {
-  color: rgb(31, 41, 55) !important;
-}
-
-.light .login-modal-content .text-gray-300 {
-  color: rgb(75, 85, 99) !important;
-}
-
-/* Prevent body scroll when modal is open */
-.modal-open {
+.tv-screen {
+  background: #000;
+  border-radius: 8px;
   overflow: hidden;
-  position: fixed !important;
-  width: 100%;
-  height: 100%;
-}
-
-/* Mobile responsiveness improvements */
-@media (max-width: 640px) {
-  .login-modal-overlay {
-    padding: 0.5rem;
-    align-items: center !important; /* Slide up from bottom on mobile */
-  }
-  
-  .login-modal-content {
-    margin: 0.5rem;
-    padding: 1.5rem;
-    border-radius: 1rem 1rem 0 0; /* Rounded top only for slide-up effect */
-    animation: slideUpMobile 0.3s ease-out;
-  }
-  
-  @keyframes slideUpMobile {
-    from {
-      opacity: 0;
-      transform: translateY(100%);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-}
-
-/* Touch-friendly targets for mobile */
-@media (max-width: 767px) {
-  .login-modal button,
-  .login-modal input {
-    min-height: 48px; /* iOS accessibility guideline */
-    font-size: 16px; /* Prevents zoom on iOS */
-  }
-}
-
-/* Enhanced focus states */
-.login-modal input:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.3);
-  border-color: rgb(147, 51, 234);
-}
-
-.login-modal button:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.3);
-}
-
-/* Enhanced loading states */
-.loading-spinner {
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* Newsletter success state */
-.newsletter-success {
-  animation: successPulse 0.6s ease-out;
-}
-
-@keyframes successPulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
+  position: relative;
+  aspect-ratio: 16/9;
 }
