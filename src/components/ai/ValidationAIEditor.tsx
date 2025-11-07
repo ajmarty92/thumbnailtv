@@ -128,7 +128,7 @@ export default function ValidationAIEditor() {
                 {tabs.map((tab) => {
                   const Icon = tab.icon;
                   const isActive = activeTab === tab.id;
-                  const colors = {
+                  const colors: Record<string, string> = {
                     blue: isActive ? 'bg-blue-100 text-blue-700 border-blue-200' : 'text-gray-600 hover:bg-gray-50',
                     purple: isActive ? 'bg-purple-100 text-purple-700 border-purple-200' : 'text-gray-600 hover:bg-gray-50',
                     green: isActive ? 'bg-green-100 text-green-700 border-green-200' : 'text-gray-600 hover:bg-gray-50'
