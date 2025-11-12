@@ -5,9 +5,11 @@ import Navigation from '@/components/Navigation'
 import TVOptimizationSuite from '@/components/TVOptimizationSuite'
 import { useState, useEffect } from 'react'
 import { Tv, Zap, TrendingUp, Check, Star, ArrowRight, Play, Users, Shield, Sparkles, ChevronUp, Mail, Lock, Crown, Building, ChevronDown } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 export default function HomePage() {
   const { user, isLoading } = useAuth()
+  const router = useRouter()
   const [showDemo, setShowDemo] = useState(false)
   const [showScrollTop, setShowScrollTop] = useState(false)
   const [email, setEmail] = useState('')
@@ -38,6 +40,10 @@ export default function HomePage() {
       setEmail('')
       setTimeout(() => setNewsletterStatus('idle'), 3000)
     }, 1000)
+  }
+
+  const handleStartFreeTrial = () => {
+    router.push('/#auth-modal')
   }
 
   // Feature Gate Component
@@ -120,7 +126,9 @@ export default function HomePage() {
                     </>
                   ) : (
                     <>
-                      <button className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-xl text-lg font-semibold transition-all transform hover:scale-105 shadow-xl">
+                      <button 
+                          onClick={handleStartFreeTrial}
+                          className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-xl text-lg font-semibold transition-all transform hover:scale-105 shadow-xl">
                         <ArrowRight className="w-5 h-5 inline mr-2" />
                         Start Free Trial
                       </button>
