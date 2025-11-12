@@ -38,15 +38,33 @@ export default function Navigation() {
 
   // Handle auth modal hash in URL
   useEffect(() => {
-    const handleHashChange = () => {
-      if (window.location.hash === '#auth-modal' && !user) {
-        setShowLogin(true)
-        // Clean up the hash
-        window.history.replaceState(null, '', window.location.pathname)
+    const checkHashAndOpenModal = () => {
+      console.log('Checking hash:', window.location.hash, 'User logged in:', !!user)
+      if (window.location.hash === '#auth-modal') {
+        if (!user) {
+          console.log('Opening auth modal')
+          setShowLogin(true)
+          // Clean up the hash after opening modal
+          setTimeout(() => {
+            window.history.replaceState(null, '', window.location.pathname)
+            console.log('Hash cleaned up')
+          }, 50)
+        } else {
+          console.log('User already logged in, cleaning up hash')
+          window.history.replaceState(null, '', window.location.pathname)
+        }
       }
     }
     
-    handleHashChange()
+    // Check immediately
+    checkHashAndOpenModal()
+    
+    // Listen for hash changes
+    const handleHashChange = () => {
+      console.log('Hash change event detected')
+      checkHashAndOpenModal()
+    }
+    
     window.addEventListener('hashchange', handleHashChange)
     
     return () => {

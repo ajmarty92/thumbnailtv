@@ -43,6 +43,7 @@ export default function HomePage() {
   }
 
   const handleStartFreeTrial = () => {
+    console.log('Start Free Trial clicked')
     router.push('/#auth-modal')
   }
 
