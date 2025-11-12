@@ -7,6 +7,8 @@ interface User {
   name: string
   email: string
   avatar?: string
+  plan: 'demo' | 'free' | 'starter' | 'pro' | 'manager'
+  hasFullDemoAccess?: boolean
 }
 
 interface AuthContextType {
@@ -46,6 +48,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         id: 'demo-user',
         name: 'Demo Creator',
         email: email,
+        plan: 'demo',
+        hasFullDemoAccess: true,
         avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face'
       }
       setUser(mockUser)

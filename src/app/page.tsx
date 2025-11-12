@@ -139,9 +139,12 @@ export default function HomePage() {
                         <ArrowRight className="w-5 h-5 inline mr-2" />
                         Start Free Trial
                       </button>
-                      <button className="px-8 py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-xl text-lg font-semibold transition-colors border border-gray-700">
+                      <button 
+                        onClick={() => setShowDemo(true)}
+                        className="px-8 py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-xl text-lg font-semibold transition-colors border border-gray-700"
+                      >
                         <Play className="w-5 h-5 inline mr-2" />
-                        Watch 2-Min Demo
+                        Test All Features (Demo)
                       </button>
                     </>
                   )}
