@@ -14,6 +14,9 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<boolean>
   logout: () => void
   isLoading: boolean
+  showAuthModal: () => void
+  hideAuthModal: () => void
+  isAuthModalOpen: boolean
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -22,6 +25,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -36,7 +40,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true)
     await new Promise(resolve => setTimeout(resolve, 1000))
-    
+
     if (email === 'demo@thumbnailtv.io' && password === 'demo123') {
       const mockUser: User = {
         id: 'demo-user',
@@ -51,7 +55,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setIsLoading(false)
       return true
     }
-    
+
     setIsLoading(false)
     return false
   }
@@ -63,8 +67,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  const showAuthModal = () => {
+    console.log('AuthContext: showAuthModal called - opening modal')
+    setIsAuthModalOpen(true)
+  }
+
+  const hideAuthModal = () => {
+    console.log('AuthContext: hideAuthModal called - closing modal')
+    setIsAuthModalOpen(false)
+  }
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, isLoading }}>
+    <AuthContext.Provider value={{ user, login, logout, isLoading, showAuthModal, hideAuthModal, isAuthModalOpen }}>
       {children}
     </AuthContext.Provider>
   )

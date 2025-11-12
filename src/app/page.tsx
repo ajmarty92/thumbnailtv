@@ -8,7 +8,7 @@ import { Tv, Zap, TrendingUp, Check, Star, ArrowRight, Play, Users, Shield, Spar
 import { useRouter } from 'next/navigation'
 
 export default function HomePage() {
-  const { user, isLoading } = useAuth()
+  const { user, isLoading, showAuthModal } = useAuth()
   const router = useRouter()
   const [showDemo, setShowDemo] = useState(false)
   const [showScrollTop, setShowScrollTop] = useState(false)
@@ -43,7 +43,14 @@ export default function HomePage() {
   }
 
   const handleStartFreeTrial = () => {
-    router.push('/#auth-modal')
+    console.log('Start Free Trial clicked')
+    if (user) {
+      // User is already logged in, redirect to dashboard or pricing
+      router.push('/#pricing')
+    } else {
+      // Show auth modal for new users
+      showAuthModal()
+    }
   }
 
   // Feature Gate Component

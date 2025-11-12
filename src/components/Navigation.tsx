@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import { Moon, Sun, User, LogOut } from 'lucide-react'
 
 export default function Navigation() {
-  const { user, login, logout, isLoading } = useAuth()
+  const { user, login, logout, isLoading, isAuthModalOpen, hideAuthModal } = useAuth()
   const [showLogin, setShowLogin] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -36,23 +36,7 @@ export default function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Handle auth modal hash in URL
-  useEffect(() => {
-    const handleHashChange = () => {
-      if (window.location.hash === '#auth-modal' && !user) {
-        setShowLogin(true)
-        // Clean up the hash
-        window.history.replaceState(null, '', window.location.pathname)
-      }
-    }
-    
-    handleHashChange()
-    window.addEventListener('hashchange', handleHashChange)
-    
-    return () => {
-      window.removeEventListener('hashchange', handleHashChange)
-    }
-  }, [user])
+  // Auth modal is now handled via AuthContext - no hash detection needed
 
   // Theme toggle functions
   const applyTheme = (newTheme: 'light' | 'dark') => {
@@ -84,6 +68,7 @@ export default function Navigation() {
     const success = await login(email, password)
     if (success) {
       setShowLogin(false)
+      hideAuthModal()
       setEmail('')
       setPassword('')
     } else {
@@ -277,7 +262,7 @@ export default function Navigation() {
       </div>
 
       {/* Enhanced Login Modal */}
-      {showLogin && !user && (
+      {(showLogin || isAuthModalOpen) && !user && (
         <>
           {/* Prevent body scroll */}
           <div className="modal-open"></div>
@@ -289,6 +274,7 @@ export default function Navigation() {
                 <button
                   onClick={() => {
                     setShowLogin(false)
+                    hideAuthModal()
                     setLoginError('')
                   }}
                   className="text-gray-400 hover:text-white transition-colors p-1 rounded-lg hover:bg-gray-700"
@@ -341,6 +327,7 @@ export default function Navigation() {
                     type="button"
                     onClick={() => {
                       setShowLogin(false)
+                      hideAuthModal()
                       setLoginError('')
                     }}
                     className="flex-1 px-4 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
