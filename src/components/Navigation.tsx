@@ -36,6 +36,24 @@ export default function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Handle auth modal hash in URL
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (window.location.hash === '#auth-modal' && !user) {
+        setShowLogin(true)
+        // Clean up the hash
+        window.history.replaceState(null, '', window.location.pathname)
+      }
+    }
+    
+    handleHashChange()
+    window.addEventListener('hashchange', handleHashChange)
+    
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange)
+    }
+  }, [user])
+
   // Theme toggle functions
   const applyTheme = (newTheme: 'light' | 'dark') => {
     if (newTheme === 'light') {
