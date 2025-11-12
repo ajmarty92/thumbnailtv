@@ -11,9 +11,9 @@ import {
   Save
 } from 'lucide-react';
 import ImageUploader from './ImageUploader';
-import TextStylePanel from './TextStylePanel';
+import TextStylePanel from '../ui/TextStylePanel';
 import LayerManager, { Layer as LayerType } from './LayerManager';
-import ExportPanel from './ExportPanel';
+import ExportPanel from '../ExportPanel';
 
 // Canvas dimensions (4K)
 const CANVAS_WIDTH = 3840;
