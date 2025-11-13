@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Upload, AlertCircle } from 'lucide-react'
+import { Upload, AlertCircle, Zap, Crown } from 'lucide-react'
 import TVPlatformCard from '../TVPlatformCard'
 import { tvPlatforms } from '@/types/tv-platforms'
 
@@ -10,9 +10,9 @@ interface TVPreviewDashboardProps {
   onImageUpload: (imageUrl: string) => void
 }
 
-// NAMED EXPORT (Option A)
 export function TVPreviewDashboard({ uploadedImage, onImageUpload }: TVPreviewDashboardProps) {
   const [analyzing, setAnalyzing] = useState(false)
+  const [activeTab, setActiveTab] = useState<'preview' | 'compression' | 'upscaling'>('preview')
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -30,85 +30,197 @@ export function TVPreviewDashboard({ uploadedImage, onImageUpload }: TVPreviewDa
 
   return (
     <div className="space-y-8">
-      {/* Upload Area */}
-      {!uploadedImage && (
-        <div className="bg-tv-gray/50 border-2 border-dashed border-tv-blue/30 rounded-lg p-12 text-center">
-          <Upload className="w-16 h-16 text-tv-blue mx-auto mb-4" />
-          <h3 className="text-xl font-bold mb-2">Upload Your Thumbnail</h3>
-          <p className="text-gray-400 mb-6">
-            Test how your thumbnail looks on 5 major TV platforms
-          </p>
-          <label className="inline-block">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleFileUpload}
-              className="hidden"
-            />
-            <span className="bg-tv-blue hover:bg-tv-blue/80 text-white font-bold py-3 px-6 rounded-lg cursor-pointer inline-block transition-colors">
-              Choose File
-            </span>
-          </label>
+      {/* Feature Selector Tabs - NEW */}
+      <div className="bg-tv-gray/50 border border-tv-gray/30 rounded-lg p-4">
+        <div className="flex items-center gap-3 mb-4">
+          <h3 className="text-lg font-bold text-white">Choose Feature:</h3>
         </div>
-      )}
-
-      {/* Analysis Status */}
-      {analyzing && (
-        <div className="bg-tv-blue/20 border border-tv-blue rounded-lg p-4 flex items-center gap-3">
-          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-tv-blue"></div>
-          <span>Analyzing thumbnail across TV platforms...</span>
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => setActiveTab('preview')}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              activeTab === 'preview'
+                ? 'bg-tv-blue text-white'
+                : 'bg-tv-gray text-gray-300 hover:bg-tv-gray/70'
+            }`}
+          >
+            📺 TV Safe Zone Preview
+          </button>
+          <button
+            onClick={() => setActiveTab('compression')}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              activeTab === 'compression'
+                ? 'bg-pink-500 text-white'
+                : 'bg-tv-gray text-gray-300 hover:bg-tv-gray/70'
+            }`}
+          >
+            ⚡ Smart Compression
+          </button>
+          <button
+            onClick={() => setActiveTab('upscaling')}
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              activeTab === 'upscaling'
+                ? 'bg-purple-500 text-white'
+                : 'bg-tv-gray text-gray-300 hover:bg-tv-gray/70'
+            }`}
+          >
+            👑 Frame Upscaler (Pro)
+          </button>
         </div>
-      )}
+      </div>
 
-      {/* TV Platform Previews */}
-      {uploadedImage && !analyzing && (
-        <>
-          <div className="bg-tv-gray/50 border border-tv-red/30 rounded-lg p-6">
-            <div className="flex items-start gap-3">
-              <AlertCircle className="w-6 h-6 text-tv-red flex-shrink-0 mt-1" />
-              <div>
-                <h3 className="text-lg font-bold text-tv-red mb-2">TV Screen Analysis Results</h3>
-                <div className="grid md:grid-cols-2 gap-4">
+      {/* Tab Content */}
+      {activeTab === 'preview' && (
+        <div className="space-y-8">
+          {/* ORIGINAL TV PREVIEW LAYOUT - COMPLETELY UNCHANGED */}
+          {/* Upload Area */}
+          {!uploadedImage && (
+            <div className="bg-tv-gray/50 border-2 border-dashed border-tv-blue/30 rounded-lg p-12 text-center">
+              <Upload className="w-16 h-16 text-tv-blue mx-auto mb-4" />
+              <h3 className="text-xl font-bold mb-2">Upload Your Thumbnail</h3>
+              <p className="text-gray-400 mb-6">
+                Test how your thumbnail looks on 5 major TV platforms
+              </p>
+              <label className="inline-block">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                  className="hidden"
+                />
+                <span className="bg-tv-blue hover:bg-tv-blue/80 text-white font-bold py-3 px-6 rounded-lg cursor-pointer inline-block transition-colors">
+                  Choose File
+                </span>
+              </label>
+            </div>
+          )}
+
+          {/* Analysis Status */}
+          {analyzing && (
+            <div className="bg-tv-blue/20 border border-tv-blue rounded-lg p-4 flex items-center gap-3">
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-tv-blue"></div>
+              <span>Analyzing thumbnail across TV platforms...</span>
+            </div>
+          )}
+
+          {/* TV Platform Previews */}
+          {uploadedImage && !analyzing && (
+            <>
+              <div className="bg-tv-gray/50 border border-tv-red/30 rounded-lg p-6">
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="w-6 h-6 text-tv-red flex-shrink-0 mt-1" />
                   <div>
-                    <p className="font-semibold text-gray-300 mb-2">Critical Issues:</p>
-                    <ul className="space-y-1 text-sm text-gray-400">
-                      <li>• 55" TV: Text appears small from 8 feet</li>
-                      <li>• 65" TV: Text barely readable at 10 feet</li>
-                      <li>• 75" TV: Logos get covered by UI elements</li>
-                      <li>• 85" TV: Critical text becomes invisible</li>
-                      <li>• 100" TV: Only center content visible</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p className="font-semibold text-gray-300 mb-2">Recommendations:</p>
-                    <ul className="space-y-1 text-sm text-gray-400">
-                      <li>• Increase text size by 40% for 75"+ screens</li>
-                      <li>• Move key elements to center 60% area</li>
-                      <li>• Avoid bottom 25% for important content</li>
-                      <li>• Use high contrast colors for readability</li>
-                      <li>• Test on actual TV screens before publishing</li>
-                    </ul>
+                    <h3 className="text-lg font-bold text-tv-red mb-2">TV Screen Analysis Results</h3>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div>
+                        <p className="font-semibold text-gray-300 mb-2">Critical Issues:</p>
+                        <ul className="space-y-1 text-sm text-gray-400">
+                          <li>• 55" TV: Text appears small from 8 feet</li>
+                          <li>• 65" TV: Text barely readable at 10 feet</li>
+                          <li>• 75" TV: Logos get covered by UI elements</li>
+                          <li>• 85" TV: Critical text becomes invisible</li>
+                          <li>• 100" TV: Only center content visible</li>
+                        </ul>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-300 mb-2">Recommendations:</p>
+                        <ul className="space-y-1 text-sm text-gray-400">
+                          <li>• Increase text size by 40% for 75"+ screens</li>
+                          <li>• Move key elements to center 60% area</li>
+                          <li>• Avoid bottom 25% for important content</li>
+                          <li>• Use high contrast colors for readability</li>
+                          <li>• Test on actual TV screens before publishing</li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
+
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold">Real TV Screen Previews</h3>
+                <p className="text-gray-400">See how your thumbnail looks on different screen sizes from typical viewing distances</p>
+              </div>
+
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {tvPlatforms.map((platform) => (
+                  <TVPlatformCard
+                    key={platform.id}
+                    platform={platform}
+                    thumbnailUrl={uploadedImage}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      )}
+
+      {/* Compression Tab */}
+      {activeTab === 'compression' && (
+        <div className="space-y-8">
+          <div className="bg-pink-500/10 border border-pink-500/30 rounded-lg p-8 text-center">
+            <Zap className="w-16 h-16 text-pink-400 mx-auto mb-4" />
+            <h3 className="text-2xl font-bold text-white mb-2">Smart Compression</h3>
+            <p className="text-gray-300 mb-6">
+              Reduce your 100MB+ thumbnails to 49MB while maintaining perfect visual quality.
+              AI optimizes for all platform requirements.
+            </p>
+            <div className="grid md:grid-cols-3 gap-4 mb-6">
+              <div className="bg-tv-gray/50 rounded-lg p-4">
+                <p className="text-3xl font-bold text-pink-400 mb-1">100MB+</p>
+                <p className="text-gray-400 text-sm">Original size</p>
+              </div>
+              <div className="bg-tv-gray/50 rounded-lg p-4">
+                <p className="text-3xl font-bold text-green-400 mb-1">49MB</p>
+                <p className="text-gray-400 text-sm">Compressed size</p>
+              </div>
+              <div className="bg-tv-gray/50 rounded-lg p-4">
+                <p className="text-3xl font-bold text-yellow-400 mb-1">95%</p>
+                <p className="text-gray-400 text-sm">Quality preserved</p>
+              </div>
             </div>
+            <button className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-lg transition-colors">
+              Try Smart Compression
+            </button>
           </div>
+        </div>
+      )}
 
-          <div className="text-center mb-6">
-            <h3 className="text-2xl font-bold">Real TV Screen Previews</h3>
-            <p className="text-gray-400">See how your thumbnail looks on different screen sizes from typical viewing distances</p>
+      {/* Upscaling Tab */}
+      {activeTab === 'upscaling' && (
+        <div className="space-y-8">
+          <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-8 text-center">
+            <Crown className="w-16 h-16 text-purple-400 mx-auto mb-4" />
+            <h3 className="text-2xl font-bold text-white mb-2">Frame Upscaler - Pro Feature</h3>
+            <p className="text-gray-300 mb-6">
+              Extract perfect video moments and upscale to 4K/8K with AI enhancement.
+              Enhance faces and sharpen text for stunning thumbnails.
+            </p>
+            <div className="bg-purple-500/20 border border-purple-500/30 rounded-lg p-6 mb-6">
+              <div className="flex items-center gap-3">
+                <Crown className="w-6 h-6 text-purple-400" />
+                <div>
+                  <p className="text-purple-300 font-semibold">Upgrade to Pro Creator</p>
+                  <p className="text-purple-200 text-sm">Unlock unlimited 4K upscaling and all TV platform previews</p>
+                </div>
+              </div>
+            </div>
+            <div className="grid md:grid-cols-2 gap-4 mb-6">
+              <div className="bg-tv-gray/50 rounded-lg p-4">
+                <p className="text-3xl font-bold text-purple-400 mb-1">4K/8K</p>
+                <p className="text-gray-400 text-sm">AI upscaling</p>
+              </div>
+              <div className="bg-tv-gray/50 rounded-lg p-4">
+                <p className="text-3xl font-bold text-purple-400 mb-1">∞</p>
+                <p className="text-gray-400 text-sm">Unlimited exports</p>
+              </div>
+            </div>
+            <button className="bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 px-8 rounded-lg transition-colors">
+              Upgrade to Pro - $79/month
+            </button>
           </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {tvPlatforms.map((platform) => (
-              <TVPlatformCard
-                key={platform.id}
-                platform={platform}
-                thumbnailUrl={uploadedImage}
-              />
-            ))}
-          </div>
-        </>
+        </div>
       )}
     </div>
   )
