@@ -1,0 +1,3 @@
+Unstaged changes after reset:
+M	outputs/workspace_output_1763059917_4686.txt
+fatal: pathspec 'thumbnailtv' did not match any files
