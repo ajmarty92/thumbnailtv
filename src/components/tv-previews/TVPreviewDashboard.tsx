@@ -68,6 +68,78 @@ export function TVPreviewDashboard({ uploadedImage, onImageUpload }: TVPreviewDa
 
   return (
     <div className="space-y-8">
+      {/* Feature Selector - Minimal Addition */}
+      <div className="bg-tv-gray/50 border border-tv-gray/30 rounded-lg p-4">
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => setActiveFeature('preview')}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              activeFeature === 'preview'
+                ? 'bg-tv-blue text-white'
+                : 'bg-tv-gray text-gray-300 hover:bg-tv-gray/70'
+            }`}
+          >
+            📺 TV Safe Zone Preview
+          </button>
+          <button
+            onClick={() => setActiveFeature('compression')}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              activeFeature === 'compression'
+                ? 'bg-pink-500 text-white'
+                : 'bg-tv-gray text-gray-300 hover:bg-tv-gray/70'
+            }`}
+          >
+            ⚡ Smart Compression
+          </button>
+          <button
+            onClick={() => setActiveFeature('upscaling')}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              activeFeature === 'upscaling'
+                ? 'bg-purple-500 text-white'
+                : 'bg-tv-gray text-gray-300 hover:bg-tv-gray/70'
+            }`}
+          >
+            👑 Frame Upscaler (Pro)
+          </button>
+        </div>
+      </div>
+
+      {/* Feature Content */}
+      {activeFeature === 'compression' && (
+        <div className="bg-pink-500/10 border border-pink-500/30 rounded-lg p-8 text-center">
+          <Zap className="w-16 h-16 text-pink-400 mx-auto mb-4" />
+          <h3 className="text-2xl font-bold text-white mb-2">Smart Compression</h3>
+          <p className="text-gray-300 mb-6">
+            Reduce your 100MB+ thumbnails to 49MB while maintaining perfect visual quality.
+          </p>
+          <button className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-lg transition-colors">
+            Try Smart Compression
+          </button>
+        </div>
+      )}
+
+      {activeFeature === 'upscaling' && (
+        <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-8 text-center">
+          <Crown className="w-16 h-16 text-purple-400 mx-auto mb-4" />
+          <h3 className="text-2xl font-bold text-white mb-2">Frame Upscaler - Pro Feature</h3>
+          <p className="text-gray-300 mb-6">
+            Extract perfect video moments and upscale to 4K/8K with AI enhancement.
+          </p>
+          <div className="bg-purple-500/20 border border-purple-500/30 rounded-lg p-6 mb-6">
+            <div className="flex items-center gap-3">
+              <Crown className="w-6 h-6 text-purple-400" />
+              <div>
+                <p className="text-purple-300 font-semibold">Upgrade to Pro Creator</p>
+                <p className="text-purple-200 text-sm">Unlock unlimited 4K upscaling</p>
+              </div>
+            </div>
+          </div>
+          <button className="bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 px-8 rounded-lg transition-colors">
+            Upgrade to Pro - $79/month
+          </button>
+        </div>
+      )}
+
       {/* Upload Area */}
       {!uploadedImage && (
         <div className="bg-tv-gray/50 border-2 border-dashed border-tv-blue/30 rounded-lg p-12 text-center">
