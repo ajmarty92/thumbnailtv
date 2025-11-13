@@ -140,9 +140,6 @@ export function TVPreviewDashboard({ uploadedImage, onImageUpload }: TVPreviewDa
         </div>
       )}
 
-      {/* Original TV Preview Content - Only show when preview is selected */}
-      {activeFeature === 'preview' && (
-        <div className="space-y-8">
       {/* Upload Area */}
       {!uploadedImage && (
         <div className="bg-tv-gray/50 border-2 border-dashed border-tv-blue/30 rounded-lg p-12 text-center">
