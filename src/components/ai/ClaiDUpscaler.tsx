@@ -5,38 +5,29 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 import { 
+  Upload, 
   Wand2, 
   Download,
-  Paintbrush
+  Settings
 } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
 
-interface StabilityAIGenerativeFillProps {
+interface ClaiDUpscalerProps {
   canvas: any
   selectedObject: any
 }
 
-export function StabilityAIGenerativeFill({ canvas, selectedObject }: StabilityAIGenerativeFillProps) {
+export function ClaiDUpscaler({ canvas, selectedObject }: ClaiDUpscalerProps) {
   const [isProcessing, setIsProcessing] = useState(false)
   const [progress, setProgress] = useState(0)
-  const [prompt, setPrompt] = useState('')
-  const [generatedImage, setGeneratedImage] = useState<string | null>(null)
+  const [enhancedImage, setEnhancedImage] = useState<string | null>(null)
   const { toast } = useToast()
 
-  const generateFill = async () => {
+  const upscaleImage = async () => {
     if (!selectedObject) {
       toast({
         title: "No image selected",
-        description: "Please select an image to apply generative fill.",
-        variant: "destructive",
-      })
-      return
-    }
-
-    if (!prompt.trim()) {
-      toast({
-        title: "Prompt required",
-        description: "Please describe what you want to generate.",
+        description: "Please select an image to upscale.",
         variant: "destructive",
       })
       return
@@ -60,35 +51,34 @@ export function StabilityAIGenerativeFill({ canvas, selectedObject }: StabilityA
             clearInterval(progressInterval)
             return 90
           }
-          return prev + 8
+          return prev + 10
         })
-      }, 600)
+      }, 500)
 
-      // Call the generative fill API
-      const response = await fetch('/api/ai/generative-fill', {
+      // Call the upscaling API
+      const response = await fetch('/api/ai/upscale', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           imageData,
-          prompt,
-          maskArea: 'full', // Could be enhanced to support masking
+          upscaleFactor: 2,
         }),
       })
 
       clearInterval(progressInterval)
 
       if (!response.ok) {
-        throw new Error('Generative fill failed')
+        throw new Error('Upscaling failed')
       }
 
       const result = await response.json()
-      setGeneratedImage(result.generatedImageUrl)
+      setEnhancedImage(result.enhancedImageUrl)
       setProgress(100)
 
-      // Update the canvas with the generated image
-      if (canvas && result.generatedImageUrl) {
+      // Update the canvas with the enhanced image
+      if (canvas && result.enhancedImageUrl) {
         const imgElement = new Image()
         imgElement.onload = () => {
           const fabricImg = new (window as any).fabric.Image(imgElement, {
@@ -103,18 +93,18 @@ export function StabilityAIGenerativeFill({ canvas, selectedObject }: StabilityA
           canvas.setActiveObject(fabricImg)
           canvas.renderAll()
         }
-        imgElement.src = result.generatedImageUrl
+        imgElement.src = result.enhancedImageUrl
       }
 
       toast({
-        title: "Generation complete",
-        description: "Your image has been transformed with AI.",
+        title: "Image enhanced",
+        description: "Your image has been successfully upscaled.",
       })
     } catch (error) {
-      console.error('Generative fill error:', error)
+      console.error('Upscaling error:', error)
       toast({
-        title: "Generation failed",
-        description: "There was an error generating your image.",
+        title: "Enhancement failed",
+        description: "There was an error upscaling your image.",
         variant: "destructive",
       })
     } finally {
@@ -122,12 +112,12 @@ export function StabilityAIGenerativeFill({ canvas, selectedObject }: StabilityA
     }
   }
 
-  const downloadGenerated = () => {
-    if (!generatedImage) return
+  const downloadEnhanced = () => {
+    if (!enhancedImage) return
 
     const link = document.createElement('a')
-    link.href = generatedImage
-    link.download = 'generated-image.png'
+    link.href = enhancedImage
+    link.download = 'enhanced-image.png'
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
@@ -137,70 +127,59 @@ export function StabilityAIGenerativeFill({ canvas, selectedObject }: StabilityA
     <Card>
       <CardHeader>
         <CardTitle className="text-base flex items-center gap-2">
-          <Paintbrush className="h-4 w-4" />
-          Stability AI Generative Fill
+          <Wand2 className="h-4 w-4" />
+          Claid.ai Upscaler
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="text-sm text-muted-foreground">
-          <p>Transform images with AI-powered generation</p>
-          <p className="mt-1">• Describe your vision</p>
-          <p>• High-quality results</p>
-          <p>• Creative transformations</p>
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Prompt</label>
-          <textarea
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            placeholder="Describe what you want to generate..."
-            className="w-full h-20 px-3 py-2 text-sm border border-border rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-ring"
-            disabled={isProcessing}
-          />
+          <p>AI-powered image upscaling using Claid.ai API</p>
+          <p className="mt-1">• 2x upscaling factor</p>
+          <p>• Preserves quality</p>
+          <p>• Fast processing</p>
         </div>
 
         {selectedObject && (
           <div className="p-3 bg-muted rounded-lg">
-            <p className="text-sm font-medium">Target Image:</p>
+            <p className="text-sm font-medium">Selected Object:</p>
             <p className="text-xs text-muted-foreground mt-1">
-              {selectedObject.type} • Ready for transformation
+              Type: {selectedObject.type}
             </p>
           </div>
         )}
 
-        {generatedImage && (
+        {enhancedImage && (
           <div className="space-y-2">
             <img 
-              src={generatedImage} 
-              alt="Generated result" 
+              src={enhancedImage} 
+              alt="Enhanced result" 
               className="w-full rounded-lg border border-border"
             />
             <Button 
               variant="outline" 
               size="sm" 
-              onClick={downloadGenerated}
+              onClick={downloadEnhanced}
               className="w-full"
             >
               <Download className="h-4 w-4 mr-2" />
-              Download Result
+              Download Enhanced
             </Button>
           </div>
         )}
 
         <Button 
-          onClick={generateFill}
-          disabled={isProcessing || !selectedObject || !prompt.trim()}
+          onClick={upscaleImage}
+          disabled={isProcessing || !selectedObject}
           className="w-full"
         >
           <Wand2 className="h-4 w-4 mr-2" />
-          {isProcessing ? 'Generating...' : 'Generate'}
+          {isProcessing ? 'Enhancing...' : 'Enhance Image'}
         </Button>
 
         {isProcessing && (
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
-              <span>Processing</span>
+              <span>Progress</span>
               <span>{progress}%</span>
             </div>
             <Progress value={progress} className="h-2" />

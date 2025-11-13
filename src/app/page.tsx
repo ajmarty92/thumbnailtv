@@ -8,7 +8,7 @@ import { Tv, Zap, TrendingUp, Check, Star, ArrowRight, Play, Users, Shield, Spar
 import { useRouter } from 'next/navigation'
 
 export default function HomePage() {
-  const { user, isLoading, showAuthModal } = useAuth()
+  const { user, isLoading } = useAuth()
   const router = useRouter()
   const [showDemo, setShowDemo] = useState(false)
   const [showScrollTop, setShowScrollTop] = useState(false)
@@ -49,7 +49,7 @@ export default function HomePage() {
       router.push('/#pricing')
     } else {
       // Show auth modal for new users
-      showAuthModal()
+      // Auth modal functionality temporarily disabled
     }
   }
 
@@ -139,12 +139,9 @@ export default function HomePage() {
                         <ArrowRight className="w-5 h-5 inline mr-2" />
                         Start Free Trial
                       </button>
-                      <button 
-                        onClick={() => setShowDemo(true)}
-                        className="px-8 py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-xl text-lg font-semibold transition-colors border border-gray-700"
-                      >
+                      <button className="px-8 py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-xl text-lg font-semibold transition-colors border border-gray-700">
                         <Play className="w-5 h-5 inline mr-2" />
-                        Test All Features (Demo)
+                        Watch 2-Min Demo
                       </button>
                     </>
                   )}

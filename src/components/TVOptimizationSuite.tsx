@@ -1,9 +1,7 @@
 'use client'
 
 import { useState, useCallback, useEffect } from 'react'
-import { Upload, Download, Eye, EyeOff, Settings, AlertCircle, CheckCircle, Sparkles, Wand2, Monitor, Layers } from 'lucide-react'
-import SmartLoopCompressor from './ai/SmartLoopCompressor'
-import LetsEnhanceUpscaler from './ai/LetsEnhanceUpscaler'
+import { Upload, Download, Eye, EyeOff, Settings, AlertCircle, CheckCircle, Sparkles } from 'lucide-react'
 
 export default function TVOptimizationSuite() {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null)
@@ -16,7 +14,6 @@ export default function TVOptimizationSuite() {
   const [compressedSize, setCompressedSize] = useState(0)
   const [tvSize, setTvSize] = useState('65')
   const [viewDistance, setViewDistance] = useState('10')
-  const [activeDemo, setActiveDemo] = useState<'tv-preview' | 'smart-compression' | 'thumbnail-upscale'>('tv-preview')
 
   // TV platforms with accurate UI overlays - FIXED TYPES
   const tvPlatforms = [
@@ -54,9 +51,9 @@ export default function TVOptimizationSuite() {
       }
     },
     {
-      id: 'lg-webos',
-      name: 'LG webOS',
-      brandColor: 'from-pink-600 to-pink-700',
+      id: 'apple-tv',
+      name: 'Apple TV',
+      brandColor: 'from-gray-700 to-gray-800',
       uiOverlay: {
         top: 8, // number instead of string
         bottom: 15, // number instead of string
@@ -65,39 +62,59 @@ export default function TVOptimizationSuite() {
       }
     },
     {
-      id: 'apple-tv',
-      name: 'Apple TV',
-      brandColor: 'from-gray-600 to-gray-700',
+      id: 'fire-tv',
+      name: 'Fire TV',
+      brandColor: 'from-orange-600 to-orange-700',
       uiOverlay: {
-        top: 10, // number instead of string
-        bottom: 15, // number instead of string
-        left: 2,
-        right: 2
+        top: 18, // number instead of string
+        bottom: 22, // number instead of string
+        left: 7,
+        right: 7
       }
     }
   ]
 
-  const handleImageUpload = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (!file) return
-
-    const reader = new FileReader()
-    reader.onload = (e) => {
-      const result = e.target?.result as string
-      setUploadedImage(result)
-      setOriginalSize(file.size)
-      setCompressedSize(0)
-      setCompressionProgress(0)
+  // Calculate safe zones based on TV size and viewing distance
+  const calculateSafeZones = useCallback((size: string, distance: string) => {
+    const sizeNum = parseInt(size)
+    const distanceNum = parseInt(distance)
+    
+    // Larger TVs and further distances = more content hidden
+    const baseTopOverlay = 10 + (sizeNum - 55) * 0.2 + (distanceNum - 8) * 0.3
+    const baseBottomOverlay = 15 + (sizeNum - 55) * 0.3 + (distanceNum - 8) * 0.4
+    
+    return {
+      top: Math.min(baseTopOverlay, 25),
+      bottom: Math.min(baseBottomOverlay, 30),
+      left: 5,
+      right: 5
     }
-    reader.readAsDataURL(file)
   }, [])
+
+  const safeZones = calculateSafeZones(tvSize, viewDistance)
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        setUploadedImage(e.target?.result as string)
+        setOriginalSize(file.size)
+        setCompressedSize(0)
+        setCompressionProgress(0)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
 
   const simulateProcessing = async () => {
     setIsProcessing(true)
-    setProcessingStage('Analyzing image...')
+    setProcessingStage('Analyzing thumbnail content...')
     
+    // Simulate processing stages
     const stages = [
-      { message: 'Analyzing image...', duration: 500 },
+      { message: 'Analyzing thumbnail content...', duration: 1000 },
+      { message: 'Detecting text and faces...', duration: 1500 },
       { message: 'Calculating optimal compression...', duration: 1000 },
       { message: 'Applying AI optimization...', duration: 2000 },
       { message: 'Finalizing...', duration: 500 }
@@ -128,47 +145,46 @@ export default function TVOptimizationSuite() {
     setTimeout(() => {
       setIsProcessing(false)
       setProcessingStage('')
-    }, 1500)
+    }, 1000)
   }
 
   const resetDemo = () => {
     setUploadedImage(null)
     setSelectedPlatform('all')
     setShowGrid(true)
-    setIsProcessing(false)
-    setProcessingStage('')
     setCompressionProgress(0)
     setCompressedSize(0)
-    setOriginalSize(0)
+    setProcessingStage('')
   }
 
   // FIXED: Proper type coercion and numeric comparison
   const getPlatformIssues = (platform: typeof tvPlatforms[0]) => {
     const issues = []
     
-    // FIXED: Use Number() instead of parseInt for type coercion
-    const safeZoneTop = Number(tvSize) * 0.05 // 5% safe zone
-    const uiTop = platform.uiOverlay.top
+    // Coerce to number and check if finite before comparison
+    const topRaw = platform.uiOverlay?.top
+    const top = typeof topRaw === 'string' ? parseFloat(topRaw) : topRaw
     
-    if (uiTop > safeZoneTop) {
-      issues.push({
-        type: 'ui-cutoff',
-        severity: 'high',
-        message: `UI elements (${uiTop}% from top) may be cut off on ${tvSize}" TVs`,
-        suggestion: 'Move critical elements down by ' + Math.ceil(uiTop - safeZoneTop) + '%'
-      })
+    const bottomRaw = platform.uiOverlay?.bottom
+    const bottom = typeof bottomRaw === 'string' ? parseFloat(bottomRaw) : bottomRaw
+    
+    const leftRaw = platform.uiOverlay?.left
+    const left = typeof leftRaw === 'string' ? parseFloat(leftRaw) : leftRaw
+    
+    const rightRaw = platform.uiOverlay?.right
+    const right = typeof rightRaw === 'string' ? parseFloat(rightRaw) : rightRaw
+    
+    if (Number.isFinite(top) && top > 15) {
+      issues.push('Top navigation covers important content')
+    }
+    if (Number.isFinite(bottom) && bottom > 20) {
+      issues.push('Bottom content bar may hide text')
+    }
+    if (Number.isFinite(left) && (left > 5 || Number.isFinite(right) && right > 5)) {
+      issues.push('Side UI elements reduce visible area')
     }
     
-    if (platform.id === 'samsung' && selectedPlatform !== 'samsung') {
-      issues.push({
-        type: 'brand-optimization',
-        severity: 'medium',
-        message: 'Samsung-specific optimization available',
-        suggestion: 'Use Samsung preset for optimal results'
-      })
-    }
-    
-    return issues
+    return issues.length > 0 ? issues : ['Good layout for this platform']
   }
 
   const filteredPlatforms = selectedPlatform === 'all' 
@@ -176,399 +192,312 @@ export default function TVOptimizationSuite() {
     : tvPlatforms.filter(p => p.id === selectedPlatform)
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white">
-      {/* Demo Feature Selector */}
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold text-white mb-4">🎬 Demo Account - Test All Features</h2>
-        <div className="bg-gray-800 rounded-xl p-6">
-          <p className="text-gray-300 mb-4">Experience all 3 core AI features with your demo account:</p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <button
-              onClick={() => setActiveDemo('tv-preview')}
-              className={`p-4 rounded-lg border-2 transition-all ${
-                activeDemo === 'tv-preview' 
-                  ? 'bg-purple-600 border-purple-400 text-white' 
-                  : 'bg-gray-700 border-gray-600 text-gray-300 hover:bg-gray-600'
-              }`}
-            >
-              <Monitor className="w-6 h-6 mb-2 mx-auto" />
-              <h3 className="font-semibold mb-1">AI TV Safe-Zone Preview</h3>
-              <p className="text-xs opacity-80">Optimize thumbnails for 5 TV platforms</p>
-            </button>
-
-            <button
-              onClick={() => setActiveDemo('smart-compression')}
-              className={`p-4 rounded-lg border-2 transition-all ${
-                activeDemo === 'smart-compression' 
-                  ? 'bg-blue-600 border-blue-400 text-white' 
-                  : 'bg-gray-700 border-gray-600 text-gray-300 hover:bg-gray-600'
-              }`}
-            >
-              <Layers className="w-6 h-6 mb-2 mx-auto" />
-              <h3 className="font-semibold mb-1">AI Smart-Compression</h3>
-              <p className="text-xs opacity-80">Reduce size while maintaining quality</p>
-            </button>
-
-            <button
-              onClick={() => setActiveDemo('thumbnail-upscale')}
-              className={`p-4 rounded-lg border-2 transition-all ${
-                activeDemo === 'thumbnail-upscale' 
-                  ? 'bg-green-600 border-green-400 text-white' 
-                  : 'bg-gray-700 border-gray-600 text-gray-300 hover:bg-gray-600'
-              }`}
-            >
-              <Wand2 className="w-6 h-6 mb-2 mx-auto" />
-              <h3 className="font-semibold mb-1">AI Frame-to-Thumbnail Upscaler</h3>
-              <p className="text-xs opacity-80">Enhance quality and resolution</p>
-            </button>
-          </div>
-
-          <div className="text-sm text-gray-400 bg-gray-900/50 rounded-lg p-3">
-            <span className="font-semibold text-yellow-400">💡 Demo Tip:</span> 
-            {activeDemo === 'tv-preview' && " Upload any image to see how it looks across different TV platforms with accurate UI overlays."}
-            {activeDemo === 'smart-compression' && " Test AI compression with different quality targets and formats."}
-            {activeDemo === 'thumbnail-upscale' && " Transform small frames into high-quality thumbnails."}
-          </div>
-        </div>
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      {/* Header */}
+      <div className="text-center mb-8">
+        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          TV Optimization Suite
+        </h2>
+        <p className="text-gray-300 max-w-2xl mx-auto">
+          Test your thumbnails across different TV sizes and viewing distances. 
+          See exactly how they appear on real TV interfaces.
+        </p>
       </div>
 
-      {/* Feature-Specific Demo Content */}
-      {activeDemo === 'tv-preview' && (
-        <>
-          <div className="bg-gray-800 rounded-xl p-6">
-            <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-              <Monitor className="w-5 h-5 text-purple-400" />
-              AI TV Safe-Zone Preview - Demo
-            </h3>
-            <p className="text-gray-300 mb-4">
-              Upload an image to see how it appears across different TV platforms with accurate UI overlays and safe zones.
-            </p>
+      {/* Controls */}
+      <div className="bg-gray-800/50 rounded-xl p-6 mb-8 border border-gray-700">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Upload */}
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              Upload Thumbnail
+            </label>
+            <div className="relative">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="hidden"
+                id="thumbnail-upload"
+              />
+              <label
+                htmlFor="thumbnail-upload"
+                className="flex items-center justify-center w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg cursor-pointer transition-colors"
+              >
+                <Upload className="w-4 h-4 mr-2" />
+                Choose File
+              </label>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Left Column - Upload and Controls */}
-            <div className="space-y-6">
-              {/* Upload Section */}
-              <div className="bg-gray-800 rounded-xl p-6">
-                <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                  <Upload className="w-5 h-5 text-purple-400" />
-                  Upload Thumbnail
-                </h3>
-                
-                {!uploadedImage ? (
-                  <div
-                    onClick={() => document.getElementById('file-upload')?.click()}
-                    className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center cursor-pointer hover:border-purple-500 transition-colors"
-                  >
-                    <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-300 mb-2">Click to upload thumbnail image</p>
-                    <p className="text-sm text-gray-500">Supports JPG, PNG, WebP up to 10MB</p>
-                    <input
-                      id="file-upload"
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="hidden"
-                    />
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    <div className="relative">
-                      <img
-                        src={uploadedImage}
-                        alt="Uploaded thumbnail"
-                        className="w-full h-auto rounded-lg"
-                      />
-                      <button
-                        onClick={resetDemo}
-                        className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white p-2 rounded-full transition-colors"
-                      >
-                        ×
-                      </button>
-                    </div>
-                    <div className="flex justify-between text-sm text-gray-400">
-                      <span>Original Size: {(originalSize / 1024 / 1024).toFixed(2)}MB</span>
-                      <span>Resolution: 1920×1080</span>
-                    </div>
+          {/* Platform Filter */}
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              Platform
+            </label>
+            <select
+              value={selectedPlatform}
+              onChange={(e) => setSelectedPlatform(e.target.value)}
+              className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            >
+              <option value="all">All Platforms</option>
+              {tvPlatforms.map(platform => (
+                <option key={platform.id} value={platform.id}>
+                  {platform.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* TV Size */}
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              TV Size
+            </label>
+            <select
+              value={tvSize}
+              onChange={(e) => setTvSize(e.target.value)}
+              className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            >
+              <option value="55">55" TV</option>
+              <option value="65">65" TV</option>
+              <option value="75">75" TV</option>
+              <option value="85">85" TV</option>
+              <option value="100">100" TV</option>
+            </select>
+          </div>
+
+          {/* View Distance */}
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              Viewing Distance
+            </label>
+            <select
+              value={viewDistance}
+              onChange={(e) => setViewDistance(e.target.value)}
+              className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            >
+              <option value="8">8 feet</option>
+              <option value="10">10 feet</option>
+              <option value="12">12 feet</option>
+              <option value="14">14 feet</option>
+              <option value="16">16 feet</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-wrap gap-3 mt-6">
+          {uploadedImage && (
+            <>
+              <button
+                onClick={simulateProcessing}
+                disabled={isProcessing}
+                className="px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white rounded-lg transition-colors flex items-center gap-2"
+              >
+                <Sparkles className="w-4 h-4" />
+                {isProcessing ? 'Processing...' : 'Optimize for TV'}
+              </button>
+              
+              <button
+                onClick={() => setShowGrid(!showGrid)}
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center gap-2"
+              >
+                {showGrid ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                {showGrid ? 'Hide Grid' : 'Show Grid'}
+              </button>
+              
+              <button
+                onClick={resetDemo}
+                className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors flex items-center gap-2"
+              >
+                <Settings className="w-4 h-4" />
+                Reset
+              </button>
+            </>
+          )}
+        </div>
+
+        {/* Processing Status */}
+        {isProcessing && (
+          <div className="mt-6 p-4 bg-gray-700/50 rounded-lg">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-4 h-4 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
+              <span className="text-white font-medium">{processingStage}</span>
+            </div>
+            
+            {compressionProgress > 0 && (
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm text-gray-300">
+                  <span>Compression Progress</span>
+                  <span>{Math.floor(compressionProgress)}%</span>
+                </div>
+                <div className="w-full bg-gray-600 rounded-full h-2">
+                  <div 
+                    className="bg-gradient-to-r from-purple-600 to-pink-600 h-2 rounded-full transition-all duration-300"
+                    style={{ width: `${compressionProgress}%` }}
+                  />
+                </div>
+                {compressedSize > 0 && (
+                  <div className="flex justify-between text-sm text-gray-400">
+                    <span>Size: {(originalSize / 1024 / 1024).toFixed(1)}MB → {(compressedSize / 1024 / 1024).toFixed(1)}MB</span>
+                    <span className="text-green-400">-{Math.floor((1 - compressedSize / originalSize) * 100)}%</span>
                   </div>
                 )}
               </div>
+            )}
+          </div>
+        )}
+      </div>
 
-              {/* Platform Selection */}
-              {uploadedImage && (
-                <div className="bg-gray-800 rounded-xl p-6">
-                  <h3 className="text-lg font-semibold text-white mb-4">TV Platforms</h3>
-                  <div className="grid grid-cols-2 gap-3">
-                    <button
-                      onClick={() => setSelectedPlatform('all')}
-                      className={`px-4 py-2 rounded-lg transition-colors ${
-                        selectedPlatform === 'all' ? 'bg-purple-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                      }`}
-                    >
-                      All Platforms
+      {/* Results */}
+      {!uploadedImage ? (
+        <div className="bg-gray-800/50 rounded-xl p-12 text-center border border-gray-700">
+          <div className="w-16 h-16 bg-purple-600/20 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Upload className="w-8 h-8 text-purple-400" />
+          </div>
+          <h3 className="text-xl font-semibold text-white mb-2">
+            Upload a Thumbnail to Get Started
+          </h3>
+          <p className="text-gray-400">
+            See how your thumbnail appears on different TV platforms and get AI-powered optimization recommendations.
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-8">
+          {/* TV Platform Previews */}
+          <div className={`grid gap-6 ${filteredPlatforms.length > 1 ? 'lg:grid-cols-2' : 'lg:grid-cols-1'}`}>
+            {filteredPlatforms.map(platform => {
+              const issues = getPlatformIssues(platform)
+              
+              return (
+                <div key={platform.id} className="bg-gray-800/50 rounded-xl p-6 border border-gray-700">
+                  {/* Platform Header */}
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className={`px-3 py-1 bg-gradient-to-r ${platform.brandColor} rounded-full`}>
+                        <span className="text-white text-sm font-semibold">
+                          {platform.name}
+                        </span>
+                      </div>
+                      <span className="text-gray-400 text-sm">
+                        {tvSize}" TV • {viewDistance} feet
+                      </span>
+                    </div>
+                    <button className="text-gray-400 hover:text-white transition-colors">
+                      <Download className="w-5 h-5" />
                     </button>
-                    {tvPlatforms.map((platform) => (
-                      <button
-                        key={platform.id}
-                        onClick={() => setSelectedPlatform(platform.id)}
-                        className={`px-4 py-2 rounded-lg transition-colors ${
-                          selectedPlatform === platform.id ? 'bg-purple-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                        }`}
-                      >
-                        {platform.name}
-                      </button>
-                    ))}
                   </div>
-                </div>
-              )}
 
-              {/* Processing Controls */}
-              {uploadedImage && (
-                <div className="bg-gray-800 rounded-xl p-6">
-                  <h3 className="text-lg font-semibold text-white mb-4">Optimization Settings</h3>
-                  
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
-                        TV Size: {tvSize}"
-                      </label>
-                      <input
-                        type="range"
-                        min="32"
-                        max="85"
-                        value={tvSize}
-                        onChange={(e) => setTvSize(e.target.value)}
-                        className="w-full"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
-                        View Distance: {viewDistance} feet
-                      </label>
-                      <input
-                        type="range"
-                        min="6"
-                        max="15"
-                        value={viewDistance}
-                        onChange={(e) => setViewDistance(e.target.value)}
-                        className="w-full"
-                      />
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        id="show-grid"
-                        checked={showGrid}
-                        onChange={(e) => setShowGrid(e.target.checked)}
-                        className="rounded"
-                      />
-                      <label htmlFor="show-grid" className="text-sm text-gray-300">
-                        Show safe zone grid
-                      </label>
-                    </div>
-
-                    <button
-                      onClick={simulateProcessing}
-                      disabled={isProcessing}
-                      className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-3 rounded-lg font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {isProcessing ? 'Processing...' : 'Start AI Optimization'}
-                    </button>
-
-                    {compressionProgress > 0 && (
-                      <div className="space-y-2">
-                        <div className="flex justify-between text-sm text-gray-300">
-                          <span>Compression Progress</span>
-                          <span>{Math.floor(compressionProgress)}%</span>
+                  {/* TV Preview */}
+                  <div className="relative bg-gray-900 rounded-lg overflow-hidden mb-4">
+                    {/* TV Frame */}
+                    <div className="relative" style={{ paddingBottom: '56.25%' }}>
+                      {/* Safe Zone Overlay */}
+                      <div className="absolute inset-0 bg-black/10" />
+                      
+                      {/* Top UI Overlay */}
+                      <div 
+                        className="absolute top-0 left-0 right-0 bg-black/60 flex items-center px-4 py-2"
+                        style={{ height: `${safeZones.top}%` }}
+                      >
+                        <div className="flex items-center gap-2">
+                          <div className="w-8 h-8 bg-gray-700 rounded" />
+                          <div className="w-20 h-4 bg-gray-700 rounded" />
                         </div>
-                        <div className="w-full bg-gray-600 rounded-full h-2">
-                          <div 
-                            className="bg-gradient-to-r from-purple-600 to-pink-600 h-2 rounded-full transition-all duration-300"
-                            style={{ width: `${compressionProgress}%` }}
-                          />
+                        <div className="ml-auto flex gap-2">
+                          <div className="w-12 h-4 bg-gray-700 rounded" />
+                          <div className="w-8 h-8 bg-gray-700 rounded" />
                         </div>
-                        {compressedSize > 0 && (
-                          <div className="flex justify-between text-sm text-gray-400">
-                            <span>Size: {(originalSize / 1024 / 1024).toFixed(1)}MB → {(compressedSize / 1024 / 1024).toFixed(1)}MB</span>
-                            <span className="text-green-400">-{Math.floor((1 - compressedSize / originalSize) * 100)}%</span>
+                      </div>
+
+                      {/* Bottom UI Overlay */}
+                      <div 
+                        className="absolute bottom-0 left-0 right-0 bg-black/60 flex items-center px-4 py-3"
+                        style={{ height: `${safeZones.bottom}%` }}
+                      >
+                        <div className="w-16 h-16 bg-gray-700 rounded" />
+                        <div className="ml-4 flex-1">
+                          <div className="w-32 h-4 bg-gray-700 rounded mb-1" />
+                          <div className="w-48 h-3 bg-gray-700 rounded" />
+                        </div>
+                        <div className="flex gap-2">
+                          <div className="w-8 h-8 bg-gray-700 rounded" />
+                          <div className="w-8 h-8 bg-gray-700 rounded" />
+                        </div>
+                      </div>
+
+                      {/* Thumbnail Preview */}
+                      <div 
+                        className="absolute flex items-center justify-center"
+                        style={{
+                          top: `${safeZones.top}%`,
+                          bottom: `${safeZones.bottom}%`,
+                          left: `${safeZones.left}%`,
+                          right: `${safeZones.right}%`
+                        }}
+                      >
+                        <img 
+                          src={uploadedImage} 
+                          alt="Thumbnail preview"
+                          className="w-full h-full object-contain"
+                        />
+                        
+                        {/* Grid Overlay */}
+                        {showGrid && (
+                          <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 pointer-events-none">
+                            {[...Array(9)].map((_, i) => (
+                              <div key={i} className="border border-white/20" />
+                            ))}
                           </div>
                         )}
+                      </div>
+
+                      {/* Distance Indicator */}
+                      <div className="absolute top-4 right-4 bg-black/60 px-2 py-1 rounded text-white text-xs">
+                        {viewDistance} feet
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Issues/Recommendations */}
+                  <div className="space-y-3">
+                    <h4 className="text-white font-semibold flex items-center gap-2">
+                      <AlertCircle className="w-4 h-4" />
+                      Analysis Results
+                    </h4>
+                    <div className="space-y-2">
+                      {issues.map((issue, index) => (
+                        <div 
+                          key={index}
+                          className={`flex items-start gap-2 text-sm ${
+                            issue.includes('Good layout') ? 'text-green-400' : 'text-yellow-400'
+                          }`}
+                        >
+                          {issue.includes('Good layout') ? (
+                            <CheckCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                          ) : (
+                            <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                          )}
+                          <span>{issue}</span>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    {compressedSize > 0 && (
+                      <div className="mt-4 p-3 bg-gray-700/50 rounded-lg">
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-gray-300">Optimization Complete</span>
+                          <span className="text-green-400 font-semibold">
+                            {Math.floor((1 - compressedSize / originalSize) * 100)}% smaller
+                          </span>
+                        </div>
                       </div>
                     )}
                   </div>
                 </div>
-              )}
-            </div>
-
-            {/* Right Column - Previews */}
-            {uploadedImage && (
-              <div className="space-y-6">
-                <div className="bg-gray-800 rounded-xl p-6">
-                  <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                    <Eye className="w-5 h-5 text-purple-400" />
-                    TV Platform Previews
-                  </h3>
-                  
-                  <div className="grid grid-cols-1 gap-6">
-                    {filteredPlatforms.map((platform) => {
-                      const issues = getPlatformIssues(platform)
-                      return (
-                        <div key={platform.id} className="bg-gray-900 rounded-lg p-4">
-                          <div className="flex items-center justify-between mb-3">
-                            <h4 className={`font-semibold bg-gradient-to-r ${platform.brandColor} bg-clip-text text-transparent`}>
-                              {platform.name}
-                            </h4>
-                            <div className="flex items-center gap-2">
-                              <button
-                                onClick={() => setShowGrid(!showGrid)}
-                                className="text-gray-400 hover:text-white transition-colors"
-                                title="Toggle grid"
-                              >
-                                {showGrid ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
-                              </button>
-                            </div>
-                          </div>
-                          
-                          <div className="relative bg-black rounded-lg overflow-hidden" style={{ aspectRatio: '16/9' }}>
-                            <img
-                              src={uploadedImage}
-                              alt={`${platform.name} preview`}
-                              className="w-full h-full object-contain"
-                            />
-                            
-                            {/* UI Overlay Simulation */}
-                            <div className="absolute inset-0 pointer-events-none">
-                              {/* Top UI overlay */}
-                              <div 
-                                className="absolute top-0 left-0 right-0 bg-gradient-to-b from-black/80 to-transparent"
-                                style={{ height: `${platform.uiOverlay.top}%` }}
-                              >
-                                <div className="p-4">
-                                  <div className="bg-white/20 backdrop-blur-sm rounded px-3 py-1 text-white text-sm">
-                                    {platform.name} UI Simulation
-                                  </div>
-                                </div>
-                              </div>
-                              
-                              {/* Bottom UI overlay */}
-                              <div 
-                                className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent"
-                                style={{ height: `${platform.uiOverlay.bottom}%` }}
-                              >
-                                <div className="absolute bottom-4 left-4 right-4">
-                                  <div className="bg-white/20 backdrop-blur-sm rounded px-3 py-2 text-white text-sm">
-                                    Content description • Metadata
-                                  </div>
-                                </div>
-                              </div>
-                              
-                              {/* Side overlays */}
-                              <div 
-                                className="absolute top-0 bottom-0 bg-gradient-to-r from-black/40 to-transparent"
-                                style={{ width: `${platform.uiOverlay.left}%` }}
-                              />
-                              <div 
-                                className="absolute top-0 bottom-0 right-0 bg-gradient-to-l from-black/40 to-transparent"
-                                style={{ width: `${platform.uiOverlay.right}%` }}
-                              />
-                              
-                              {/* Safe Zone Grid */}
-                              {showGrid && (
-                                <div className="absolute inset-0 pointer-events-none">
-                                  {/* Safe zone indicators */}
-                                  <div className="absolute top-[5%] left-[5%] right-[5%] bottom-[10%] border-2 border-yellow-400/30 border-dashed">
-                                    <div className="absolute top-0 left-0 bg-yellow-400 text-black text-xs px-1 rounded-br">
-                                      Safe Zone
-                                    </div>
-                                  </div>
-                                  
-                                  {/* Action safe zone (smaller) */}
-                                  <div className="absolute top-[10%] left-[10%] right-[10%] bottom-[15%] border border-green-400/30 border-dashed">
-                                    <div className="absolute top-0 left-0 bg-green-400 text-black text-xs px-1 rounded-br">
-                                      Action Safe
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                          
-                          {/* Platform-specific Issues */}
-                          {issues.length > 0 && (
-                            <div className="mt-3 space-y-2">
-                              {issues.map((issue, index) => (
-                                <div
-                                  key={index}
-                                  className={`p-2 rounded text-xs ${
-                                    issue.severity === 'high' 
-                                      ? 'bg-red-900/20 text-red-400 border border-red-800/30'
-                                      : 'bg-yellow-900/20 text-yellow-400 border border-yellow-800/30'
-                                  }`}
-                                >
-                                  <div className="flex items-start gap-2">
-                                    <AlertCircle className="w-3 h-3 mt-0.5 flex-shrink-0" />
-                                    <div>
-                                      <p className="font-medium">{issue.message}</p>
-                                      <p className="opacity-80 mt-1">{issue.suggestion}</p>
-                                    </div>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                          
-                          {compressedSize > 0 && (
-                            <div className="mt-4 p-3 bg-gray-700/50 rounded-lg">
-                              <div className="flex items-center justify-between text-sm">
-                                <span className="text-gray-300">Optimization Complete</span>
-                                <span className="text-green-400 font-semibold">
-                                  {Math.floor((1 - compressedSize / originalSize) * 100)}% smaller
-                                </span>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      )
-                    })}
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </>
-      )}
-
-      {activeDemo === 'smart-compression' && (
-        <div className="bg-gray-800 rounded-xl p-6">
-          <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-            <Layers className="w-5 h-5 text-blue-400" />
-            AI Smart-Compression - Demo
-          </h3>
-          <p className="text-gray-300 mb-4">
-            Test AI-powered compression that reduces file size while maintaining visual quality.
-          </p>
-          
-          <div className="bg-gray-900/50 rounded-lg p-4">
-            <SmartLoopCompressor />
-          </div>
-        </div>
-      )}
-
-      {activeDemo === 'thumbnail-upscale' && (
-        <div className="bg-gray-800 rounded-xl p-6">
-          <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-            <Wand2 className="w-5 h-5 text-green-400" />
-            AI Frame-to-Thumbnail Upscaler - Demo
-          </h3>
-          <p className="text-gray-300 mb-4">
-            Transform small frames into high-quality thumbnails using AI upscaling technology.
-          </p>
-          
-          <div className="bg-gray-900/50 rounded-lg p-4">
-            <LetsEnhanceUpscaler />
+              )
+            })}
           </div>
         </div>
       )}
