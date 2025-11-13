@@ -16,7 +16,7 @@ interface StabilityAIGenerativeFillProps {
   selectedObject: any
 }
 
-export function StabilityAIGenerativeFill({ canvas, selectedObject }: StabilityAIGenerativeFillProps) {
+export default function StabilityAIGenerativeFill({ canvas, selectedObject }: StabilityAIGenerativeFillProps) {
   const [isProcessing, setIsProcessing] = useState(false)
   const [progress, setProgress] = useState(0)
   const [prompt, setPrompt] = useState('')

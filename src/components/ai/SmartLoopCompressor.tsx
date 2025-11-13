@@ -17,7 +17,7 @@ interface SmartLoopCompressorProps {
   selectedObject: any
 }
 
-export function SmartLoopCompressor({ canvas, selectedObject }: SmartLoopCompressorProps) {
+export default function SmartLoopCompressor({ canvas, selectedObject }: SmartLoopCompressorProps) {
   const [isProcessing, setIsProcessing] = useState(false)
   const [progress, setProgress] = useState(0)
   const [compressionLevel, setCompressionLevel] = useState(70)

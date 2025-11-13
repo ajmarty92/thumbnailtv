@@ -14,8 +14,8 @@ import {
 } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
 import { ClaiDUpscaler } from './ClaiDUpscaler'
-import { StabilityAIGenerativeFill } from './StabilityAIGenerativeFill'
-import { SmartLoopCompressor } from './SmartLoopCompressor'
+import StabilityAIGenerativeFill from './StabilityAIGenerativeFill'
+import SmartLoopCompressor from './SmartLoopCompressor'
 
 interface AIEditorPanelProps {
   canvas: any
