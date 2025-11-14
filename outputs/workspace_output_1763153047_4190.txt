@@ -1,0 +1,83 @@
+
+import { useAuth } from '@/contexts/AuthContext'
+import { useSmartNavigation } from '@/hooks/useSmartNavigation'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+<<<<<<< HEAD
+import { Moon, Sun, User, LogOut, Home } from 'lucide-react'
+=======
+import { Moon, Sun, User, LogOut } from 'lucide-react'
+>>>>>>> 6c848ce (Implement new logo design with enhanced prominence)
+import Image from 'next/image'
+
+export default function Navigation() {
+  const { user, login, logout, isLoading, isAuthModalOpen, hideAuthModal } = useAuth()
+<<<<<<< HEAD
+  const { navigateToSection, isNavigating, isOnHomepage } = useSmartNavigation()
+=======
+>>>>>>> 6c848ce (Implement new logo design with enhanced prominence)
+  const router = useRouter()
+  const [showLogin, setShowLogin] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark')
+  const [loginError, setLoginError] = useState('')
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState('')
+
+  // Active section detection
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['features', 'pricing', 'faq']
+      const scrollPosition = window.scrollY + 100
+      
+      for (const section of sections) {
+        const element = document.getElementById(section)
+        if (element) {
+          const { offsetTop, offsetHeight } = element
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+--
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <div className="flex items-center">
+            <button
+              onClick={() => router.push('/')}
+<<<<<<< HEAD
+              className="flex items-center hover:opacity-80 transition-opacity duration-200"
+=======
+              className="flex items-center hover:opacity-90 transition-opacity duration-200 p-2 rounded-lg hover:bg-white/5"
+>>>>>>> 6c848ce (Implement new logo design with enhanced prominence)
+              aria-label="ThumbnailTV - Go to homepage"
+            >
+              <Image
+                src="/images/logo.png"
+                alt="ThumbnailTV"
+<<<<<<< HEAD
+                width={120}
+                height={32}
+                className="h-8 w-auto object-contain"
+=======
+                width={200}
+                height={60}
+                className="h-14 w-auto object-contain"
+>>>>>>> 6c848ce (Implement new logo design with enhanced prominence)
+                priority
+              />
+            </button>
+          </div>
+
+          {/* Desktop Navigation Links */}
+          <div className="hidden md:flex items-center gap-6">
+            <button
+              onClick={() => scrollToSection('features')}
+              className={`text-gray-300 hover:text-white transition-colors duration-200 font-medium ${
+                activeSection === 'features' ? 'text-purple-400' : ''
+              }`}
+            >
+              Features
+            </button>
+            <button
+              onClick={() => scrollToSection('pricing')}
+              className={`text-gray-300 hover:text-white transition-colors duration-200 font-medium ${
+                activeSection === 'pricing' ? 'text-purple-400' : ''
+              }`}
