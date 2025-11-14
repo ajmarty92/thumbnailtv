@@ -1,0 +1,10 @@
+'use client'
+
+import { useState, useCallback, useEffect } from 'react'
+import { Upload, Download, Eye, EyeOff, Settings, AlertCircle, CheckCircle, Sparkles, Wand2, Monitor, Layers } from 'lucide-react'
+import SmartLoopCompressor from './ai/SmartLoopCompressor'
+import LetsEnhanceUpscaler from './ai/LetsEnhanceUpscaler'
+
+export default function TVOptimizationSuite() {
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null)
+  const [selectedPlatform, setSelectedPlatform] = useState('all')

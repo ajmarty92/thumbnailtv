@@ -1,0 +1,3 @@
+5:import { LazySmartLoopCompressor, LazyLetsEnhanceUpscaler, preloadComponent } from './DemoComponents'
+555:            <SmartLoopCompressor />
+571:            <LetsEnhanceUpscaler />

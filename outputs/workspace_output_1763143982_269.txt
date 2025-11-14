@@ -1,0 +1,10 @@
+src/app/about/page.tsx
+src/app/api/stripe/route.ts
+src/app/api/compress/route.ts
+src/app/api/upscale/route.ts
+src/app/blog/page.tsx
+src/app/contact/page.tsx
+src/app/guide/page.tsx
+src/app/layout.tsx
+src/app/page.tsx
+src/app/privacy/page.tsx

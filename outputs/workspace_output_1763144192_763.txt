@@ -1,0 +1,103 @@
+
+> thumbnailtv@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.33
+  - Environments: .env.local
+  - Experiments (use with caution):
+    · optimizeCss
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Skipping linting
+   Checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/14) ...
+ ⚠ Unsupported metadata viewport is configured in metadata export in /terms/. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ ⚠ Unsupported metadata viewport is configured in metadata export in /terms/. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ ⚠ Unsupported metadata viewport is configured in metadata export in /about/. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ ⚠ Unsupported metadata viewport is configured in metadata export in /about/. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ ⚠ Unsupported metadata viewport is configured in metadata export in /blog/. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ ⚠ Unsupported metadata viewport is configured in metadata export in /blog/. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+
+Error occurred prerendering page "/500". Read more: https://nextjs.org/docs/messages/prerender-error
+
+Error: Cannot find module 'critters'
+Require stack:
+- /workspace/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js
+- /workspace/.next/server/pages/_document.js
+- /workspace/node_modules/next/dist/server/require.js
+- /workspace/node_modules/next/dist/server/load-components.js
+- /workspace/node_modules/next/dist/build/utils.js
+- /workspace/node_modules/next/dist/build/worker.js
+- /workspace/node_modules/next/dist/compiled/jest-worker/processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+    at /workspace/node_modules/next/dist/server/require-hook.js:55:36
+    at Module._load (node:internal/modules/cjs/loader:1038:27)
+    at Module.require (node:internal/modules/cjs/loader:1289:19)
+    at mod.require (/workspace/node_modules/next/dist/server/require-hook.js:65:28)
+    at require (node:internal/modules/helpers:182:18)
+    at Object.critters (/workspace/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:14:17952)
+    at r (/workspace/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:14:18476)
+    at /workspace/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:14:13135
+    at u (/workspace/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:14:13382)
+   Generating static pages (3/14) 
+ ⚠ Unsupported metadata viewport is configured in metadata export in /guide/. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ ⚠ Unsupported metadata viewport is configured in metadata export in /guide/. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ ⚠ Unsupported metadata viewport is configured in metadata export in /privacy/. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ ⚠ Unsupported metadata viewport is configured in metadata export in /privacy/. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ ⚠ Unsupported metadata viewport is configured in metadata export in /. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ ⚠ Unsupported metadata viewport is configured in metadata export in /. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ ⚠ Unsupported metadata viewport is configured in metadata export in /_not-found/. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ ⚠ Unsupported metadata viewport is configured in metadata export in /_not-found/. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ ⚠ Unsupported metadata viewport is configured in metadata export in /contact/. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ ⚠ Unsupported metadata viewport is configured in metadata export in /contact/. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+   Generating static pages (6/14) 
+ ⚠ Unsupported metadata viewport is configured in metadata export in /success-stories/. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ ⚠ Unsupported metadata viewport is configured in metadata export in /success-stories/. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+
+Error occurred prerendering page "/404". Read more: https://nextjs.org/docs/messages/prerender-error
+
+Error: Cannot find module 'critters'
+Require stack:
+- /workspace/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js
+- /workspace/.next/server/pages/_document.js
+- /workspace/node_modules/next/dist/server/require.js
+- /workspace/node_modules/next/dist/server/load-components.js
+- /workspace/node_modules/next/dist/build/utils.js
+- /workspace/node_modules/next/dist/build/worker.js
+- /workspace/node_modules/next/dist/compiled/jest-worker/processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+    at /workspace/node_modules/next/dist/server/require-hook.js:55:36
+    at Module._load (node:internal/modules/cjs/loader:1038:27)
+    at Module.require (node:internal/modules/cjs/loader:1289:19)
+    at mod.require (/workspace/node_modules/next/dist/server/require-hook.js:65:28)
+    at require (node:internal/modules/helpers:182:18)
+    at Object.critters (/workspace/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:14:17952)
+    at r (/workspace/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:14:18476)
+    at /workspace/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:14:13135
+    at u (/workspace/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:14:13382)
+   Generating static pages (10/14) 
+ ✓ Generating static pages (14/14)
+
+> Export encountered errors on following paths:
+	/_error: /404
+	/_error: /500

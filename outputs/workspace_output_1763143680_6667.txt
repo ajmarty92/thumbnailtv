@@ -17,3 +17,26 @@
  ✓ Generating static pages (14/14)
    Finalizing page optimization ...
    Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+┌ ○ /                                    18.6 kB         115 kB
+├ ○ /_not-found                          873 B          88.3 kB
+├ ○ /about                               1.79 kB        98.1 kB
+├ ƒ /api/compress                        0 B                0 B
+├ ƒ /api/stripe                          0 B                0 B
+├ ƒ /api/upscale                         0 B                0 B
+├ ○ /blog                                3.22 kB        99.6 kB
+├ ○ /contact                             2.17 kB        98.5 kB
+├ ○ /guide                               4.09 kB         100 kB
+├ ○ /privacy                             2.19 kB        98.5 kB
+├ ○ /success-stories                     11.6 kB         108 kB
+└ ○ /terms                               2.75 kB        99.1 kB
++ First Load JS shared by all            87.4 kB
+  ├ chunks/117-766643735c163046.js       31.8 kB
+  ├ chunks/fd9d1056-8c2ea0baeeaa2ee1.js  53.6 kB
+  └ other shared chunks (total)          1.95 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

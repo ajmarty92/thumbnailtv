@@ -1,0 +1,52 @@
+title:	Update Logo Design with Enhanced Prominence
+state:	OPEN
+author:	superninja-app
+labels:	
+assignees:	
+reviewers:	
+projects:	
+milestone:	
+number:	17
+url:	https://github.com/ajmarty92/thumbnailtv/pull/17
+additions:	1482
+deletions:	77
+auto-merge:	disabled
+--
+## Summary
+- Replace text logo with new purple TV icon design featuring modern ThumbnailTV branding
+- Increase logo size significantly for better visibility and brand presence
+- Add interactive hover effects and padding for improved user experience
+- Configure new logo as favicon across all browsers
+- Ensure build compatibility and resolve API version issues
+
+## Changes Made
+
+### New Logo Implementation
+- Source: New purple TV icon with ThumbnailTV text
+- Location: Replaced public/images/logo.png with updated design
+- Favicon: Configured in layout.tsx for browser tab display
+
+### Enhanced Logo Area
+- Size: Increased from h-8 to h-14 for better visibility
+- Interactive: Added hover effects and improved UX
+- Spacing: Added padding and rounded corners
+- Feedback: Background hover effect for user interaction
+
+### Technical Updates
+- Navigation Component: Updated to use Next.js Image component
+- Imports: Added necessary useRouter and Image imports
+- Functionality: Logo clicks navigate to homepage
+- Compatibility: Fixed Stripe API version for successful builds
+
+### Quality Assurance
+- Build: All builds compile successfully without errors
+- Responsive: Maintains mobile compatibility
+- Accessibility: Proper aria-label and keyboard navigation
+- Performance: Optimized with Next.js Image component
+
+## Testing
+- Build compilation successful
+- Logo displays correctly in navigation
+- Favicon appears in browser tab
+- Click functionality works properly
+- Mobile responsive design maintained

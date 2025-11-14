@@ -1,0 +1,24 @@
+
+> thumbnailtv@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.33
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Skipping linting
+   Checking validity of types ...
+Failed to compile.
+
+./src/lib/scriptOptimizer.ts:55:11
+Type error: Variable 'unusedVars' implicitly has type 'any[]' in some locations where its type cannot be determined.
+
+[0m [90m 53 |[39m   [36mif[39m ([36mtypeof[39m window [33m!==[39m [32m'undefined'[39m) {[0m
+[0m [90m 54 |[39m     [90m// Force garbage collection hints[39m[0m
+[0m[31m[1m>[22m[39m[90m 55 |[39m     [36mconst[39m unusedVars [33m=[39m [][0m
+[0m [90m    |[39m           [31m[1m^[22m[39m[0m
+[0m [90m 56 |[39m     [33m;[39m(window [36mas[39m any)[33m.[39munusedVars [33m=[39m unusedVars[0m
+[0m [90m 57 |[39m   }[0m
+[0m [90m 58 |[39m }[0m
+Next.js build worker exited with code: 1 and signal: null
