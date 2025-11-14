@@ -201,25 +201,6 @@ export default function BlogPage() {
             ))}
           </div>
 
-          {/* Newsletter Signup */}
-          <div className="bg-gradient-to-r from-purple-900/50 to-pink-900/50 rounded-2xl p-8 border border-purple-500/20 text-center">
-            <h2 className="text-2xl font-bold text-white mb-4">
-              Stay Updated with TV Optimization Tips
-            </h2>
-            <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
-              Get our latest articles, case studies, and exclusive tips delivered to your inbox every week.
-            </p>
-            <div className="max-w-md mx-auto flex gap-3">
-              <input
-                type="email"
-                placeholder="your@email.com"
-                className="flex-1 px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-              />
-              <button className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors font-semibold">
-                Subscribe
-              </button>
-            </div>
-          </div>
         </div>
       </main>
 

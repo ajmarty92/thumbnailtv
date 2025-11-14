@@ -1,11 +1,13 @@
 'use client'
 
 import { useAuth } from '@/contexts/AuthContext'
+import { useSmartNavigation } from '@/hooks/useSmartNavigation'
 import { useState, useEffect } from 'react'
 import { Moon, Sun, User, LogOut } from 'lucide-react'
 
 export default function Navigation() {
   const { user, login, logout, isLoading, isAuthModalOpen, hideAuthModal } = useAuth()
+  const { navigateToSection, isNavigating, isOnHomepage } = useSmartNavigation()
   const [showLogin, setShowLogin] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -77,11 +79,8 @@ export default function Navigation() {
   }
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-      setMobileMenuOpen(false) // Close mobile menu after clicking
-    }
+    navigateToSection(sectionId)
+    setMobileMenuOpen(false) // Close mobile menu after clicking
   }
 
   return (

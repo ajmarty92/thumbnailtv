@@ -1,0 +1,26 @@
+204:          {/* Newsletter Signup */}
+205-          <div className="bg-gradient-to-r from-purple-900/50 to-pink-900/50 rounded-2xl p-8 border border-purple-500/20 text-center">
+206-            <h2 className="text-2xl font-bold text-white mb-4">
+207-              Stay Updated with TV Optimization Tips
+208-            </h2>
+209-            <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+210-              Get our latest articles, case studies, and exclusive tips delivered to your inbox every week.
+211-            </p>
+212-            <div className="max-w-md mx-auto flex gap-3">
+213-              <input
+214-                type="email"
+215-                placeholder="your@email.com"
+216-                className="flex-1 px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+217-              />
+218-              <button className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors font-semibold">
+219-                Subscribe
+220-              </button>
+221-            </div>
+222-          </div>
+223-        </div>
+224-      </main>
+225-
+226-      {/* Footer */}
+227-      <footer className="bg-gray-800 border-t border-gray-700">
+228-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+229-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">

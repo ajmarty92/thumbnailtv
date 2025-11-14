@@ -1,0 +1,20 @@
+2c2693a WIP on main: a18b81f Merge pull request #11 from ajmarty92/fix/preserve-original-layout
+8c15730 index on main: a18b81f Merge pull request #11 from ajmarty92/fix/preserve-original-layout
+9a7ed1a Fix TypeScript JSX error by closing <div> tag in TVPreviewDashboard.tsx (6916503f2770dda73b2d37fd)
+c9855ba Merge branch 'main' into fix/minimal-safe-ui-preservation
+22ed4cd Fix: Minimal safe approach to add core features while preserving original UI
+eaa380e Merge branch 'main' into fix/restore-exact-original-ui
+77c5d66 Fix: Add clean tabs to preserve original TV Safe Zone layout
+a18b81f Merge pull request #11 from ajmarty92/fix/preserve-original-layout
+f8b3e05 Merge branch 'main' into fix/preserve-original-layout
+83207f6 Fix: Preserve original TV Safe Zone layout while adding unified interface
+d30596c Merge pull request #10 from ajmarty92/fix/unified-interface-clean
+553f1de Enhance TV Preview Dashboard - Add unified interface for all 3 core AI features
+a685583 Clean up workspace - remove untracked files
+ea40c60 Add PR body for unified core features interface
+49a3d72 Enhance TV Preview Dashboard - Add unified interface for all 3 core AI features
+1f94a88 Fix build errors for PR #8
+69fa880 Restore original TV Safe Zone Preview layout
+9a8766f Merge pull request #7 from ajmarty92/enhance/ai-driven-compression
+c89814c Transform SmartLoopCompressor to AI-driven automation for content creators
+4a992e5 Merge pull request #6 from ajmarty92/fix/smart-compressor-quality

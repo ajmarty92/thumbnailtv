@@ -1,0 +1,20 @@
+'use client'
+
+import React, { useState } from 'react'
+import Link from 'next/link'
+import Navigation from '@/components/Navigation'
+import { Star, TrendingUp, Play, Users, DollarSign, Eye, Quote, ArrowRight } from 'lucide-react'
+
+export default function SuccessStoriesPage() {
+    {
+      id: 1,
+      channel: "TechReview Pro",
+      creator: "Sarah Chen",
+      niche: "Technology Reviews",
+      subscribers: "2.5M",
+      beforeAfter: {
+        ctr: "2.1% → 2.6%",
+        views: "150K → 195K per video",
+        revenue: "$1,200 → $1,560 per video"
+      },
+      quote: "My thumbnails looked amazing on phones but terrible on my Samsung TV. ThumbnailTV showed me exactly what was wrong and helped me redesign everything. Views increased by 23% in the first week.",

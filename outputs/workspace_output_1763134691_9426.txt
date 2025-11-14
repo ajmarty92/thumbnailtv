@@ -1,0 +1,4 @@
+Pages changed - thumbnailtv	skipping	57s	https://app.netlify.com/projects/thumbnailtv/deploys/691730fd1a12ad00074eea04	
+Header rules - thumbnailtv	pass	57s	https://app.netlify.com/projects/thumbnailtv/deploys/691730fd1a12ad00074eea04	
+Redirect rules - thumbnailtv	pass	57s	https://app.netlify.com/projects/thumbnailtv/deploys/691730fd1a12ad00074eea04	
+netlify/thumbnailtv/deploy-preview	pass	0	https://deploy-preview-14--thumbnailtv.netlify.app	Deploy Preview ready!

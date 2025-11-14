@@ -1,0 +1,50 @@
+'use client'
+
+import { useState } from 'react'
+import { Upload, Sparkles, CheckCircle } from 'lucide-react'
+
+export default function FrameUpscaler() {
+  const [file, setFile] = useState<File | null>(null)
+  const [upscaling, setUpscaling] = useState(false)
+  const [result, setResult] = useState<any>(null)
+  const [resolution, setResolution] = useState('4k')
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const uploadedFile = e.target.files?.[0]
+    if (uploadedFile) {
+      setFile(uploadedFile)
+      setResult(null)
+    }
+  }
+
+  const handleUpscale = async () => {
+    if (!file) return
+
+    setUpscaling(true)
+    
+    // Simulate upscaling
+    setTimeout(() => {
+      setResult({
+        originalResolution: '1920x1080',
+        targetResolution: resolution === '4k' ? '3840x2160' : '7680x4320',
+        enhancements: ['Face Enhancement', 'Text Sharpening', 'Noise Reduction']
+      })
+      setUpscaling(false)
+    }, 3000)
+  }
+
+  return (
+    <div className="max-w-3xl mx-auto space-y-8">
+      <div className="text-center">
+        <h2 className="text-3xl font-bold mb-4">Frame-to-Thumbnail Upscaler</h2>
+        <p className="text-gray-400">
+          Extract perfect video moments and upscale to 4K/8K with AI enhancement
+        </p>
+      </div>
+
+      {/* Upload Area */}
+      {!file && (
+        <div className="bg-tv-gray/50 border-2 border-dashed border-tv-blue/30 rounded-lg p-12 text-center">
+          <Sparkles className="w-16 h-16 text-tv-blue mx-auto mb-4" />
+          <h3 className="text-xl font-bold mb-2">Upload Video Frame</h3>
+          <p className="text-gray-400 mb-6">
