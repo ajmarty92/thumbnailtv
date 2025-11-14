@@ -1,0 +1,16 @@
+warning: in the working copy of 'outputs/workspace_output_1763138671_5232.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'outputs/workspace_output_1763140554_4380.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'outputs/workspace_output_1763140567_2045.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'outputs/workspace_output_1763140628_260.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'outputs/workspace_output_1763142352_9782.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'outputs/workspace_output_1763142830_586.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'outputs/workspace_output_1763142844_1549.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'outputs/workspace_output_1763143645_6527.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'outputs/workspace_output_1763143680_6667.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'outputs/workspace_output_1763144141_678.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'outputs/workspace_output_1763144170_6198.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'outputs/workspace_output_1763144192_763.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'outputs/workspace_output_1763144203_9306.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'outputs/workspace_output_1763144227_7936.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'outputs/workspace_output_1763146210_6308.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'outputs/workspace_output_1763146225_9332.txt', CRLF will be replaced by LF the next time Git touches it

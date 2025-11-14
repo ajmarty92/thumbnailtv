@@ -95,7 +95,7 @@ export default function Navigation() {
           <div className="flex items-center">
             <button
               onClick={() => router.push('/')}
-              className="flex items-center hover:opacity-90 transition-opacity duration-200 p-2 rounded-lg hover:bg-white/5"
+              className="flex items-center hover:opacity-95 transition-all duration-200 p-3 rounded-xl hover:bg-white/5 active:scale-95"
               aria-label="ThumbnailTV - Go to homepage"
             >
               <Image
@@ -103,11 +103,15 @@ export default function Navigation() {
                 alt="ThumbnailTV"
                 width={200}
                 height={60}
-                className="h-14 w-auto object-contain"
+                className="h-14 w-auto object-contain drop-shadow-sm"
                 priority
                    sizes="(max-width: 768px) 150px, 200px"
                    placeholder="blur"
                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = '/images/logo.png';
+                      }}
               />
             </button>
           </div>

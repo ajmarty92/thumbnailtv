@@ -1,0 +1,5 @@
+Original logo size: (2048, 2048)
+Target size: 56x56
+Optimized PNG: 3.0 KB
+Optimized WebP: 0.3 KB
+⚠️  Transparency may not be preserved
