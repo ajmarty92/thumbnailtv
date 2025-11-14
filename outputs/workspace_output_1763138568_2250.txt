@@ -1,4 +1,0 @@
-total 4
-drwxr-xr-x 3 root root   28 Nov 14 16:05 .
-drwxr-xr-x 1 root root 4096 Nov 14 16:09 ..
-drwxr-xr-x 2 root root   30 Nov 14 16:05 images

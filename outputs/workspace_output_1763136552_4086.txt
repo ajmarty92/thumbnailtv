@@ -1,9 +1,0 @@
--rw-r--r-- 1 root root  1034 Nov 14 15:45 build_final.log
--rw-r--r-- 1 root root  1079 Nov 14 15:47 build_final_success.log
--rw-r--r-- 1 root root   918 Nov 14 15:43 build_fix.log
--rw-r--r-- 1 root root  1669 Nov 13 23:06 build_output.log
--rw-r--r-- 1 root root  1079 Nov 14 15:46 build_success.log
--rw-r--r-- 1 root root 89007 Nov 14 15:43 package-lock.json
--rw-r--r-- 1 root root   827 Nov 13 22:15 package.json
--rw-r--r-- 1 root root   687 Nov 13 22:15 tsconfig.json
-All warmup files cleaned up successfully

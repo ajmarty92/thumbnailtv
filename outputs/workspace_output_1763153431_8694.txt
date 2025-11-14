@@ -1,6 +1,0 @@
-remote: 
-remote: Create a pull request for 'fix/logo-upgrade-clean' on GitHub by visiting:        
-remote:      https://github.com/ajmarty92/thumbnailtv/pull/new/fix/logo-upgrade-clean        
-remote: 
-To https://github.com/ajmarty92/thumbnailtv.git
- * [new branch]      fix/logo-upgrade-clean -> fix/logo-upgrade-clean

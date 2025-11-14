@@ -1,7 +1,0 @@
-17:  const [activeFeature, setActiveFeature] = useState<'preview' | 'compression' | 'upscaling'>('preview')
-134:                  activeFeature === 'preview' 
-159:                  activeFeature === 'compression' 
-189:                  activeFeature === 'upscaling' 
-219:          {activeFeature === 'preview' && (
-269:          {activeFeature === 'compression' && compressionResult && (
-312:          {activeFeature === 'upscaling' && (

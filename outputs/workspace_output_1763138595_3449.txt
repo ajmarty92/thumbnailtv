@@ -1,6 +1,0 @@
-remote: 
-remote: Create a pull request for 'fix/update-logo-with-transparent-image' on GitHub by visiting:        
-remote:      https://github.com/ajmarty92/thumbnailtv/pull/new/fix/update-logo-with-transparent-image        
-remote: 
-To https://github.com/ajmarty92/thumbnailtv.git
- * [new branch]      fix/update-logo-with-transparent-image -> fix/update-logo-with-transparent-image

@@ -1,6 +1,0 @@
-From https://github.com/ajmarty92/thumbnailtv
- * [new branch]      fix/navigation-and-newsletter -> origin/fix/navigation-and-newsletter
- * [new branch]      fix/update-logo-with-transparent-image -> origin/fix/update-logo-with-transparent-image
-   4d7ade8..450ad14  main                   -> origin/main
- * [new branch]      restore/original-tv-preview-layout -> origin/restore/original-tv-preview-layout
- * [new branch]      update/new-logo-design -> origin/update/new-logo-design

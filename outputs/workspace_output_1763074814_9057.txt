@@ -1,4 +1,0 @@
-src/components/ai/LetsEnhanceUpscaler.tsx
-src/components/ai/SmartLoopCompressor.tsx
-src/components/compression/SmartCompressor.tsx
-src/components/upscaling/FrameUpscaler.tsx

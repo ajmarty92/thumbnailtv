@@ -1,7 +1,0 @@
-/usr/bin/bash: line 758: public/images/: Is a directory
-/usr/bin/bash: line 759: ├──: command not found
-/usr/bin/bash: line 760: ├──: command not found
-/usr/bin/bash: line 761: ├──: command not found
-/usr/bin/bash: line 762: └──: command not found
-Warning: 4 uncommitted changes
-aborted: you must first push the current branch to a remote, or use the --head flag

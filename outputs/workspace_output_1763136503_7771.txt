@@ -1,5 +1,0 @@
-{
-  "platform": "linux",
-  "python_version": "3.11.13",
-  "timestamp": "2025-11-14T16:08:21.428853"
-}

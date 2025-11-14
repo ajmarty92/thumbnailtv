@@ -1,6 +1,0 @@
-remote: 
-remote: Create a pull request for 'restore/original-tv-preview-layout' on GitHub by visiting:        
-remote:      https://github.com/ajmarty92/thumbnailtv/pull/new/restore/original-tv-preview-layout        
-remote: 
-To https://github.com/ajmarty92/thumbnailtv.git
- * [new branch]      restore/original-tv-preview-layout -> restore/original-tv-preview-layout
