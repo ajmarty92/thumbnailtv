@@ -1,0 +1,13 @@
+                height={60}
+                className="h-14 w-auto object-contain"
+                priority
+                   sizes="(max-width: 768px) 150px, 200px"
+                   placeholder="blur"
+                   blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
+              />
+            </button>
+          </div>
+
+          {/* Desktop Navigation Links */}
+          <div className="hidden md:flex items-center gap-6">
+            <button

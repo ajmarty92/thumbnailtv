@@ -1,0 +1,2 @@
+[update/new-logo-design d0a25fe] Fix Stripe API version to use supported value
+ 1 file changed, 1 insertion(+), 1 deletion(-)

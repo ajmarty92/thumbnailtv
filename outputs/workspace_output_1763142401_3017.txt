@@ -1,0 +1,6 @@
+remote: 
+remote: Create a pull request for 'update/new-logo-design' on GitHub by visiting:        
+remote:      https://github.com/ajmarty92/thumbnailtv/pull/new/update/new-logo-design        
+remote: 
+To https://github.com/ajmarty92/thumbnailtv.git
+ * [new branch]      update/new-logo-design -> update/new-logo-design

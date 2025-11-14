@@ -99,12 +99,15 @@ export default function Navigation() {
               aria-label="ThumbnailTV - Go to homepage"
             >
               <Image
-                src="/images/logo.png"
+                src="/images/logo.webp"
                 alt="ThumbnailTV"
                 width={200}
                 height={60}
                 className="h-14 w-auto object-contain"
                 priority
+                   sizes="(max-width: 768px) 150px, 200px"
+                   placeholder="blur"
+                   blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
               />
             </button>
           </div>

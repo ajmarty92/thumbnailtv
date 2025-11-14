@@ -1,0 +1,55 @@
+
+export default function Navigation() {
+  const { user, login, logout, isLoading, isAuthModalOpen, hideAuthModal } = useAuth()
+  const router = useRouter()
+  const [showLogin, setShowLogin] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark')
+  const [loginError, setLoginError] = useState('')
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState('')
+
+  // Active section detection
+--
+            >
+              <Image
+                src="/images/logo.png"
+                alt="ThumbnailTV"
+                width={200}
+                height={60}
+                className="h-14 w-auto object-contain"
+                priority
+              />
+            </button>
+          </div>
+
+          {/* Desktop Navigation Links */}
+--
+                  </div>
+                  <button
+                    onClick={logout}
+                    className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all duration-300 transform hover:scale-105"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Sign Out
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setShowLogin(true)}
+                  className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-all duration-300 transform hover:scale-105"
+--
+                    </div>
+                    <button
+                      onClick={logout}
+                      className="w-full px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors text-sm"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setShowLogin(true)
+                      setMobileMenuOpen(false)

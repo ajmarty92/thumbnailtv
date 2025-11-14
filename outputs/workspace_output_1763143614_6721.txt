@@ -1,0 +1,27 @@
+import { useRouter } from 'next/navigation'
+import { Moon, Sun, User, LogOut } from 'lucide-react'
+import Image from 'next/image'
+
+export default function Navigation() {
+  const { user, login, logout, isLoading, isAuthModalOpen, hideAuthModal } = useAuth()
+  const router = useRouter()
+  const [showLogin, setShowLogin] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark')
+  const [loginError, setLoginError] = useState('')
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+--
+              aria-label="ThumbnailTV - Go to homepage"
+            >
+              <Image
+                src="/images/logo.png"
+                alt="ThumbnailTV"
+                width={200}
+                height={60}
+                   src="/images/logo.png"
+                   alt="ThumbnailTV"
+                   width={200}
+                   height={60}
+                   className="h-14 w-auto object-contain"
+                   priority

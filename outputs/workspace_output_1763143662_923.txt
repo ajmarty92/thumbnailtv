@@ -1,0 +1,2 @@
+-rw-r--r-- 1 root root 732K Nov 14 18:06 public/images/logo-original.png
+-rw-r--r-- 1 root root 7.2K Nov 14 18:06 public/images/logo.png
