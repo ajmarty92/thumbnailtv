@@ -1,0 +1,7 @@
+total 4584
+drwxr-xr-x 2 root root      87 Nov 14 20:48 .
+drwxr-xr-x 3 root root      20 Nov 14 17:43 ..
+-rw-r--r-- 1 root root  749125 Nov 14 20:48 logo-original.png
+-rw-r--r-- 1 root root 3925208 Nov 14 20:48 logo-source.png
+-rw-r--r-- 1 root root   10433 Nov 14 20:48 logo.png
+-rw-r--r-- 1 root root    1092 Nov 14 20:48 logo.webp

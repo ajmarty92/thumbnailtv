@@ -1,0 +1,4 @@
+warning: in the working copy of 'outputs/workspace_output_1763153072_8494.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'outputs/workspace_output_1763153137_7794.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'outputs/workspace_output_1763153390_4341.txt', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'outputs/workspace_output_1763153409_9144.txt', CRLF will be replaced by LF the next time Git touches it

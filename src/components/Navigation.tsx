@@ -1,15 +1,13 @@
 'use client'
 
 import { useAuth } from '@/contexts/AuthContext'
-import { useSmartNavigation } from '@/hooks/useSmartNavigation'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { Moon, Sun, User, LogOut, Home } from 'lucide-react'
+import { Moon, Sun, User, LogOut } from 'lucide-react'
 import Image from 'next/image'
 
 export default function Navigation() {
   const { user, login, logout, isLoading, isAuthModalOpen, hideAuthModal } = useAuth()
-  const { navigateToSection, isNavigating, isOnHomepage } = useSmartNavigation()
   const router = useRouter()
   const [showLogin, setShowLogin] = useState(false)
   const [email, setEmail] = useState('')
@@ -82,8 +80,11 @@ export default function Navigation() {
   }
 
   const scrollToSection = (sectionId: string) => {
-    navigateToSection(sectionId)
-    setMobileMenuOpen(false) // Close mobile menu after clicking
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
+      setMobileMenuOpen(false) // Close mobile menu after clicking
+    }
   }
 
   return (
@@ -94,16 +95,23 @@ export default function Navigation() {
           <div className="flex items-center">
             <button
               onClick={() => router.push('/')}
-              className="flex items-center hover:opacity-80 transition-opacity duration-200"
+              className="flex items-center hover:opacity-95 transition-all duration-200 p-3 rounded-xl hover:bg-white/5 active:scale-95"
               aria-label="ThumbnailTV - Go to homepage"
             >
               <Image
-                src="/images/logo.png"
+                src="/images/logo.webp"
                 alt="ThumbnailTV"
-                width={120}
-                height={32}
-                className="h-8 w-auto object-contain"
+                width={200}
+                height={60}
+                className="h-14 w-auto object-contain drop-shadow-sm"
                 priority
+                   sizes="(max-width: 768px) 150px, 200px"
+                   placeholder="blur"
+                   blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = '/images/logo.png';
+                      }}
               />
             </button>
           </div>

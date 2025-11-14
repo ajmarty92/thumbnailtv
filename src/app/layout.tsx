@@ -2,7 +2,13 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import { AuthProvider } from '@/contexts/AuthContext'
 
-const inter = Inter({ subsets: ['latin'] })
+// Optimize font loading
+const inter = Inter({ 
+  subsets: ['latin'],
+  display: 'swap',
+  preload: true,
+  adjustFontFallback: true,
+})
 
 export const metadata = {
   title: 'ThumbnailTV - AI-Powered TV Optimization Suite',
@@ -11,6 +17,12 @@ export const metadata = {
     icon: '/images/logo.png',
     shortcut: '/images/logo.png',
     apple: '/images/logo.png',
+  },
+  // Performance optimizations
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
   },
 }
 

@@ -1,0 +1,2 @@
+To https://github.com/ajmarty92/thumbnailtv.git
+   fe69ee2..f2a0c91  update/new-logo-design -> update/new-logo-design

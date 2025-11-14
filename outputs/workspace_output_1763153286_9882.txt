@@ -1,0 +1,4 @@
+total 1060
+drwxr-xr-x 2 root root      22 Nov 14 20:47 .
+drwxr-xr-x 3 root root      20 Nov 14 17:43 ..
+-rw-r--r-- 1 root root 1084910 Nov 14 20:47 logo.png

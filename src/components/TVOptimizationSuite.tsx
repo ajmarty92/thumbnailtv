@@ -2,8 +2,8 @@
 
 import { useState, useCallback, useEffect } from 'react'
 import { Upload, Download, Eye, EyeOff, Settings, AlertCircle, CheckCircle, Sparkles, Wand2, Monitor, Layers } from 'lucide-react'
-import SmartLoopCompressor from './ai/SmartLoopCompressor'
-import LetsEnhanceUpscaler from './ai/LetsEnhanceUpscaler'
+import { LazySmartLoopCompressor, LazyLetsEnhanceUpscaler, preloadComponent } from './DemoComponents'
+import { Suspense } from 'react'
 
 export default function TVOptimizationSuite() {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null)
@@ -552,7 +552,13 @@ export default function TVOptimizationSuite() {
           </p>
           
           <div className="bg-gray-900/50 rounded-lg p-4">
-            <SmartLoopCompressor />
+            <Suspense fallback={
+              <div className="flex items-center justify-center h-64">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
+              </div>
+            }>
+              <LazySmartLoopCompressor />
+            </Suspense>
           </div>
         </div>
       )}
@@ -568,7 +574,13 @@ export default function TVOptimizationSuite() {
           </p>
           
           <div className="bg-gray-900/50 rounded-lg p-4">
-            <LetsEnhanceUpscaler />
+            <Suspense fallback={
+              <div className="flex items-center justify-center h-64">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
+              </div>
+            }>
+              <LazyLetsEnhanceUpscaler />
+            </Suspense>
           </div>
         </div>
       )}
