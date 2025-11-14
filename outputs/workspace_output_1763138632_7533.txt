@@ -1,0 +1,2 @@
+To https://github.com/ajmarty92/thumbnailtv.git
+   56a3212..cecb29c  fix/update-logo-with-transparent-image -> fix/update-logo-with-transparent-image

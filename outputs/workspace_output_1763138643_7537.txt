@@ -1,0 +1,24 @@
+
+> thumbnailtv@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.33
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Skipping linting
+   Checking validity of types ...
+Failed to compile.
+
+./src/components/Navigation.tsx:12:18
+Type error: Cannot find name 'useRouter'. Did you mean 'router'?
+
+[0m [90m 10 |[39m   [36mconst[39m { user[33m,[39m login[33m,[39m logout[33m,[39m isLoading[33m,[39m isAuthModalOpen[33m,[39m hideAuthModal } [33m=[39m useAuth()[0m
+[0m [90m 11 |[39m   [36mconst[39m { navigateToSection[33m,[39m isNavigating[33m,[39m isOnHomepage } [33m=[39m useSmartNavigation()[0m
+[0m[31m[1m>[22m[39m[90m 12 |[39m   [36mconst[39m router [33m=[39m useRouter()[0m
+[0m [90m    |[39m                  [31m[1m^[22m[39m[0m
+[0m [90m 13 |[39m   [36mconst[39m [showLogin[33m,[39m setShowLogin] [33m=[39m useState([36mfalse[39m)[0m
+[0m [90m 14 |[39m   [36mconst[39m [email[33m,[39m setEmail] [33m=[39m useState([32m''[39m)[0m
+[0m [90m 15 |[39m   [36mconst[39m [password[33m,[39m setPassword] [33m=[39m useState([32m''[39m)[0m
+Next.js build worker exited with code: 1 and signal: null

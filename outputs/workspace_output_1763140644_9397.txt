@@ -1,0 +1,2 @@
+[fix/update-logo-with-transparent-image 0d6d565] Fix Stripe API version for build compatibility
+ 1 file changed, 1 insertion(+), 1 deletion(-)

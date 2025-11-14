@@ -1,0 +1,15 @@
+'use client'
+
+import { useAuth } from '@/contexts/AuthContext'
+import { useState, useEffect } from 'react'
+import { Moon, Sun, User, LogOut } from 'lucide-react'
+
+export default function Navigation() {
+  const { user, login, logout, isLoading, isAuthModalOpen, hideAuthModal } = useAuth()
+  const [showLogin, setShowLogin] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark')
+  const [loginError, setLoginError] = useState('')
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState('')

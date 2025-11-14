@@ -2,10 +2,13 @@
 
 import { useAuth } from '@/contexts/AuthContext'
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { Moon, Sun, User, LogOut } from 'lucide-react'
+import Image from 'next/image'
 
 export default function Navigation() {
   const { user, login, logout, isLoading, isAuthModalOpen, hideAuthModal } = useAuth()
+  const router = useRouter()
   const [showLogin, setShowLogin] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -90,9 +93,20 @@ export default function Navigation() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
-              ThumbnailTV
-            </h1>
+            <button
+              onClick={() => router.push('/')}
+              className="flex items-center hover:opacity-90 transition-opacity duration-200 p-2 rounded-lg hover:bg-white/5"
+              aria-label="ThumbnailTV - Go to homepage"
+            >
+              <Image
+                src="/images/logo.png"
+                alt="ThumbnailTV"
+                width={200}
+                height={60}
+                className="h-14 w-auto object-contain"
+                priority
+              />
+            </button>
           </div>
 
           {/* Desktop Navigation Links */}
