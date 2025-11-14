@@ -7,7 +7,7 @@ import { logSecurityEvent } from '@/lib/security'
 // Initialize Stripe only if API key is available (skip during build)
 const stripe = process.env.STRIPE_SECRET_KEY 
   ? new Stripe(process.env.STRIPE_SECRET_KEY, {
-      apiVersion: '2025-10-29.clover',
+      apiVersion: '2023-10-16',
     })
   : null
 
