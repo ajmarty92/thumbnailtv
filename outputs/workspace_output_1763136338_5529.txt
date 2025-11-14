@@ -1,0 +1,10 @@
+'use client'
+
+import { useAuth } from '@/contexts/AuthContext'
+import { useSmartNavigation } from '@/hooks/useSmartNavigation'
+import { useState, useEffect } from 'react'
+import { Moon, Sun, User, LogOut } from 'lucide-react'
+
+export default function Navigation() {
+  const { user, login, logout, isLoading, isAuthModalOpen, hideAuthModal } = useAuth()
+  const { navigateToSection, isNavigating, isOnHomepage } = useSmartNavigation()
