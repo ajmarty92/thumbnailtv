@@ -693,55 +693,7 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* NEW: Standalone Newsletter Section */}
-              <div className="mb-20">
-                <div className="bg-gradient-to-r from-purple-900/50 to-pink-900/50 rounded-3xl p-12 border border-purple-500/20">
-                  <div className="text-center mb-8">
-                    <h3 className="text-3xl font-bold text-white mb-4">
-                      🎯 Get TV Optimization Tips Weekly
-                    </h3>
-                    <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-                      Join 10,000+ creators getting exclusive tips, case studies, and early access to new features.
-                    </p>
-                  </div>
-                  <form onSubmit={handleNewsletterSubmit} className="max-w-md mx-auto flex gap-3">
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="your@email.com"
-                      className="flex-1 px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                      required
-                      disabled={newsletterStatus === 'loading' || newsletterStatus === 'success'}
-                    />
-                    <button
-                      type="submit"
-                      disabled={newsletterStatus === 'loading' || newsletterStatus === 'success'}
-                      className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                    >
-                      {newsletterStatus === 'loading' ? (
-                        <>
-                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                          Subscribing...
-                        </>
-                      ) : newsletterStatus === 'success' ? (
-                        <>
-                          <Check className="w-4 h-4" />
-                          Subscribed!
-                        </>
-                      ) : (
-                        <>
-                          <Mail className="w-4 h-4" />
-                          Subscribe
-                        </>
-                      )}
-                    </button>
-                  </form>
-                  <p className="text-center text-gray-400 text-sm mt-4">
-                    No spam. Unsubscribe anytime.
-                  </p>
-                </div>
-              </div>
+              
 
               {/* Final CTA */}
               <div className="text-center mb-20">
@@ -779,11 +731,16 @@ export default function HomePage() {
       {/* Enhanced Footer with ACTIVE Links */}
       <footer className="bg-gray-800/50 border-t border-gray-700 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Newsletter Section */}
+          {/* Newsletter Section - Coming Soon */}
           <div className="mb-12 text-center">
-            <h3 className="text-2xl font-bold text-white mb-4">
-              Get TV Optimization Tips Weekly
-            </h3>
+            <div className="relative inline-block">
+              <h3 className="text-2xl font-bold text-white mb-4">
+                Get TV Optimization Tips Weekly
+              </h3>
+              <span className="absolute -top-2 -right-2 bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded-full">
+                Coming Soon
+              </span>
+            </div>
             <p className="text-gray-400 mb-6 max-w-2xl mx-auto">
               Join 10,000+ creators getting exclusive tips, case studies, and early access to new features.
             </p>

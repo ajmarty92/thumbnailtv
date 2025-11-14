@@ -90,28 +90,25 @@ export default function Navigation() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-sm border-b border-gray-800 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
             <button
               onClick={() => router.push('/')}
-              className="flex items-center hover:opacity-95 transition-all duration-200 p-4 rounded-xl hover:bg-white/5 active:scale-95"
+              className="flex items-center hover:opacity-95 transition-all duration-200 p-3 rounded-xl hover:bg-white/5 active:scale-95"
               aria-label="ThumbnailTV - Go to homepage"
             >
               <Image
-                src="/images/logo.webp"
+                src="/images/logo.png"
                 alt="ThumbnailTV"
-                width={280}
-                height={80}
-                className="h-16 w-auto object-contain drop-shadow-lg hover:drop-shadow-xl transition-all duration-200"
+                width={200}
+                height={60}
+                className="h-14 w-auto object-contain drop-shadow-sm"
                 priority
-                   sizes="(max-width: 768px) 180px, 280px"
+                   sizes="(max-width: 768px) 150px, 200px"
                    placeholder="blur"
                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = '/images/logo.png';
-                      }}
+                      
               />
             </button>
           </div>
