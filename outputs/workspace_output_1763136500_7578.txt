@@ -1,0 +1,7 @@
+=== Tool Calling Warmup Python Script ===
+Current date and time: 2025-11-14 16:08:21.428822
+Python version: 3.11.13 (main, Sep  8 2025, 21:44:52) [GCC 12.2.0]
+Current working directory: /workspace
+
+System information saved to python_system_info.json
+Python script executed successfully!
