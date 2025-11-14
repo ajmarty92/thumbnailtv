@@ -1,0 +1,11 @@
+74:  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+75-    e.preventDefault()
+76-    setNewsletterStatus('loading')
+77-    
+78-    setTimeout(() => {
+79-      setNewsletterStatus('success')
+80-      setEmail('')
+81-      setTimeout(() => setNewsletterStatus('idle'), 3000)
+82-    }, 1000)
+83-  }
+84-

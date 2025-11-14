@@ -1,0 +1,26 @@
+            </div>
+            <div>
+              <h4 className="text-white font-semibold mb-4">Features</h4>
+              <ul className="space-y-2 text-gray-400 text-sm">
+                <li>
+                  <a href="#features" className="hover:text-gray-300 transition-colors">
+                    TV Preview
+                  </a>
+                </li>
+                <li>
+                  <a href="#pricing" className="hover:text-gray-300 transition-colors">
+                    AI Compression
+                  </a>
+                </li>
+                <li>
+                  <a href="#features" className="hover:text-gray-300 transition-colors">
+                    Frame Upscaling
+                  </a>
+                </li>
+                <li>
+                  <a href="#demo" className="hover:text-gray-300 transition-colors">
+                    Platform Analysis
+                  </a>
+                </li>
+              </ul>
+            </div>

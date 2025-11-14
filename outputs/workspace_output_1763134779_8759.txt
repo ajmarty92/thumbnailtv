@@ -1,0 +1,82 @@
+    } else {
+      setLoginError('Invalid credentials. Try demo@thumbnailtv.io / demo123')
+    }
+  }
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
+      setMobileMenuOpen(false) // Close mobile menu after clicking
+    }
+  }
+
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-sm border-b border-gray-800 transition-colors duration-300">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+--
+          </div>
+
+          {/* Desktop Navigation Links */}
+          <div className="hidden md:flex items-center gap-6">
+            <button
+              onClick={() => scrollToSection('features')}
+              className={`text-gray-300 hover:text-white transition-colors duration-200 font-medium ${
+                activeSection === 'features' ? 'text-purple-400' : ''
+              }`}
+            >
+              Features
+            </button>
+            <button
+              onClick={() => scrollToSection('pricing')}
+              className={`text-gray-300 hover:text-white transition-colors duration-200 font-medium ${
+                activeSection === 'pricing' ? 'text-purple-400' : ''
+              }`}
+            >
+              Pricing
+            </button>
+            <button
+              onClick={() => scrollToSection('faq')}
+              className={`text-gray-300 hover:text-white transition-colors duration-200 font-medium ${
+                activeSection === 'faq' ? 'text-purple-400' : ''
+              }`}
+            >
+              FAQ
+            </button>
+          </div>
+
+          {/* Right side controls */}
+          <div className="flex items-center gap-3">
+--
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-gray-700 py-4">
+            <div className="flex flex-col space-y-3">
+              <button
+                onClick={() => scrollToSection('features')}
+                className={`text-gray-300 hover:text-white transition-colors duration-200 font-medium text-left px-2 py-2 ${
+                  activeSection === 'features' ? 'text-purple-400' : ''
+                }`}
+              >
+                Features
+              </button>
+              <button
+                onClick={() => scrollToSection('pricing')}
+                className={`text-gray-300 hover:text-white transition-colors duration-200 font-medium text-left px-2 py-2 ${
+                  activeSection === 'pricing' ? 'text-purple-400' : ''
+                }`}
+              >
+                Pricing
+              </button>
+              <button
+                onClick={() => scrollToSection('faq')}
+                className={`text-gray-300 hover:text-white transition-colors duration-200 font-medium text-left px-2 py-2 ${
+                  activeSection === 'faq' ? 'text-purple-400' : ''
+                }`}
+              >
+                FAQ
+              </button>
+              
+              {/* Mobile Auth Section */}
+              <div className="border-t border-gray-700 pt-3 mt-3">
+                {isLoading ? (

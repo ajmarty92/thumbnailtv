@@ -1,0 +1,52 @@
+On branch restore/original-tv-preview-layout
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   package-lock.json
+	modified:   src/app/api/stripe/route.ts
+	modified:   src/components/tv-previews/TVPreviewDashboard.tsx
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	RESTORATION_PLAN.md
+	build_output.log
+	outputs/workspace_output_1763074529_3346.txt
+	outputs/workspace_output_1763074532_1669.txt
+	outputs/workspace_output_1763074780_4847.txt
+	outputs/workspace_output_1763074785_3785.txt
+	outputs/workspace_output_1763074791_9160.txt
+	outputs/workspace_output_1763074796_1978.txt
+	outputs/workspace_output_1763074802_5762.txt
+	outputs/workspace_output_1763074808_7928.txt
+	outputs/workspace_output_1763074814_9057.txt
+	outputs/workspace_output_1763074825_5153.txt
+	outputs/workspace_output_1763074830_2730.txt
+	outputs/workspace_output_1763074836_9591.txt
+	outputs/workspace_output_1763074842_2258.txt
+	outputs/workspace_output_1763074854_1827.txt
+	outputs/workspace_output_1763074863_1708.txt
+	outputs/workspace_output_1763074896_2674.txt
+	outputs/workspace_output_1763074911_4256.txt
+	outputs/workspace_output_1763074920_4249.txt
+	outputs/workspace_output_1763074988_6022.txt
+	outputs/workspace_output_1763074996_6462.txt
+	outputs/workspace_output_1763075002_4639.txt
+	outputs/workspace_output_1763075008_3371.txt
+	outputs/workspace_output_1763075029_3738.txt
+	outputs/workspace_output_1763075044_7032.txt
+	outputs/workspace_output_1763075082_7594.txt
+	outputs/workspace_output_1763075099_5141.txt
+	outputs/workspace_output_1763075122_6735.txt
+	outputs/workspace_output_1763075137_9730.txt
+	outputs/workspace_output_1763075174_6263.txt
+	outputs/workspace_output_1763075179_8314.txt
+	outputs/workspace_output_1763075189_8701.txt
+	outputs/workspace_output_1763075205_9717.txt
+	outputs/workspace_output_1763075242_9268.txt
+	outputs/workspace_output_1763075248_3025.txt
+	outputs/workspace_output_1763075265_8939.txt
+	src/components/tv-previews/TVPreviewDashboard.backup.tsx
+	src/components/tv-previews/TVPreviewDashboard.original.tsx
+	todo.md
+
+no changes added to commit (use "git add" and/or "git commit -a")

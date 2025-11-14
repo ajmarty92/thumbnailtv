@@ -1,0 +1,6 @@
+export default function SuccessStoriesPage() {
+  const [email, setEmail] = useState('')
+  const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+
+  const stories = [
+    {

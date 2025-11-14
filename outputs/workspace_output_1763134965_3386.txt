@@ -1,0 +1,31 @@
+725:          {/* Newsletter Section */}
+726-          <div className="mb-12 text-center">
+727-            <h3 className="text-2xl font-bold text-white mb-4">
+728-              Get TV Optimization Tips Weekly
+729-            </h3>
+730-            <p className="text-gray-400 mb-6 max-w-2xl mx-auto">
+731-              Join 10,000+ creators getting exclusive tips, case studies, and early access to new features.
+732-            </p>
+733-            <form onSubmit={handleNewsletterSubmit} className="max-w-md mx-auto flex gap-3">
+734-              <input
+735-                type="email"
+736-                value={email}
+737-                onChange={(e) => setEmail(e.target.value)}
+738-                placeholder="your@email.com"
+739-                className="flex-1 px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+740-                required
+741-                disabled={newsletterStatus === 'loading' || newsletterStatus === 'success'}
+742-              />
+743-              <button
+744-                type="submit"
+745-                disabled={newsletterStatus === 'loading' || newsletterStatus === 'success'}
+746-                className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+747-              >
+748-                {newsletterStatus === 'loading' ? (
+749-                  <>
+750-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+751-                    Subscribing...
+752-                  </>
+753-                ) : newsletterStatus === 'success' ? (
+754-                  <>
+755-                    <Check className="w-4 h-4" />
