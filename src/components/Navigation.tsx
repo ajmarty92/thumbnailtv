@@ -3,6 +3,7 @@
 import { useAuth } from '@/contexts/AuthContext'
 import { useSmartNavigation } from '@/hooks/useSmartNavigation'
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { Moon, Sun, User, LogOut, Home } from 'lucide-react'
 import Image from 'next/image'
 
