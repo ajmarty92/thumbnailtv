@@ -94,15 +94,15 @@ export default function Navigation() {
           <div className="flex items-center">
             <button
               onClick={() => router.push('/')}
-              className="flex items-center hover:opacity-80 transition-opacity duration-200"
+              className="flex items-center hover:opacity-90 transition-opacity duration-200 p-2 rounded-lg hover:bg-white/5"
               aria-label="ThumbnailTV - Go to homepage"
             >
               <Image
                 src="/images/logo.png"
                 alt="ThumbnailTV"
-                width={120}
-                height={32}
-                className="h-8 w-auto object-contain"
+                width={200}
+                height={60}
+                className="h-14 w-auto object-contain"
                 priority
               />
             </button>
