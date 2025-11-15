@@ -58,6 +58,22 @@ export default function Navigation() {
     applyTheme(savedTheme)
   }, [])
 
+  // Handle hash navigation for main page
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.pathname === '/') {
+      const hash = window.location.hash.slice(1)
+      if (hash) {
+        // Small delay to ensure the page is fully loaded
+        setTimeout(() => {
+          const element = document.getElementById(hash)
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' })
+          }
+        }, 100)
+      }
+    }
+  }, [])
+
   const toggleTheme = () => {
     const newTheme = theme === 'dark' ? 'light' : 'dark'
     setTheme(newTheme)
@@ -80,9 +96,17 @@ export default function Navigation() {
   }
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+    // Check if we're on the main page
+    if (typeof window !== 'undefined' && window.location.pathname === '/') {
+      // On main page, try to scroll to section
+      const element = document.getElementById(sectionId)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' })
+        setMobileMenuOpen(false) // Close mobile menu after clicking
+      }
+    } else {
+      // On other pages, navigate to main page with hash
+      router.push(`/#${sectionId}`)
       setMobileMenuOpen(false) // Close mobile menu after clicking
     }
   }
@@ -108,7 +132,7 @@ export default function Navigation() {
                    sizes="(max-width: 768px) 150px, 200px"
                    placeholder="blur"
                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
-                      
+                   
               />
             </button>
           </div>
