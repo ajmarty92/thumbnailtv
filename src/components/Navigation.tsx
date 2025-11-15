@@ -80,9 +80,16 @@ export default function Navigation() {
   }
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+    // Check if we're on the main page
+    if (window.location.pathname === '/') {
+      const element = document.getElementById(sectionId)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' })
+        setMobileMenuOpen(false) // Close mobile menu after clicking
+      }
+    } else {
+      // Navigate to main page with hash
+      router.push(`/#${sectionId}`)
       setMobileMenuOpen(false) // Close mobile menu after clicking
     }
   }
